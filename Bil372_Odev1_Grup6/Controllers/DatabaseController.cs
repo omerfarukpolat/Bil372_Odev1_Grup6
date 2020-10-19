@@ -22,7 +22,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = @"CREATE TABLE PRODUCT(
                 M_SYSCODE int identity(1,1) NOT NULL PRIMARY KEY,
-                M_CODE  VARCHAR(15),
+                M_CODE VARCHAR(15) NOT NULL UNIQUE,
                 M_NAME  VARCHAR(25),
                 M_SHORTNAME  VARCHAR(10),
                 M_PARENTCODE  VARCHAR(15),
@@ -30,6 +30,9 @@ namespace Bil372_Odev1_Grup6.Controllers
                 M_CATEGORY  VARCHAR(12),
                 IS_ACTIVE  BINARY 
                          )";
+
+
+
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table PRODUCT created");
 
@@ -55,7 +58,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                         M_SYSCODE INTEGER,
                         FEATURE_ID INTEGER,
                         MINVAL FLOAT,
-                        MAXVAL FLOAT
+                        MAXVAL FLOAT,
+                        primary key(M_SYSCODE,FEATURE_ID,MINVAL,MAXVAL)
                          )";
             cmd.ExecuteNonQuery();
 
@@ -74,7 +78,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                 MANUFACTURER_NAME  VARCHAR(200),
                 MANUFACTURER_ADDRESS VARCHAR(200),
                 CITY INTEGER,
-                COUNTRY INTEGER
+                COUNTRY VARCHAR(3)
                          )";
 
             cmd.ExecuteNonQuery();
@@ -112,8 +116,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                     ORG_ABSTRACT  BINARY ,
                     ORG_ADDRESS  VARCHAR(200),
                     ORG_CITY  INTEGER,
-                    ORG_DISTRICT  VARCHAR(50),
-                    primary key(ORG_ID, PARENT_ORG)
+                    primary key(ORG_ID, PARENT_ORG),
+                    ORG_TYPE BINARY
                          )";
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table ORGANISATIONS created");
@@ -150,7 +154,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                         Target_ORG_ID INT, 
                         BRAND_BARCODE INT,
                         QUANTITY INT,
-                        FlowDate VARCHAR(8),
+                        FlowDate DATE,
                         primary key( Source_LOT_ID,
                                     Source_ORG_ID, 
                                     Target_LOT_ID, 
@@ -209,6 +213,52 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table COUNTRY_CITY created");
+
+            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+                "VALUES (123,'ESYA','ESY', NULL, CAST('1' AS VARBINARY), 'ESYA', CAST('1' AS VARBINARY))";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+                "VALUES (1231,'GIYECEK','GIY', 123, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+                "VALUES (12311,'UST GIYIM','USTGIY', 1231, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+                "VALUES ('123111','KIRAVAT','KIR', NULL, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            cmd.ExecuteNonQuery();
+
+
+            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+                "VALUES ('AGIRLIK')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+                "VALUES ('BOY')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+               "VALUES ('GENISLIK')";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+               "VALUES ('NEM')";
+            cmd.ExecuteNonQuery();
+
+
+            cmd.CommandText = "INSERT INTO PRODUCT_FEATURES(M_SYSCODE, FEATURE_ID, MINVAL,MAXVAL)" +
+                "VALUES (4, 1, 30,30)";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "INSERT INTO PRODUCT_FEATURES(M_SYSCODE, FEATURE_ID, MINVAL,MAXVAL)" +
+                "VALUES (4, 2, 30,30)";
+            cmd.ExecuteNonQuery();
+
+            string sql = "SELECT * FROM PRODUCT";
+            using var asd = new SqlCommand(sql, con);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
+                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4} {5} {6} {7}", rdr.GetInt32(0), rdr.GetString(1),
+                    rdr.GetString(2), 
+                    rdr.GetString(3),null,
+                       rdr.GetSqlBinary(5), rdr.GetString(6), rdr.GetSqlBinary(7));
+            }
 
 
         }
