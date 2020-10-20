@@ -9,7 +9,7 @@ namespace Bil372_Odev1_Grup6.Controllers
     {
        public DatabaseController()
         {
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
 
             con.Open();
 

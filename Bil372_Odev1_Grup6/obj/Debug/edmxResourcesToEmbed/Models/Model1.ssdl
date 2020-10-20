@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UygulamaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ALTERNATIVE_BRANDS">
+          <Property Name="BRAND_BARCODE" Type="int" />
+          <Property Name="ALTERNATIVE_BRAND_BARCODE" Type="int" />
+        </EntityType>-->
+  <EntityType Name="BRAND_ORGS">
+    <Key>
+      <PropertyRef Name="LOT_ID" />
+      <PropertyRef Name="ORG_ID" />
+      <PropertyRef Name="BRAND_BARCODE" />
+    </Key>
+    <Property Name="LOT_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ORG_ID" Type="int" Nullable="false" />
+    <Property Name="BRAND_BARCODE" Type="int" Nullable="false" />
+    <Property Name="QUANTITY" Type="float" />
+    <Property Name="INNN" Type="float" />
+    <Property Name="OUTTTT" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Uygulama.dbo.COUNTRY' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="COUNTRY">
+          <Property Name="Country_Code" Type="char" MaxLength="3" />
+          <Property Name="Country_Name" Type="varchar" MaxLength="50" />
+        </EntityType>-->
+  <EntityType Name="COUNTRY_CITY">
+    <Key>
+      <PropertyRef Name="Country_Code" />
+      <PropertyRef Name="City_Name" />
+    </Key>
+    <Property Name="Country_Code" Type="int" Nullable="false" />
+    <Property Name="CityID" Type="int" />
+    <Property Name="City_Name" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FEATURES">
+    <Key>
+      <PropertyRef Name="FEATURE_ID" />
+    </Key>
+    <Property Name="FEATURE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FEATURE_NAME" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="FLOW">
+    <Key>
+      <PropertyRef Name="Source_LOT_ID" />
+      <PropertyRef Name="Source_ORG_ID" />
+      <PropertyRef Name="Target_LOT_ID" />
+      <PropertyRef Name="Target_ORG_ID" />
+      <PropertyRef Name="BRAND_BARCODE" />
+      <PropertyRef Name="QUANTITY" />
+      <PropertyRef Name="FlowDate" />
+    </Key>
+    <Property Name="Source_LOT_ID" Type="int" Nullable="false" />
+    <Property Name="Source_ORG_ID" Type="int" Nullable="false" />
+    <Property Name="Target_LOT_ID" Type="int" Nullable="false" />
+    <Property Name="Target_ORG_ID" Type="int" Nullable="false" />
+    <Property Name="BRAND_BARCODE" Type="int" Nullable="false" />
+    <Property Name="QUANTITY" Type="int" Nullable="false" />
+    <Property Name="FlowDate" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MANUFACTURERS">
+    <Key>
+      <PropertyRef Name="MANUFACTURER_ID" />
+    </Key>
+    <Property Name="MANUFACTURER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MANUFACTURER_NAME" Type="varchar" MaxLength="200" />
+    <Property Name="MANUFACTURER_ADDRESS" Type="varchar" MaxLength="200" />
+    <Property Name="CITY" Type="int" />
+    <Property Name="COUNTRY" Type="varchar" MaxLength="3" />
+  </EntityType>
+  <EntityType Name="ORGANISATIONS">
+    <Key>
+      <PropertyRef Name="ORG_ID" />
+      <PropertyRef Name="PARENT_ORG" />
+    </Key>
+    <Property Name="ORG_ID" Type="int" Nullable="false" />
+    <Property Name="ORG_NAME" Type="varchar" MaxLength="100" />
+    <Property Name="PARENT_ORG" Type="int" Nullable="false" />
+    <Property Name="ORG_ABSTRACT" Type="binary" MaxLength="1" />
+    <Property Name="ORG_ADDRESS" Type="varchar" MaxLength="200" />
+    <Property Name="ORG_CITY" Type="int" />
+    <Property Name="ORG_TYPE" Type="binary" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="PRODUCT">
+    <Key>
+      <PropertyRef Name="M_SYSCODE" />
+    </Key>
+    <Property Name="M_SYSCODE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="M_CODE" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="M_NAME" Type="varchar" MaxLength="25" />
+    <Property Name="M_SHORTNAME" Type="varchar" MaxLength="10" />
+    <Property Name="M_PARENTCODE" Type="varchar" MaxLength="15" />
+    <Property Name="M_ABSTRACT" Type="binary" MaxLength="1" />
+    <Property Name="M_CATEGORY" Type="varchar" MaxLength="12" />
+    <Property Name="IS_ACTIVE" Type="binary" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="PRODUCT_BRANDS">
+    <Key>
+      <PropertyRef Name="MANUFACTURER_ID" />
+      <PropertyRef Name="M_SYSCODE" />
+    </Key>
+    <Property Name="MANUFACTURER_ID" Type="int" Nullable="false" />
+    <Property Name="M_SYSCODE" Type="int" Nullable="false" />
+    <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" />
+    <Property Name="BRAND_NAME" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="PRODUCT_FEATURES">
+    <Key>
+      <PropertyRef Name="M_SYSCODE" />
+      <PropertyRef Name="FEATURE_ID" />
+      <PropertyRef Name="MINVAL" />
+      <PropertyRef Name="MAXVAL" />
+    </Key>
+    <Property Name="M_SYSCODE" Type="int" Nullable="false" />
+    <Property Name="FEATURE_ID" Type="int" Nullable="false" />
+    <Property Name="MINVAL" Type="float" Nullable="false" />
+    <Property Name="MAXVAL" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="UygulamaModelStoreContainer">
+    <EntitySet Name="BRAND_ORGS" EntityType="Self.BRAND_ORGS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="COUNTRY_CITY" EntityType="Self.COUNTRY_CITY" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FEATURES" EntityType="Self.FEATURES" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FLOW" EntityType="Self.FLOW" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MANUFACTURERS" EntityType="Self.MANUFACTURERS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ORGANISATIONS" EntityType="Self.ORGANISATIONS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCT_BRANDS" EntityType="Self.PRODUCT_BRANDS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCT_FEATURES" EntityType="Self.PRODUCT_FEATURES" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

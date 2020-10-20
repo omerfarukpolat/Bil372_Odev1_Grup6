@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="UygulamaModelStoreContainer" CdmEntityContainer="UygulamaEntities">
+    <EntitySetMapping Name="BRAND_ORGS">
+      <EntityTypeMapping TypeName="UygulamaModel.BRAND_ORGS">
+        <MappingFragment StoreEntitySet="BRAND_ORGS">
+          <ScalarProperty Name="LOT_ID" ColumnName="LOT_ID" />
+          <ScalarProperty Name="ORG_ID" ColumnName="ORG_ID" />
+          <ScalarProperty Name="BRAND_BARCODE" ColumnName="BRAND_BARCODE" />
+          <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+          <ScalarProperty Name="INNN" ColumnName="INNN" />
+          <ScalarProperty Name="OUTTTT" ColumnName="OUTTTT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="COUNTRY_CITY">
+      <EntityTypeMapping TypeName="UygulamaModel.COUNTRY_CITY">
+        <MappingFragment StoreEntitySet="COUNTRY_CITY">
+          <ScalarProperty Name="Country_Code" ColumnName="Country_Code" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="City_Name" ColumnName="City_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FEATURES">
+      <EntityTypeMapping TypeName="UygulamaModel.FEATURES">
+        <MappingFragment StoreEntitySet="FEATURES">
+          <ScalarProperty Name="FEATURE_ID" ColumnName="FEATURE_ID" />
+          <ScalarProperty Name="FEATURE_NAME" ColumnName="FEATURE_NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FLOW">
+      <EntityTypeMapping TypeName="UygulamaModel.FLOW">
+        <MappingFragment StoreEntitySet="FLOW">
+          <ScalarProperty Name="Source_LOT_ID" ColumnName="Source_LOT_ID" />
+          <ScalarProperty Name="Source_ORG_ID" ColumnName="Source_ORG_ID" />
+          <ScalarProperty Name="Target_LOT_ID" ColumnName="Target_LOT_ID" />
+          <ScalarProperty Name="Target_ORG_ID" ColumnName="Target_ORG_ID" />
+          <ScalarProperty Name="BRAND_BARCODE" ColumnName="BRAND_BARCODE" />
+          <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+          <ScalarProperty Name="FlowDate" ColumnName="FlowDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MANUFACTURERS">
+      <EntityTypeMapping TypeName="UygulamaModel.MANUFACTURERS">
+        <MappingFragment StoreEntitySet="MANUFACTURERS">
+          <ScalarProperty Name="MANUFACTURER_ID" ColumnName="MANUFACTURER_ID" />
+          <ScalarProperty Name="MANUFACTURER_NAME" ColumnName="MANUFACTURER_NAME" />
+          <ScalarProperty Name="MANUFACTURER_ADDRESS" ColumnName="MANUFACTURER_ADDRESS" />
+          <ScalarProperty Name="CITY" ColumnName="CITY" />
+          <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ORGANISATIONS">
+      <EntityTypeMapping TypeName="UygulamaModel.ORGANISATIONS">
+        <MappingFragment StoreEntitySet="ORGANISATIONS">
+          <ScalarProperty Name="ORG_ID" ColumnName="ORG_ID" />
+          <ScalarProperty Name="ORG_NAME" ColumnName="ORG_NAME" />
+          <ScalarProperty Name="PARENT_ORG" ColumnName="PARENT_ORG" />
+          <ScalarProperty Name="ORG_ABSTRACT" ColumnName="ORG_ABSTRACT" />
+          <ScalarProperty Name="ORG_ADDRESS" ColumnName="ORG_ADDRESS" />
+          <ScalarProperty Name="ORG_CITY" ColumnName="ORG_CITY" />
+          <ScalarProperty Name="ORG_TYPE" ColumnName="ORG_TYPE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCT">
+      <EntityTypeMapping TypeName="UygulamaModel.PRODUCT">
+        <MappingFragment StoreEntitySet="PRODUCT">
+          <ScalarProperty Name="M_SYSCODE" ColumnName="M_SYSCODE" />
+          <ScalarProperty Name="M_CODE" ColumnName="M_CODE" />
+          <ScalarProperty Name="M_NAME" ColumnName="M_NAME" />
+          <ScalarProperty Name="M_SHORTNAME" ColumnName="M_SHORTNAME" />
+          <ScalarProperty Name="M_PARENTCODE" ColumnName="M_PARENTCODE" />
+          <ScalarProperty Name="M_ABSTRACT" ColumnName="M_ABSTRACT" />
+          <ScalarProperty Name="M_CATEGORY" ColumnName="M_CATEGORY" />
+          <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCT_BRANDS">
+      <EntityTypeMapping TypeName="UygulamaModel.PRODUCT_BRANDS">
+        <MappingFragment StoreEntitySet="PRODUCT_BRANDS">
+          <ScalarProperty Name="MANUFACTURER_ID" ColumnName="MANUFACTURER_ID" />
+          <ScalarProperty Name="M_SYSCODE" ColumnName="M_SYSCODE" />
+          <ScalarProperty Name="BRAND_BARCODE" ColumnName="BRAND_BARCODE" />
+          <ScalarProperty Name="BRAND_NAME" ColumnName="BRAND_NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCT_FEATURES">
+      <EntityTypeMapping TypeName="UygulamaModel.PRODUCT_FEATURES">
+        <MappingFragment StoreEntitySet="PRODUCT_FEATURES">
+          <ScalarProperty Name="M_SYSCODE" ColumnName="M_SYSCODE" />
+          <ScalarProperty Name="FEATURE_ID" ColumnName="FEATURE_ID" />
+          <ScalarProperty Name="MINVAL" ColumnName="MINVAL" />
+          <ScalarProperty Name="MAXVAL" ColumnName="MAXVAL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
