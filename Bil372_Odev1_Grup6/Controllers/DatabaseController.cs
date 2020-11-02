@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Web.Management;
 using System.Web.Mvc;
-
+using Bil372_Odev1_Grup6.Models;
 namespace Bil372_Odev1_Grup6.Controllers
 {
 
@@ -210,208 +211,234 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code) SELECT Country_Code FROM COUNTRY";
-            cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code) SELECT Country_Code FROM COUNTRY";
+            //cmd.ExecuteNonQuery();
 
-            Console.WriteLine("Table COUNTRY_CITY created");
+            //Console.WriteLine("Table COUNTRY_CITY created");
 
-            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
-                "VALUES (123,'ESYA','ESY', 000, CAST('1' AS VARBINARY), 'ESYA', CAST('1' AS VARBINARY))";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
-                "VALUES (1231,'GIYECEK','GIY', 123, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
-                "VALUES (12311,'UST GIYIM','USTGIY', 1231, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
-                "VALUES ('123111','KIRAVAT','KIR', 12311 , CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
-            cmd.ExecuteNonQuery();
-
-
-            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
-                "VALUES ('AGIRLIK')";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
-                "VALUES ('BOY')";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
-               "VALUES ('GENISLIK')";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
-               "VALUES ('NEM')";
-            cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+            //    "VALUES (123,'ESYA','ESY', 000, CAST('1' AS VARBINARY), 'ESYA', CAST('1' AS VARBINARY))";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+            //    "VALUES (1231,'GIYECEK','GIY', 123, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+            //"VALUES (12311,'UST GIYIM','USTGIY', 1231, CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+            //    "VALUES ('123111','KIRAVAT','KIR', 12311 , CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            //cmd.ExecuteNonQuery();
 
 
-            cmd.CommandText = "INSERT INTO PRODUCT_FEATURES(M_SYSCODE, FEATURE_ID, MINVAL,MAXVAL)" +
-                "VALUES (4,1,30,30)";
-            cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+            //    "VALUES ('AGIRLIK')";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+            //    "VALUES ('BOY')";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+            //   "VALUES ('GENISLIK')";
+            //cmd.ExecuteNonQuery();
+            //cmd.CommandText = "INSERT INTO FEATURES(FEATURE_NAME)" +
+            //   "VALUES ('NEM')";
+            //cmd.ExecuteNonQuery();
+
+
+            //cmd.CommandText = "INSERT INTO PRODUCT_FEATURES(M_SYSCODE, FEATURE_ID, MINVAL,MAXVAL)" +
+            //    "VALUES (4,1,30,30)";
+            //cmd.ExecuteNonQuery();
 
 
         }
 
-        public string getProduct()
+        public List<PRODUCT> getProduct()
         {
+            List<PRODUCT> listProduct = new List<PRODUCT>();
             string s = "";
             string sql = "SELECT * FROM PRODUCT";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetString(1) + " " + rdr.GetString(2) + " " +
-                    rdr.GetString(3) + " " + rdr.GetString(4) + " " + rdr.GetSqlBinary(5) + " " + rdr.GetString(6) + " "
-                    + rdr.GetSqlBinary(7);
+                PRODUCT p = new PRODUCT();
+                p.M_SYSCODE = rdr.GetInt32(0);
+                p.M_CODE = rdr.GetString(1);
+                p.M_NAME = rdr.GetString(2);
+                p.M_SHORTNAME = rdr.GetString(3);
+                p.M_PARENTCODE = rdr.GetString(4);
+                p.M_ABSTRACT = (byte[])rdr[5];
+                p.M_CATEGORY = rdr.GetString(6);
+                p.IS_ACTIVE = (byte[])rdr[7];
+                listProduct.Add(p);  
                 System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4} {5} {6} {7}", rdr.GetInt32(0), rdr.GetString(1),
                     rdr.GetString(2),
                     rdr.GetString(3), rdr.GetString(4),
                        rdr.GetSqlBinary(5), rdr.GetString(6), rdr.GetSqlBinary(7));
             }
-            return s;
+            return listProduct;
         }
-        public string getFeatures()
+        public List<FEATURES> getFeatures()
         {
+            List<FEATURES> features = new List<FEATURES>();
             string s = "";
             string sql = "SELECT * FROM FEATURES";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetString(1);
+                FEATURES f = new FEATURES();
+                f.FEATURE_ID = rdr.GetInt32(0);
+                f.FEATURE_NAME = rdr.GetString(1);
+                features.Add(f);
                 System.Diagnostics.Debug.WriteLine("{0} {1}", rdr.GetInt32(0), rdr.GetString(1));
             }
-            return s;
+            return features;
         }
-        public string getFeatureProducts()
+        public List<PRODUCT_FEATURES> getFeatureProducts()
         {
-            List<Int32> list = new List<Int32>();
+            List<PRODUCT_FEATURES> productFeatures = new List<PRODUCT_FEATURES>();
             string s = "";
             string sql = "SELECT * FROM PRODUCT_FEATURES";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetInt32(1) + " " + rdr.GetFloat(2) + " " +
-                    rdr.GetFloat(3);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3}", rdr.GetInt32(0), rdr.GetString(1),
-                    rdr.GetString(2),
-                    rdr.GetString(3));
+                PRODUCT_FEATURES pf = new PRODUCT_FEATURES();
+                pf.M_SYSCODE = rdr.GetInt32(0);
+                pf.FEATURE_ID = rdr.GetInt32(1);
+                pf.MINVAL = rdr.GetFloat(2);
+                pf.MAXVAL = rdr.GetFloat(3);
+                productFeatures.Add(pf);
+
             }
-            return s;
+            return productFeatures;
         }
-        public string getCountry()
+        public List<COUNTRY> getCountry()
         {
+            List<COUNTRY> countries = new List<COUNTRY>();
             string s = "";
             string sql = "SELECT * FROM COUNTRY";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetString(0) + " " + rdr.GetString(1);
+                COUNTRY c = new COUNTRY();
+                c.Country_Code = rdr.GetString(0);
+                c.Country_Name = rdr.GetString(1);
+                countries.Add(c);
                 System.Diagnostics.Debug.WriteLine("{0} {1} ", rdr.GetString(0),
                     rdr.GetString(1));
             }
-            return s;
+            return countries;
         }
-        public string getCountryCity()
+        public List<COUNTRY_CITY> getCountryCity()
         {
+            List<COUNTRY_CITY> cities = new List<COUNTRY_CITY>();
             string s = "";
             string sql = "SELECT * FROM COUNTRY_CITY";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetString(0) + " " + rdr.GetInt32(1) + " " + rdr.GetString(2);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} ", rdr.GetString(0),
-                    rdr.GetString(1), rdr.GetString(2));
+                COUNTRY_CITY cc = new COUNTRY_CITY();
+                cc.Country_Code = rdr.GetString(0);
+                cc.CityID = rdr.GetInt32(1);
+                cities.Add(cc);
             }
-            return s;
+            return cities;
         }
-        public string getManufacturers()
+        public List<MANUFACTURERS> getManufacturers()
         {
+            List<MANUFACTURERS> manufacturers = new List<MANUFACTURERS>();
             string s = "";
             string sql = "SELECT * FROM MANUFACTURERS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetString(1) + " " + rdr.GetString(2) + " " +
-                    rdr.GetInt32(3) + " " + rdr.GetString(4);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4}", rdr.GetInt32(0), rdr.GetString(1),
-                    rdr.GetString(2),
-                    rdr.GetInt32(3), rdr.GetString(4));
+                MANUFACTURERS m = new MANUFACTURERS();
+                m.MANUFACTURER_ID = rdr.GetInt32(0);
+                m.MANUFACTURER_NAME = rdr.GetString(1);
+                m.MANUFACTURER_ADDRESS = rdr.GetString(2);
+                m.COUNTRY = rdr.GetString(3);
+                manufacturers.Add(m);
             }
-            return s;
+            return manufacturers;
         }
-        public string getProductBrands()
+        public List<PRODUCT_BRANDS> getProductBrands()
         {
-            List<Int32> list = new List<Int32>();
+            List<PRODUCT_BRANDS> productBrands = new List<PRODUCT_BRANDS>();
             string s = "";
             string sql = "SELECT * FROM PRODUCT_BRANDS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetInt32(1) + " " + rdr.GetString(2) + " " +
-                    rdr.GetString(3);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3}", rdr.GetInt32(0), rdr.GetInt32(1),
-                    rdr.GetString(2),
-                    rdr.GetString(3));
+                PRODUCT_BRANDS pb = new PRODUCT_BRANDS();
+                pb.MANUFACTURER_ID = rdr.GetInt32(0);
+                pb.M_SYSCODE = rdr.GetInt32(1);
+                pb.BRAND_BARCODE = rdr.GetString(2);
+                pb.BRAND_NAME = rdr.GetString(3);
+                productBrands.Add(pb);
             }
-            return s;
+            return productBrands;
         }
-        public string getOrganisations()
+        public List<ORGANISATIONS> getOrganisations()
         {
-            List<Int32> list = new List<Int32>();
+            List<ORGANISATIONS> list = new List<ORGANISATIONS>();
             string s = "";
             string sql = "SELECT * FROM ORGANISATIONS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                list.Add(rdr.GetInt32(0));
-                s += rdr.GetInt32(0) + " " + rdr.GetString(1) + " " + rdr.GetInt32(2) + " " +
-                    rdr.GetSqlBinary(3) + " " + rdr.GetString(4) + " " + rdr.GetInt32(5) + " " + rdr.GetSqlBinary(6);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4} {5} {6}", rdr.GetInt32(0), rdr.GetString(1),
-                    rdr.GetInt32(2),
-                    rdr.GetSqlBinary(3), rdr.GetString(4),
-                       rdr.GetInt32(5), rdr.GetSqlBinary(6));
+                ORGANISATIONS item = new ORGANISATIONS();
+                item.ORG_ID = rdr.GetInt32(0);
+                item.ORG_NAME = rdr.GetString(1);
+                item.PARENT_ORG = rdr.GetInt32(2);
+                list.Add(item);
             }
-            return s;
+            return list;
         }
-        public string getBrandOrgs()
+        public List<BRAND_ORGS> getBrandOrgs()
         {
+            List<BRAND_ORGS> list = new List<BRAND_ORGS>();
             string s = "";
             string sql = "SELECT * FROM BRAND_ORGS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetInt32(1) + " " + rdr.GetInt32(2) + " " +
-                    rdr.GetFloat(3) + " " + rdr.GetFloat(4) + " " + rdr.GetFloat(5);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4} {5}", rdr.GetInt32(0), rdr.GetInt32(1),
-                    rdr.GetInt32(2),
-                    rdr.GetFloat(3), rdr.GetFloat(4),
-                       rdr.GetFloat(5));
+                BRAND_ORGS item = new BRAND_ORGS();
+                item.LOT_ID = rdr.GetInt32(0);
+                item.ORG_ID = rdr.GetInt32(1);
+                item.BRAND_BARCODE = rdr.GetString(2);
+                item.QUANTITY = rdr.GetFloat(3);
+                item.INNN = rdr.GetFloat(4);
+                item.OUTTTT = rdr.GetFloat(5);
+                list.Add(item);
             }
-            return s;
+            return list;
         }
-        public string getFlow()
+        public List<FLOW> getFlow()
         {
+            List<FLOW> list = new List<FLOW>();
             string s = "";
             string sql = "SELECT * FROM FLOW";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetInt32(1) + " " + rdr.GetInt32(2) + " " +
-                    rdr.GetInt32(3) + " " + rdr.GetInt32(4) + " " + rdr.GetInt32(5) + " " + rdr.GetInt32(6) + " "
-                    + rdr.GetSqlDateTime(7);
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4} {5} {6} {7}", rdr.GetInt32(0), rdr.GetInt32(1),
-                    rdr.GetInt32(2),
-                    rdr.GetInt32(3), rdr.GetInt32(4),
-                       rdr.GetInt32(5), rdr.GetInt32(6), rdr.GetSqlDateTime(7));
+                FLOW item = new FLOW();
+                item.Source_LOT_ID = rdr.GetInt32(0);
+                item.Source_ORG_ID = rdr.GetInt32(1);
+                item.Target_LOT_ID = rdr.GetString(2);
+                item.Target_LOT_ID = rdr.GetFloat(3);
+                item.INNN = rdr.GetFloat(4);
+                item.OUTTTT = rdr.GetFloat(5);
+                list.Add(item);
             }
-            return s;
+            return list;
         }
         public string getAlternativeBrands()
         {
@@ -456,8 +483,11 @@ namespace Bil372_Odev1_Grup6.Controllers
         }
         public void insertCountry(string countryCode, string countryName)
         {
+            //cmd.CommandText = "INSERT INTO PRODUCT(M_CODE,M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
+            //    "VALUES ('123111','KIRAVAT','KIR', 12311 , CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
+            //cmd.ExecuteNonQuery();
             string s = "INSERT INTO COUNTRY(Country_Code, Country_Name) " +
-                "VALUES (" + countryCode + "," + countryName + ")";
+                "VALUES(" + "'" + countryCode + "'" + "," + "'" + countryName + "'" + ")";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = s;
@@ -466,7 +496,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public void insertCountryCity(string countryCode, int cityid, string cityName)
         {
             string s = "INSERT INTO COUNTRY_CITY(Country_Code, CityID,City_Name) " +
-                "VALUES (" + countryCode + "," + cityid + "," + cityName + ")";
+                "VALUES (" +"'" + countryCode +"'" + "," + cityid + "," + "'" + cityName + "'" + ")";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = s;
@@ -559,8 +589,8 @@ namespace Bil372_Odev1_Grup6.Controllers
         }
         public void updateCountryCity(string countryCode, int cityid, string cityName)
         {
-            string s = "UPDATE COUNTRY_CITY SET City_Name = " + cityName +
-                    " WHERE Country_Code=" + countryCode + " AND CityID=" + cityid;
+            string s = "UPDATE COUNTRY_CITY SET City_Name = " + "'" + cityName + "'" +
+                    " WHERE Country_Code=" + "'" + countryCode + "'" + " AND CityID=" + cityid;
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = s;
@@ -614,9 +644,10 @@ namespace Bil372_Odev1_Grup6.Controllers
         }
         public void deleteFromProduct(int syscode)
         {
-            string s = "DELETE FROM PRODUCT WHERE M_SYSCODE =" + syscode;
+            string s = "DELETE FROM PRODUCT WHERE M_SYSCODE =@syscode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@syscode", syscode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
