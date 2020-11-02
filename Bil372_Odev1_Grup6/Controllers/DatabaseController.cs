@@ -3,22 +3,15 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 
 namespace Bil372_Odev1_Grup6.Controllers
 {
 
     public class DatabaseController : Controller
     {
-<<<<<<< HEAD
-=======
-       public DatabaseController()
-        {
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
->>>>>>> f2337aed3bb4ca14dfbd667f08aa187df5b328ac
 
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
-        
+
         public DatabaseController(string s)
         {
             con.Open();
@@ -26,11 +19,11 @@ namespace Bil372_Odev1_Grup6.Controllers
             var cmd = new SqlCommand();
             cmd.Connection = con;
 
-          
+
 
             cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT";
             cmd.ExecuteNonQuery();
-            
+
             cmd.CommandText = @"CREATE TABLE PRODUCT(
                 M_SYSCODE int identity(1,1) NOT NULL PRIMARY KEY,
                 M_CODE VARCHAR(15) NOT NULL UNIQUE,
@@ -45,10 +38,10 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table PRODUCT created");
 
-           
+
             cmd.CommandText = "DROP TABLE IF EXISTS FEATURES";
             cmd.ExecuteNonQuery();
-          
+
             cmd.CommandText = @"CREATE TABLE FEATURES(
                 FEATURE_ID  int identity(1,1) NOT NULL PRIMARY KEY,
                 FEATURE_NAME  VARCHAR(200)
@@ -58,7 +51,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             Console.WriteLine("Table FEATURES created");
 
-          
+
             cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT_FEATURES";
             cmd.ExecuteNonQuery();
 
@@ -75,7 +68,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table PRODUCT_FEATURES created");
 
-           
+
             cmd.CommandText = "DROP TABLE IF EXISTS COUNTRY";
             cmd.ExecuteNonQuery();
 
@@ -87,10 +80,10 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table COUNTRY created");
-           
+
             cmd.CommandText = "DROP TABLE IF EXISTS COUNTRY_CITY";
             cmd.ExecuteNonQuery();
-           
+
             cmd.CommandText = @"CREATE TABLE COUNTRY_CITY(
                             Country_Code CHAR(3),
                             CityID INT,
@@ -103,7 +96,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = "DROP TABLE IF EXISTS MANUFACTURERS";
             cmd.ExecuteNonQuery();
-           
+
 
             cmd.CommandText = @"CREATE TABLE MANUFACTURERS(
                 MANUFACTURER_ID  int identity(1,1) NOT NULL PRIMARY KEY,
@@ -121,7 +114,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT_BRANDS";
             cmd.ExecuteNonQuery();
-            
+
             cmd.CommandText = @"CREATE TABLE PRODUCT_BRANDS(
                        MANUFACTURER_ID INTEGER,
                        M_SYSCODE INTEGER,
@@ -134,10 +127,10 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             Console.WriteLine("Table PRODUCT_BRANDS created");
 
-          
+
             cmd.CommandText = "DROP TABLE IF EXISTS ORGANISATIONS";
             cmd.ExecuteNonQuery();
-          
+
             cmd.CommandText = @"CREATE TABLE ORGANISATIONS(
                     ORG_ID  INTEGER,
                     ORG_NAME VARCHAR(100),
@@ -155,7 +148,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = "DROP TABLE IF EXISTS BRAND_ORGS";
             cmd.ExecuteNonQuery();
 
-           
+
             cmd.CommandText = @"CREATE TABLE BRAND_ORGS(
                         LOT_ID int identity(1,1) PRIMARY KEY,
                         ORG_ID INTEGER,
@@ -194,10 +187,10 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table FLOW created");
-           
+
             cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
             cmd.ExecuteNonQuery();
-           
+
             cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
                             BRAND_BARCODE CHAR(13),
                             M_SYSCODE INT,
@@ -253,7 +246,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = "INSERT INTO PRODUCT_FEATURES(M_SYSCODE, FEATURE_ID, MINVAL,MAXVAL)" +
                 "VALUES (4,1,30,30)";
             cmd.ExecuteNonQuery();
-         
+
 
         }
 
@@ -433,7 +426,8 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return s;
         }
-        public void insertProduct(string code, string name, string shortname, int parentcode,bool isAbstract, string category, bool isActive){
+        public void insertProduct(string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
+        {
             string s = "INSERT INTO PRODUCT(M_CODE, M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
                 "VALUES (" + code + "," + name + "," + shortname + "," + parentcode + "," +
                 isAbstract + "," + category + "," + isActive + ")";
@@ -678,6 +672,6 @@ namespace Bil372_Odev1_Grup6.Controllers
 
 
     }
-         
+
 
 }
