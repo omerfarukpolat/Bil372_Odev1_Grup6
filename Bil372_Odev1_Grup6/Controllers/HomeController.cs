@@ -13,7 +13,8 @@ namespace Bil372_Odev1_Grup6.Controllers
     {
         public ActionResult Index()
         {
-            new DatabaseController();
+            DatabaseController dbc = new DatabaseController();
+            dbc.getCountry();
             return View();
         }
 
