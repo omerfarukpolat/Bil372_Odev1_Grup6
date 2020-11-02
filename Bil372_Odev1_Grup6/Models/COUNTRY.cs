@@ -12,19 +12,20 @@ namespace Bil372_Odev1_Grup6.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class COUNTRY_CITY
+    public partial class COUNTRY
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public COUNTRY_CITY()
+        public COUNTRY()
         {
+            this.COUNTRY_CITY = new HashSet<COUNTRY_CITY>();
             this.MANUFACTURERS = new HashSet<MANUFACTURERS>();
         }
     
         public string Country_Code { get; set; }
-        public int CityID { get; set; }
-        public string City_Name { get; set; }
+        public string Country_Name { get; set; }
     
-        public virtual COUNTRY COUNTRY { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COUNTRY_CITY> COUNTRY_CITY { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MANUFACTURERS> MANUFACTURERS { get; set; }
     }

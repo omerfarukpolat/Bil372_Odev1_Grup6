@@ -11,7 +11,7 @@ namespace Bil372_Odev1_Grup6.Controllers
     public class DatabaseController : Controller
     {
 
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
 
         public DatabaseController(string s)
         {
@@ -127,7 +127,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table PRODUCT_BRANDS created");
-
+          
 
             cmd.CommandText = "DROP TABLE IF EXISTS ORGANISATIONS";
             cmd.ExecuteNonQuery();
@@ -135,16 +135,16 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = @"CREATE TABLE ORGANISATIONS(
                     ORG_ID  INTEGER,
                     ORG_NAME VARCHAR(100),
-                    PARENT_ORG INTEGER,
+                    PARENT_ORG INTEGER UNIQUE,
                     ORG_ABSTRACT  BINARY ,
                     ORG_ADDRESS  VARCHAR(200),
                     ORG_CITY  INTEGER,
                     ORG_TYPE BINARY CHECK (ORG_TYPE<=2),
-                    primary key(ORG_ID, PARENT_ORG)
+                    primary key(ORG_ID)
                          )";
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table ORGANISATIONS created");
-
+          
 
             cmd.CommandText = "DROP TABLE IF EXISTS BRAND_ORGS";
             cmd.ExecuteNonQuery();
@@ -152,59 +152,61 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = @"CREATE TABLE BRAND_ORGS(
                         LOT_ID int identity(1,1) PRIMARY KEY,
-                        ORG_ID INTEGER,
+                        ORG_ID INTEGER ,
                         BRAND_BARCODE CHAR(13),
                         QUANTITY FLOAT,
                         INNN FLOAT,
                         OUTTTT FLOAT,
-                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID),
-                        FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE)
+                        FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE),
+                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID)
                          )";
-            cmd.ExecuteNonQuery();
-
-            cmd.CommandText = "SELECT QUANTITY = isnull(INNN,0) + isnull(OUTTTT,0) FROM BRAND_ORGS";
-            cmd.ExecuteNonQuery();
+           cmd.ExecuteNonQuery();
             Console.WriteLine("Table BRAND_ORGS created");
+              cmd.CommandText = "SELECT QUANTITY = isnull(INNN,0) + isnull(OUTTTT,0) FROM BRAND_ORGS";
+              cmd.ExecuteNonQuery();
 
-            cmd.CommandText = "DROP TABLE IF EXISTS FLOW";
-            cmd.ExecuteNonQuery();
+            
+             cmd.CommandText = "DROP TABLE IF EXISTS FLOW";
+             cmd.ExecuteNonQuery();
 
-            cmd.CommandText = @"CREATE TABLE FLOW(
-                        Source_LOT_ID INT,
-                        Source_ORG_ID INT, 
-                        Target_LOT_ID INT, 
-                        Target_ORG_ID INT, 
-                        BRAND_BARCODE INT,
-                        QUANTITY INT,
-                        FlowDate DATE,
-                        primary key( Source_LOT_ID,
-                                    Source_ORG_ID, 
-                                    Target_LOT_ID, 
-                                    Target_ORG_ID, 
-                                    BRAND_BARCODE,
-                                     QUANTITY, FlowDate)
-                         )";
+             cmd.CommandText = @"CREATE TABLE FLOW(
+                         Source_LOT_ID INT,
+                         Source_ORG_ID INT, 
+                         Target_LOT_ID INT, 
+                         Target_ORG_ID INT, 
+                         BRAND_BARCODE INT,
+                         QUANTITY INT,
+                         FlowDate DATE,
+                         primary key( Source_LOT_ID,
+                                     Source_ORG_ID, 
+                                     Target_LOT_ID, 
+                                     Target_ORG_ID, 
+                                     BRAND_BARCODE,
+                                      QUANTITY, FlowDate)
+                          )";
 
 
-            cmd.ExecuteNonQuery();
-            Console.WriteLine("Table FLOW created");
+             cmd.ExecuteNonQuery();
+             Console.WriteLine("Table FLOW created");
 
-            cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
-            cmd.ExecuteNonQuery();
+             cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
+             cmd.ExecuteNonQuery();
 
-            cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
-                            BRAND_BARCODE CHAR(13),
-                            M_SYSCODE INT,
-                            ALTERNATIVE_BRAND_BARCODE CHAR(13),
-                            ALTERNATIVE_M_SYSCODE INT
-                         )";
+             cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
+                             BRAND_BARCODE CHAR(13),
+                             M_SYSCODE INT,
+                             ALTERNATIVE_BRAND_BARCODE CHAR(13),
+                             ALTERNATIVE_M_SYSCODE INT
+                          )";
 
-            cmd.ExecuteNonQuery();
+             cmd.ExecuteNonQuery();
 
-            Console.WriteLine("Table ALTERNATIVE_BRANDS created");
+             Console.WriteLine("Table ALTERNATIVE_BRANDS created");
 
 
         }
+    
+
         public DatabaseController()
         {
             con.Open();

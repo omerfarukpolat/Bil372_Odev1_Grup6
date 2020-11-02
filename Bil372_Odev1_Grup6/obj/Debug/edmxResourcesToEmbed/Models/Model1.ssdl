@@ -3,36 +3,36 @@
   <!--Errors Found During Generation:
 warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="ALTERNATIVE_BRANDS">
-          <Property Name="BRAND_BARCODE" Type="int" />
-          <Property Name="ALTERNATIVE_BRAND_BARCODE" Type="int" />
+          <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" />
+          <Property Name="M_SYSCODE" Type="int" />
+          <Property Name="ALTERNATIVE_BRAND_BARCODE" Type="char" MaxLength="13" />
+          <Property Name="ALTERNATIVE_M_SYSCODE" Type="int" />
         </EntityType>-->
   <EntityType Name="BRAND_ORGS">
     <Key>
       <PropertyRef Name="LOT_ID" />
-      <PropertyRef Name="ORG_ID" />
-      <PropertyRef Name="BRAND_BARCODE" />
     </Key>
     <Property Name="LOT_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ORG_ID" Type="int" Nullable="false" />
-    <Property Name="BRAND_BARCODE" Type="int" Nullable="false" />
+    <Property Name="ORG_ID" Type="int" />
+    <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" />
     <Property Name="QUANTITY" Type="float" />
     <Property Name="INNN" Type="float" />
     <Property Name="OUTTTT" Type="float" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'Uygulama.dbo.COUNTRY' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="COUNTRY">
-          <Property Name="Country_Code" Type="char" MaxLength="3" />
-          <Property Name="Country_Name" Type="varchar" MaxLength="50" />
-        </EntityType>-->
-  <EntityType Name="COUNTRY_CITY">
+  <EntityType Name="COUNTRY">
     <Key>
       <PropertyRef Name="Country_Code" />
-      <PropertyRef Name="City_Name" />
     </Key>
-    <Property Name="Country_Code" Type="int" Nullable="false" />
-    <Property Name="CityID" Type="int" />
-    <Property Name="City_Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Country_Code" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="Country_Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="COUNTRY_CITY">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="Country_Code" Type="char" MaxLength="3" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="City_Name" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="FEATURES">
     <Key>
@@ -67,16 +67,15 @@ warning 6013: The table/view 'Uygulama.dbo.COUNTRY' does not have a primary key 
     <Property Name="MANUFACTURER_NAME" Type="varchar" MaxLength="200" />
     <Property Name="MANUFACTURER_ADDRESS" Type="varchar" MaxLength="200" />
     <Property Name="CITY" Type="int" />
-    <Property Name="COUNTRY" Type="varchar" MaxLength="3" />
+    <Property Name="Country_Code" Type="char" MaxLength="3" />
   </EntityType>
   <EntityType Name="ORGANISATIONS">
     <Key>
       <PropertyRef Name="ORG_ID" />
-      <PropertyRef Name="PARENT_ORG" />
     </Key>
     <Property Name="ORG_ID" Type="int" Nullable="false" />
     <Property Name="ORG_NAME" Type="varchar" MaxLength="100" />
-    <Property Name="PARENT_ORG" Type="int" Nullable="false" />
+    <Property Name="PARENT_ORG" Type="int" />
     <Property Name="ORG_ABSTRACT" Type="binary" MaxLength="1" />
     <Property Name="ORG_ADDRESS" Type="varchar" MaxLength="200" />
     <Property Name="ORG_CITY" Type="int" />
@@ -97,28 +96,134 @@ warning 6013: The table/view 'Uygulama.dbo.COUNTRY' does not have a primary key 
   </EntityType>
   <EntityType Name="PRODUCT_BRANDS">
     <Key>
-      <PropertyRef Name="MANUFACTURER_ID" />
-      <PropertyRef Name="M_SYSCODE" />
+      <PropertyRef Name="BRAND_BARCODE" />
     </Key>
-    <Property Name="MANUFACTURER_ID" Type="int" Nullable="false" />
-    <Property Name="M_SYSCODE" Type="int" Nullable="false" />
-    <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" />
+    <Property Name="MANUFACTURER_ID" Type="int" />
+    <Property Name="M_SYSCODE" Type="int" />
+    <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" Nullable="false" />
     <Property Name="BRAND_NAME" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="PRODUCT_FEATURES">
     <Key>
-      <PropertyRef Name="M_SYSCODE" />
-      <PropertyRef Name="FEATURE_ID" />
       <PropertyRef Name="MINVAL" />
       <PropertyRef Name="MAXVAL" />
     </Key>
-    <Property Name="M_SYSCODE" Type="int" Nullable="false" />
-    <Property Name="FEATURE_ID" Type="int" Nullable="false" />
+    <Property Name="M_SYSCODE" Type="int" />
+    <Property Name="FEATURE_ID" Type="int" />
     <Property Name="MINVAL" Type="float" Nullable="false" />
     <Property Name="MAXVAL" Type="float" Nullable="false" />
   </EntityType>
+  <Association Name="FK__BRAND_ORG__BRAND__3C69FB99">
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
+    <End Role="BRAND_ORGS" Type="Self.BRAND_ORGS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Principal>
+      <Dependent Role="BRAND_ORGS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BRAND_ORG__ORG_I__3D5E1FD2">
+    <End Role="ORGANISATIONS" Type="Self.ORGANISATIONS" Multiplicity="0..1" />
+    <End Role="BRAND_ORGS" Type="Self.BRAND_ORGS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ORGANISATIONS">
+        <PropertyRef Name="ORG_ID" />
+      </Principal>
+      <Dependent Role="BRAND_ORGS">
+        <PropertyRef Name="ORG_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__COUNTRY_C__Count__2E1BDC42">
+    <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="0..1" />
+    <End Role="COUNTRY_CITY" Type="Self.COUNTRY_CITY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COUNTRY">
+        <PropertyRef Name="Country_Code" />
+      </Principal>
+      <Dependent Role="COUNTRY_CITY">
+        <PropertyRef Name="Country_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MANUFACTU__Count__31EC6D26">
+    <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="0..1" />
+    <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COUNTRY">
+        <PropertyRef Name="Country_Code" />
+      </Principal>
+      <Dependent Role="MANUFACTURERS">
+        <PropertyRef Name="Country_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MANUFACTUR__CITY__30F848ED">
+    <End Role="COUNTRY_CITY" Type="Self.COUNTRY_CITY" Multiplicity="0..1" />
+    <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COUNTRY_CITY">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="MANUFACTURERS">
+        <PropertyRef Name="CITY" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCT_B__M_SYS__35BCFE0A">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="M_SYSCODE" />
+      </Principal>
+      <Dependent Role="PRODUCT_BRANDS">
+        <PropertyRef Name="M_SYSCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCT_B__MANUF__34C8D9D1">
+    <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="0..1" />
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANUFACTURERS">
+        <PropertyRef Name="MANUFACTURER_ID" />
+      </Principal>
+      <Dependent Role="PRODUCT_BRANDS">
+        <PropertyRef Name="MANUFACTURER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCT_F__FEATU__29572725">
+    <End Role="FEATURES" Type="Self.FEATURES" Multiplicity="0..1" />
+    <End Role="PRODUCT_FEATURES" Type="Self.PRODUCT_FEATURES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FEATURES">
+        <PropertyRef Name="FEATURE_ID" />
+      </Principal>
+      <Dependent Role="PRODUCT_FEATURES">
+        <PropertyRef Name="FEATURE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCT_F__M_SYS__286302EC">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+    <End Role="PRODUCT_FEATURES" Type="Self.PRODUCT_FEATURES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="M_SYSCODE" />
+      </Principal>
+      <Dependent Role="PRODUCT_FEATURES">
+        <PropertyRef Name="M_SYSCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="UygulamaModelStoreContainer">
     <EntitySet Name="BRAND_ORGS" EntityType="Self.BRAND_ORGS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="COUNTRY" EntityType="Self.COUNTRY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="COUNTRY_CITY" EntityType="Self.COUNTRY_CITY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FEATURES" EntityType="Self.FEATURES" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FLOW" EntityType="Self.FLOW" Schema="dbo" store:Type="Tables" />
@@ -127,5 +232,41 @@ warning 6013: The table/view 'Uygulama.dbo.COUNTRY' does not have a primary key 
     <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRODUCT_BRANDS" EntityType="Self.PRODUCT_BRANDS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRODUCT_FEATURES" EntityType="Self.PRODUCT_FEATURES" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__BRAND_ORG__BRAND__3C69FB99" Association="Self.FK__BRAND_ORG__BRAND__3C69FB99">
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+      <End Role="BRAND_ORGS" EntitySet="BRAND_ORGS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BRAND_ORG__ORG_I__3D5E1FD2" Association="Self.FK__BRAND_ORG__ORG_I__3D5E1FD2">
+      <End Role="ORGANISATIONS" EntitySet="ORGANISATIONS" />
+      <End Role="BRAND_ORGS" EntitySet="BRAND_ORGS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__COUNTRY_C__Count__2E1BDC42" Association="Self.FK__COUNTRY_C__Count__2E1BDC42">
+      <End Role="COUNTRY" EntitySet="COUNTRY" />
+      <End Role="COUNTRY_CITY" EntitySet="COUNTRY_CITY" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MANUFACTU__Count__31EC6D26" Association="Self.FK__MANUFACTU__Count__31EC6D26">
+      <End Role="COUNTRY" EntitySet="COUNTRY" />
+      <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MANUFACTUR__CITY__30F848ED" Association="Self.FK__MANUFACTUR__CITY__30F848ED">
+      <End Role="COUNTRY_CITY" EntitySet="COUNTRY_CITY" />
+      <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCT_B__M_SYS__35BCFE0A" Association="Self.FK__PRODUCT_B__M_SYS__35BCFE0A">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCT_B__MANUF__34C8D9D1" Association="Self.FK__PRODUCT_B__MANUF__34C8D9D1">
+      <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCT_F__FEATU__29572725" Association="Self.FK__PRODUCT_F__FEATU__29572725">
+      <End Role="FEATURES" EntitySet="FEATURES" />
+      <End Role="PRODUCT_FEATURES" EntitySet="PRODUCT_FEATURES" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCT_F__M_SYS__286302EC" Association="Self.FK__PRODUCT_F__M_SYS__286302EC">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="PRODUCT_FEATURES" EntitySet="PRODUCT_FEATURES" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>
