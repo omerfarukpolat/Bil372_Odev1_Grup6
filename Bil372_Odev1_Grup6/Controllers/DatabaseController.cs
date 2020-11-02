@@ -10,6 +10,12 @@ namespace Bil372_Odev1_Grup6.Controllers
 
     public class DatabaseController : Controller
     {
+<<<<<<< HEAD
+=======
+       public DatabaseController()
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
+>>>>>>> f2337aed3bb4ca14dfbd667f08aa187df5b328ac
 
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
         

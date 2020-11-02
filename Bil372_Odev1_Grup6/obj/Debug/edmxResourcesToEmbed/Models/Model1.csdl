@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UygulamaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BRAND_ORGS">
+    <Key>
+      <PropertyRef Name="LOT_ID" />
+      <PropertyRef Name="ORG_ID" />
+      <PropertyRef Name="BRAND_BARCODE" />
+    </Key>
+    <Property Name="LOT_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ORG_ID" Type="Int32" Nullable="false" />
+    <Property Name="BRAND_BARCODE" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY" Type="Double" />
+    <Property Name="INNN" Type="Double" />
+    <Property Name="OUTTTT" Type="Double" />
+  </EntityType>
+  <EntityType Name="COUNTRY_CITY">
+    <Key>
+      <PropertyRef Name="Country_Code" />
+      <PropertyRef Name="City_Name" />
+    </Key>
+    <Property Name="Country_Code" Type="Int32" Nullable="false" />
+    <Property Name="CityID" Type="Int32" />
+    <Property Name="City_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FEATURES">
+    <Key>
+      <PropertyRef Name="FEATURE_ID" />
+    </Key>
+    <Property Name="FEATURE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FEATURE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="FLOW">
+    <Key>
+      <PropertyRef Name="Source_LOT_ID" />
+      <PropertyRef Name="Source_ORG_ID" />
+      <PropertyRef Name="Target_LOT_ID" />
+      <PropertyRef Name="Target_ORG_ID" />
+      <PropertyRef Name="BRAND_BARCODE" />
+      <PropertyRef Name="QUANTITY" />
+      <PropertyRef Name="FlowDate" />
+    </Key>
+    <Property Name="Source_LOT_ID" Type="Int32" Nullable="false" />
+    <Property Name="Source_ORG_ID" Type="Int32" Nullable="false" />
+    <Property Name="Target_LOT_ID" Type="Int32" Nullable="false" />
+    <Property Name="Target_ORG_ID" Type="Int32" Nullable="false" />
+    <Property Name="BRAND_BARCODE" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY" Type="Int32" Nullable="false" />
+    <Property Name="FlowDate" Type="DateTime" Nullable="false" Precision="0" />
+  </EntityType>
+  <EntityType Name="MANUFACTURERS">
+    <Key>
+      <PropertyRef Name="MANUFACTURER_ID" />
+    </Key>
+    <Property Name="MANUFACTURER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MANUFACTURER_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="MANUFACTURER_ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="CITY" Type="Int32" />
+    <Property Name="COUNTRY" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ORGANISATIONS">
+    <Key>
+      <PropertyRef Name="ORG_ID" />
+      <PropertyRef Name="PARENT_ORG" />
+    </Key>
+    <Property Name="ORG_ID" Type="Int32" Nullable="false" />
+    <Property Name="ORG_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PARENT_ORG" Type="Int32" Nullable="false" />
+    <Property Name="ORG_ABSTRACT" Type="Binary" MaxLength="1" FixedLength="true" />
+    <Property Name="ORG_ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ORG_CITY" Type="Int32" />
+    <Property Name="ORG_TYPE" Type="Binary" MaxLength="1" FixedLength="true" />
+  </EntityType>
+  <EntityType Name="PRODUCT">
+    <Key>
+      <PropertyRef Name="M_SYSCODE" />
+    </Key>
+    <Property Name="M_SYSCODE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="M_CODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="M_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="M_SHORTNAME" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="M_PARENTCODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="M_ABSTRACT" Type="Binary" MaxLength="1" FixedLength="true" />
+    <Property Name="M_CATEGORY" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="IS_ACTIVE" Type="Binary" MaxLength="1" FixedLength="true" />
+  </EntityType>
+  <EntityType Name="PRODUCT_BRANDS">
+    <Key>
+      <PropertyRef Name="MANUFACTURER_ID" />
+      <PropertyRef Name="M_SYSCODE" />
+    </Key>
+    <Property Name="MANUFACTURER_ID" Type="Int32" Nullable="false" />
+    <Property Name="M_SYSCODE" Type="Int32" Nullable="false" />
+    <Property Name="BRAND_BARCODE" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+    <Property Name="BRAND_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PRODUCT_FEATURES">
+    <Key>
+      <PropertyRef Name="M_SYSCODE" />
+      <PropertyRef Name="FEATURE_ID" />
+      <PropertyRef Name="MINVAL" />
+      <PropertyRef Name="MAXVAL" />
+    </Key>
+    <Property Name="M_SYSCODE" Type="Int32" Nullable="false" />
+    <Property Name="FEATURE_ID" Type="Int32" Nullable="false" />
+    <Property Name="MINVAL" Type="Double" Nullable="false" />
+    <Property Name="MAXVAL" Type="Double" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="UygulamaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BRAND_ORGS" EntityType="Self.BRAND_ORGS" />
+    <EntitySet Name="COUNTRY_CITY" EntityType="Self.COUNTRY_CITY" />
+    <EntitySet Name="FEATURES" EntityType="Self.FEATURES" />
+    <EntitySet Name="FLOW" EntityType="Self.FLOW" />
+    <EntitySet Name="MANUFACTURERS" EntityType="Self.MANUFACTURERS" />
+    <EntitySet Name="ORGANISATIONS" EntityType="Self.ORGANISATIONS" />
+    <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" />
+    <EntitySet Name="PRODUCT_BRANDS" EntityType="Self.PRODUCT_BRANDS" />
+    <EntitySet Name="PRODUCT_FEATURES" EntityType="Self.PRODUCT_FEATURES" />
+  </EntityContainer>
+</Schema>
