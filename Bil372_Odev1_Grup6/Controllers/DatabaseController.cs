@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -11,9 +11,9 @@ namespace Bil372_Odev1_Grup6.Controllers
     public class DatabaseController : Controller
     {
 
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
 
-        public DatabaseController(string s)
+        public DatabaseController(int a)
         {
             con.Open();
 
@@ -87,9 +87,8 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = @"CREATE TABLE COUNTRY_CITY(
                             Country_Code CHAR(3),
-                            CityID INT,
+                            CityID INT identity(1,1) NOT NULL PRIMARY KEY,
                             City_Name VARCHAR(100),
-                            primary key (CityID),
                             FOREIGN KEY(Country_Code) REFERENCES COUNTRY(Country_Code)
                          )";
 
@@ -127,24 +126,23 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table PRODUCT_BRANDS created");
-          
+
 
             cmd.CommandText = "DROP TABLE IF EXISTS ORGANISATIONS";
             cmd.ExecuteNonQuery();
 
             cmd.CommandText = @"CREATE TABLE ORGANISATIONS(
-                    ORG_ID  INTEGER,
+                    ORG_ID INTEGER PRIMARY KEY,
                     ORG_NAME VARCHAR(100),
                     PARENT_ORG INTEGER UNIQUE,
                     ORG_ABSTRACT  BINARY ,
                     ORG_ADDRESS  VARCHAR(200),
                     ORG_CITY  INTEGER,
                     ORG_TYPE BINARY CHECK (ORG_TYPE<=2),
-                    primary key(ORG_ID)
                          )";
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table ORGANISATIONS created");
-          
+
 
             cmd.CommandText = "DROP TABLE IF EXISTS BRAND_ORGS";
             cmd.ExecuteNonQuery();
@@ -152,62 +150,61 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = @"CREATE TABLE BRAND_ORGS(
                         LOT_ID int identity(1,1) PRIMARY KEY,
-                        ORG_ID INTEGER ,
+                        ORG_ID INTEGER,
                         BRAND_BARCODE CHAR(13),
                         QUANTITY FLOAT,
                         INNN FLOAT,
                         OUTTTT FLOAT,
-                        FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE),
-                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID)
+                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID),
+                        FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE)
                          )";
-           cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "SELECT QUANTITY = isnull(INNN,0) + isnull(OUTTTT,0) FROM BRAND_ORGS";
+            cmd.ExecuteNonQuery();
             Console.WriteLine("Table BRAND_ORGS created");
-              cmd.CommandText = "SELECT QUANTITY = isnull(INNN,0) + isnull(OUTTTT,0) FROM BRAND_ORGS";
-              cmd.ExecuteNonQuery();
 
-            
-             cmd.CommandText = "DROP TABLE IF EXISTS FLOW";
-             cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS FLOW";
+            cmd.ExecuteNonQuery();
 
-             cmd.CommandText = @"CREATE TABLE FLOW(
-                         Source_LOT_ID INT,
-                         Source_ORG_ID INT, 
-                         Target_LOT_ID INT, 
-                         Target_ORG_ID INT, 
-                         BRAND_BARCODE INT,
-                         QUANTITY INT,
-                         FlowDate DATE,
-                         primary key( Source_LOT_ID,
-                                     Source_ORG_ID, 
-                                     Target_LOT_ID, 
-                                     Target_ORG_ID, 
-                                     BRAND_BARCODE,
-                                      QUANTITY, FlowDate)
-                          )";
+            cmd.CommandText = @"CREATE TABLE FLOW(
+                        Source_LOT_ID INT,
+                        Source_ORG_ID INT, 
+                        Target_LOT_ID INT, 
+                        Target_ORG_ID INT, 
+                        BRAND_BARCODE INT,
+                        QUANTITY FLOAT,
+                        FlowDate DATE,
+                        primary key( Source_LOT_ID,
+                                    Source_ORG_ID, 
+                                    Target_LOT_ID, 
+                                    Target_ORG_ID, 
+                                    BRAND_BARCODE,
+                                     QUANTITY, FlowDate)
+                         )";
 
 
-             cmd.ExecuteNonQuery();
-             Console.WriteLine("Table FLOW created");
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("Table FLOW created");
 
-             cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
-             cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
+            cmd.ExecuteNonQuery();
 
-             cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
-                             BRAND_BARCODE CHAR(13),
-                             M_SYSCODE INT,
-                             ALTERNATIVE_BRAND_BARCODE CHAR(13),
-                             ALTERNATIVE_M_SYSCODE INT
-                          )";
+            cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
+                            BRAND_BARCODE CHAR(13),
+                            M_SYSCODE INT,
+                            ALTERNATIVE_BRAND_BARCODE CHAR(13),
+                            ALTERNATIVE_M_SYSCODE INT
+                            primary key (BRAND_BARCODE,M_SYSCODE,ALTERNATIVE_BRAND_BARCODE,ALTERNATIVE_M_SYSCODE)
+                         )";
 
-             cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
 
-             Console.WriteLine("Table ALTERNATIVE_BRANDS created");
+            Console.WriteLine("Table ALTERNATIVE_BRANDS created");
 
 
         }
-    
-
-        public DatabaseController()
+        public DatabaseController(String s)
         {
             con.Open();
 
@@ -256,7 +253,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<PRODUCT> getProduct()
         {
             List<PRODUCT> listProduct = new List<PRODUCT>();
-            string s = "";
             string sql = "SELECT * FROM PRODUCT";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -272,17 +268,13 @@ namespace Bil372_Odev1_Grup6.Controllers
                 p.M_CATEGORY = rdr.GetString(6);
                 p.IS_ACTIVE = (byte[])rdr[7];
                 listProduct.Add(p);  
-                System.Diagnostics.Debug.WriteLine("{0} {1} {2} {3} {4} {5} {6} {7}", rdr.GetInt32(0), rdr.GetString(1),
-                    rdr.GetString(2),
-                    rdr.GetString(3), rdr.GetString(4),
-                       rdr.GetSqlBinary(5), rdr.GetString(6), rdr.GetSqlBinary(7));
+             
             }
             return listProduct;
         }
         public List<FEATURES> getFeatures()
         {
             List<FEATURES> features = new List<FEATURES>();
-            string s = "";
             string sql = "SELECT * FROM FEATURES";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -292,14 +284,12 @@ namespace Bil372_Odev1_Grup6.Controllers
                 f.FEATURE_ID = rdr.GetInt32(0);
                 f.FEATURE_NAME = rdr.GetString(1);
                 features.Add(f);
-                System.Diagnostics.Debug.WriteLine("{0} {1}", rdr.GetInt32(0), rdr.GetString(1));
             }
             return features;
         }
         public List<PRODUCT_FEATURES> getFeatureProducts()
         {
             List<PRODUCT_FEATURES> productFeatures = new List<PRODUCT_FEATURES>();
-            string s = "";
             string sql = "SELECT * FROM PRODUCT_FEATURES";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -318,7 +308,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<COUNTRY> getCountry()
         {
             List<COUNTRY> countries = new List<COUNTRY>();
-            string s = "";
             string sql = "SELECT * FROM COUNTRY";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -328,15 +317,12 @@ namespace Bil372_Odev1_Grup6.Controllers
                 c.Country_Code = rdr.GetString(0);
                 c.Country_Name = rdr.GetString(1);
                 countries.Add(c);
-                System.Diagnostics.Debug.WriteLine("{0} {1} ", rdr.GetString(0),
-                    rdr.GetString(1));
             }
             return countries;
         }
         public List<COUNTRY_CITY> getCountryCity()
         {
             List<COUNTRY_CITY> cities = new List<COUNTRY_CITY>();
-            string s = "";
             string sql = "SELECT * FROM COUNTRY_CITY";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -352,7 +338,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<MANUFACTURERS> getManufacturers()
         {
             List<MANUFACTURERS> manufacturers = new List<MANUFACTURERS>();
-            string s = "";
             string sql = "SELECT * FROM MANUFACTURERS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -370,7 +355,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<PRODUCT_BRANDS> getProductBrands()
         {
             List<PRODUCT_BRANDS> productBrands = new List<PRODUCT_BRANDS>();
-            string s = "";
             string sql = "SELECT * FROM PRODUCT_BRANDS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -388,7 +372,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<ORGANISATIONS> getOrganisations()
         {
             List<ORGANISATIONS> list = new List<ORGANISATIONS>();
-            string s = "";
             string sql = "SELECT * FROM ORGANISATIONS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -405,7 +388,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<BRAND_ORGS> getBrandOrgs()
         {
             List<BRAND_ORGS> list = new List<BRAND_ORGS>();
-            string s = "";
             string sql = "SELECT * FROM BRAND_ORGS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -425,7 +407,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<FLOW> getFlow()
         {
             List<FLOW> list = new List<FLOW>();
-            string s = "";
             string sql = "SELECT * FROM FLOW";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
@@ -434,52 +415,68 @@ namespace Bil372_Odev1_Grup6.Controllers
                 FLOW item = new FLOW();
                 item.Source_LOT_ID = rdr.GetInt32(0);
                 item.Source_ORG_ID = rdr.GetInt32(1);
-                item.Target_LOT_ID = rdr.GetString(2);
-                item.Target_LOT_ID = rdr.GetFloat(3);
-                item.INNN = rdr.GetFloat(4);
-                item.OUTTTT = rdr.GetFloat(5);
+                item.Target_LOT_ID = rdr.GetInt32(2);
+                item.Target_ORG_ID = rdr.GetInt32(3);
+                item.BRAND_BARCODE = rdr.GetInt32(4);
+                item.QUANTITY = rdr.GetFloat(5);
+                item.FlowDate = rdr.GetDateTime(6);
                 list.Add(item);
             }
             return list;
         }
-        public string getAlternativeBrands()
+        public List<ALTERNATIVE_BRANDS> getAlternativeBrands()
         {
-            string s = "";
+            List<ALTERNATIVE_BRANDS> list = new List<ALTERNATIVE_BRANDS>();
             string sql = "SELECT * FROM ALTERNATIVE_BRANDS";
             using var asd = new SqlCommand(sql, con);
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
-                s += rdr.GetInt32(0) + " " + rdr.GetInt32(1);
-                System.Diagnostics.Debug.WriteLine("{0} {1}", rdr.GetInt32(0), rdr.GetInt32(1));
+                ALTERNATIVE_BRANDS item = new ALTERNATIVE_BRANDS();
+                item.BRAND_BARCODE = rdr.GetString(0);
+                item.M_SYSCODE = rdr.GetInt32(1);
+                item.ALTERNATIVE_BRAND_BARCODE = rdr.GetString(2);
+                item.ALTERNATIVE_M_SYSCODE = rdr.GetInt32(3);
+                list.Add(item);
             }
-            return s;
+            return list;
         }
         public void insertProduct(string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "INSERT INTO PRODUCT(M_CODE, M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
-                "VALUES (" + code + "," + name + "," + shortname + "," + parentcode + "," +
-                isAbstract + "," + category + "," + isActive + ")";
+                "VALUES (@code,@name,@shortname,@parentcode,@isAbstract,@category,@isActive)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@code", code);
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@shortname", shortname);
+            cmd.Parameters.AddWithValue("@parentcode", parentcode);
+            cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
+            cmd.Parameters.AddWithValue("@category", category);
+            cmd.Parameters.AddWithValue("@isActive", isActive);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertFeatures(string featureName)
         {
             string s = "INSERT INTO FEATURES(FEATURE_NAME) " +
-                "VALUES (" + featureName + ")";
+                "VALUES (@featureName)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@featureName", featureName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertProductFeatures(int syscode, int featureid, float minval, float maxval)
         {
             string s = "INSERT INTO PRODUCT_FEATURES(M_SYSCODE, FEATURE_ID, MINVAL, MAXVAL) " +
-                "VALUES (" + syscode + "," + featureid + "," + minval + "," + maxval + ")";
+                "VALUES (@syscode,@featureid,@minval,@maxval)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@featureid", featureid);
+            cmd.Parameters.AddWithValue("@minval", minval);
+            cmd.Parameters.AddWithValue("@maxval", maxval);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
@@ -489,158 +486,222 @@ namespace Bil372_Odev1_Grup6.Controllers
             //    "VALUES ('123111','KIRAVAT','KIR', 12311 , CAST('1' AS VARBINARY), 'GIYIM', CAST('1' AS VARBINARY))";
             //cmd.ExecuteNonQuery();
             string s = "INSERT INTO COUNTRY(Country_Code, Country_Name) " +
-                "VALUES(" + "'" + countryCode + "'" + "," + "'" + countryName + "'" + ")";
+                "VALUES(@countryCode,@countryName)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
+            cmd.Parameters.AddWithValue("@countryName", countryName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertCountryCity(string countryCode, int cityid, string cityName)
         {
             string s = "INSERT INTO COUNTRY_CITY(Country_Code, CityID,City_Name) " +
-                "VALUES (" +"'" + countryCode +"'" + "," + cityid + "," + "'" + cityName + "'" + ")";
+                "VALUES (@countryCode,@cityid,@cityName)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
+            cmd.Parameters.AddWithValue("@cityid", cityid);
+            cmd.Parameters.AddWithValue("@cityName", cityName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertManufacturers(string manufacturerName, string address, int city, string countryCode)
         {
             string s = "INSERT INTO MANUFACTURERS(MANUFACTURER_NAME, MANUFACTURER_ADDRESS, CITY, Country_Code) " +
-                "VALUES (" + manufacturerName + "," + address + "," + city + "," + countryCode + ")";
+                "VALUES (@manufacturerName,@address,@city,@countryCode)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@manufacturerName", manufacturerName);
+            cmd.Parameters.AddWithValue("@address", address);
+            cmd.Parameters.AddWithValue("@city", city);
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertProductBrands(int manufacturerid, int syscode, string brandBarcode, string brandName)
         {
             string s = "INSERT INTO PRODUCT_BRANDS(MANUFACTURER_ID, M_SYSCODE, BRAND_BARCODE, BRAND_NAME) " +
-                "VALUES (" + manufacturerid + "," + syscode + "," + brandBarcode + "," + brandName + ")";
+                "VALUES (@manufacturerid,@syscode,@brandBarcode,@brandName)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@brandName", brandName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertOrganisations(int orgid, string name, int parentOrg, bool isAbstract, string address, int orgType)
         {
             string s = "INSERT INTO ORGANISATIONS(ORG_ID, ORG_NAME, PARENT_ORG, ORG_ABSTRACT, ORG_ADDRESS, ORG_CITY, ORG_TYPE) " +
-                "VALUES (" + orgid + "," + name + "," + parentOrg + "," + isAbstract + "," +
-                address + "," + Convert.ToInt32(orgType) + ")";
+                "VALUES (@orgid,@name,@parentOrg,@isAbstract,@address,@orgType)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@orgid", orgid);
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@parentOrg", parentOrg);
+            cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
+            cmd.Parameters.AddWithValue("@address", address);
+            cmd.Parameters.AddWithValue("@orgType", Convert.ToInt32(orgType));
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertBrandOrgs(int orgid, int brandBarcode, float quantity, float innn, float outttt)
         {
             string s = "INSERT INTO BRAND_ORGS(ORG_ID, BRAND_BARCODE, QUANTITY, INNN, OUTTTT) " +
-                "VALUES (" + orgid + "," + brandBarcode + "," + quantity + "," + innn + "," +
-                outttt + ")";
+                "VALUES (@orgid,@brandBarcode,@quantity,@innn,@outttt)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@orgid", orgid);
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@quantity", quantity);
+            cmd.Parameters.AddWithValue("@innn", innn);
+            cmd.Parameters.AddWithValue("@outttt", outttt);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void insertAlternativeBrands(int brandBarcode, int syscode, float altBrandBarcode, float altSysCode)
         {
             string s = "INSERT INTO ALTERNATIVE_BRANDS(BRAND_BARCODE, M_SYSCODE, ALTERNATIVE_BRAND_BARCODE, ALTERNATIVE_M_SYSCODE) " +
-                "VALUES (" + brandBarcode + "," + syscode + "," + altBrandBarcode + "," + altSysCode + ")";
+                "VALUES (@brandBarcode,@syscode,@altBrandBarcode,@altSysCode )";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@altBrandBarcode", altBrandBarcode);
+            cmd.Parameters.AddWithValue("@altSysCode", altSysCode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateProduct(int syscode, string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
         {
-            string s = "UPDATE PRODUCT SET M_CODE = " + code + "," + " M_NAME =" + name + "," + " M_SHORTNAME = " + shortname + ","
-                    + " M_PARENTCODE =" + parentcode + "," + " M_ABSTRACT= " + isAbstract + "," + " M_CATEGORY = " + category
-                    + "," + " IS_ACTIVE = " + isActive +
-                    " WHERE M_SYSCODE=" + syscode;
+            string s = "UPDATE PRODUCT SET M_CODE =@code , M_NAME =@name , M_SHORTNAME = @shortname ," +
+                " M_PARENTCODE = @parentcode , M_ABSTRACT= @isAbstract , M_CATEGORY = @category , IS_ACTIVE = @isActive WHERE M_SYSCODE= @syscode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@syscode,", syscode);
+            cmd.Parameters.AddWithValue("@code", code);
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@shortname", shortname);
+            cmd.Parameters.AddWithValue("@parentcode", parentcode);
+            cmd.Parameters.AddWithValue("@category", category);
+            cmd.Parameters.AddWithValue("@isActive", isActive);
+            cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateFeatures(int featureid, string name)
         {
-            string s = "UPDATE FEATURES SET FEATURE_NAME = " + name +
-                    " WHERE FEATURE_ID=" + featureid;
+            string s = "UPDATE FEATURES SET FEATURE_NAME = @name WHERE FEATURE_ID= @featureid" ;
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@featureid", featureid);
+            cmd.Parameters.AddWithValue("@name", name);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateProductFeatures(int syscode, int featureid, float minval, float maxval)
         {
-            string s = "UPDATE PRODUCT_FEATURES SET MINVAL = " + minval + "," + " MAXVAL =" + maxval +
-                    " WHERE M_SYSCODE=" + syscode + "AND FEATURE_ID = " + featureid;
+            string s = "UPDATE PRODUCT_FEATURES SET MINVAL =@minval , MAXVAL = @maxval" +
+                " WHERE M_SYSCODE= @syscode AND FEATURE_ID =@featureid ";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@featureid", featureid);
+            cmd.Parameters.AddWithValue("@minval", minval);
+            cmd.Parameters.AddWithValue("@maxval", maxval);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateCountry(string countryCode, string countryName)
         {
-            string s = "UPDATE COUNTRY SET Country_Name =" + countryName +
-                    " WHERE Country_Code=" + countryCode;
+            string s = "UPDATE COUNTRY SET Country_Name =@countryName" +
+                    " WHERE Country_Code=@countryCode" ;
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
+            cmd.Parameters.AddWithValue("@countryName", countryName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateCountryCity(string countryCode, int cityid, string cityName)
         {
-            string s = "UPDATE COUNTRY_CITY SET City_Name = " + "'" + cityName + "'" +
-                    " WHERE Country_Code=" + "'" + countryCode + "'" + " AND CityID=" + cityid;
+            string s = "UPDATE COUNTRY_CITY SET City_Name =@cityname WHERE Country_Code=@countryCode AND CityID=@cityid";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
+            cmd.Parameters.AddWithValue("@cityid", cityid);
+            cmd.Parameters.AddWithValue("@cityName", cityName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateManufacturers(int manufacturerid, int city, string countryCode, string name, string address)
         {
-            string s = "UPDATE MANUFACTURERS SET MANUFACTURER_NAME = " + name + "," + " MANUFACTURER_ADDRESS =" + address
-                   + " WHERE MANUFACTURER_ID=" + manufacturerid + " AND CITY = " + city + " AND Counrty_Code = " + countryCode;
+            string s = "UPDATE MANUFACTURERS SET MANUFACTURER_NAME =@name , MANUFACTURER_ADDRESS = @address " +
+                "WHERE MANUFACTURER_ID= @manufacturerid AND CITY = @city AND Counrty_Code = @countryCode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
+            cmd.Parameters.AddWithValue("@manufacturerName", name);
+            cmd.Parameters.AddWithValue("@address", address);
+            cmd.Parameters.AddWithValue("@city", city);
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void updateProductBrands(int manufacturerid, int syscode, string brandBarcode, string brandname)
+        public void updateProductBrands(int manufacturerid, int syscode, string brandBarcode, string brandName)
         {
-            string s = "UPDATE PRODUCT_BRANDS SET BRAND_NAME =" + brandname +
-                    " WHERE M_SYSCODE=" + syscode + " AND MANUFACTURER_ID = " + manufacturerid + " AND BRAND_BARCODE = " + brandBarcode; ;
+            string s = "UPDATE PRODUCT_BRANDS SET BRAND_NAME =@brandName" +
+                    " WHERE M_SYSCODE=@syscode AND MANUFACTURER_ID =@manufacturerid AND BRAND_BARCODE =@brandBarcode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@brandName", brandName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateOrganisations(int orgid, string orgName, int parentOrg, bool isAbstract, string address, int city, int orgType)
         {
-            string s = "UPDATE ORGANISATIONS SET ORG_NAME = " + orgName + "," + " ORG_ABSTRACT =" + isAbstract + "," + " ORG_ADDRESS = " + address + ","
-                    + " ORG_CITY =" + city + "," + " ORG_TYPE = " +
-                    " WHERE ORG_ID=" + orgid + " AND PARENT_ORG = " + parentOrg;
+            string s = "UPDATE ORGANISATIONS SET ORG_NAME =@orgname , ORG_ABSTRACT = @isAbstract , ORG_ADDRESS = @address" +
+                ", ORG_CITY = @city , ORG_TYPE = @orgType " +
+                    " WHERE ORG_ID=@orgid AND PARENT_ORG = @parentOrg";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@orgid", orgid);
+            cmd.Parameters.AddWithValue("@orgName", orgName);
+            cmd.Parameters.AddWithValue("@parentOrg", parentOrg);
+            cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
+            cmd.Parameters.AddWithValue("@address", address);
+            cmd.Parameters.AddWithValue("@orgType", orgType);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateBrandOrgs(int lotid, int orgid, string brandBarcode, float innn, float outttt)
         {
-            string s = "UPDATE BRAND_ORGS SET INNN = " + innn + "," + " OUTTTT =" + outttt + "," + " QUANTITY = " + (innn + outttt) +
+            string s = "UPDATE BRAND_ORGS SET INNN = @innn ,  OUTTTT = @" + outttt + "," + " QUANTITY = " + (innn + outttt) +
                     " WHERE LOT_ID=" + lotid + " AND ORG_ID = " + orgid + " AND BRAND_BARCODE = " + brandBarcode;
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@orgid", orgid);
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@innn", innn);
+            cmd.Parameters.AddWithValue("@outttt", outttt);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void updateAlternativeBrands(string brandBarcode, int syscode, string altBrandBarcode, int altSysCode)
         {
-            string s = "UPDATE ALTERNATIVE_BRANDS SET BRAND_BARCODE = " + brandBarcode + " , M_SYSCODE =" + syscode + " , ALTERNATIVE_BRAND_BARCODE = " + altBrandBarcode +
-                    " , ALTERNATIVE_M_SYSCODE=" + altSysCode;
+            string s = "UPDATE ALTERNATIVE_BRANDS SET BRAND_BARCODE =@brandBarcode, M_SYSCODE =@syscode," +
+                " ALTERNATIVE_BRAND_BARCODE =@altBrandBarcode  , ALTERNATIVE_M_SYSCODE=@altSysCode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@altBrandBarcode", altBrandBarcode);
+            cmd.Parameters.AddWithValue("@altSysCode", altSysCode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
@@ -655,50 +716,60 @@ namespace Bil372_Odev1_Grup6.Controllers
         }
         public void deleteFromFeatures(int featureid)
         {
-            string s = "DELETE FROM FEATURES WHERE FEATURE_ID =" + featureid;
+            string s = "DELETE FROM FEATURES WHERE FEATURE_ID =@featureid";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@featureid", featureid);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void deleteFromProductFeatures(int syscode, int featureid)
         {
-            string s = "DELETE FROM FEATURES WHERE FEATURE_ID =" + featureid + " AND M_SYSCODE = " + syscode;
+            string s = "DELETE FROM PRODUCT_FEATURES WHERE FEATURE_ID =@featureid AND M_SYSCODE =@syscode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@featureid", featureid);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void deleteFromCountry(string countryCode)
         {
-            string s = "DELETE FROM COUNTRY WHERE Country_Code =" + countryCode;
+            string s = "DELETE FROM COUNTRY WHERE Country_Code =@countryCode" ;
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void deleteFromCountryCity(string countryCode, int cityid)
         {
-            string s = "DELETE FROM COUNTRY_CITY WHERE Country_Code =" + countryCode + " AND CityID = " + cityid;
+            string s = "DELETE FROM COUNTRY_CITY WHERE Country_Code =@countryCode  AND CityID =@cityid";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@countryCode", countryCode);
+            cmd.Parameters.AddWithValue("@cityid", cityid);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void deleteFromManufacturers(int manufacturerid)
         {
-            string s = "DELETE FROM MANUFACTURERS WHERE MANUFACTURER_ID =" + manufacturerid;
+            string s = "DELETE FROM MANUFACTURERS WHERE MANUFACTURER_ID =@manufacturerid";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
         public void deleteFromProductBrands(int manufacturerid, int syscode, string brandBarcode)
         {
-            string s = "DELETE FROM PRODUCT_BRANDS WHERE MANUFACTURER_ID =" + manufacturerid + " AND M_SYSCODE=" + syscode +
-                " AND BRAND_BARCODE = " + brandBarcode;
+            string s = "DELETE FROM PRODUCT_BRANDS WHERE MANUFACTURER_ID =@manufacturerid AND M_SYSCODE=@syscode " +
+                "AND BRAND_BARCODE =@brandBarcode ";
             var cmd = new SqlCommand();
             cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
+            cmd.Parameters.AddWithValue("@syscode", syscode);
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
