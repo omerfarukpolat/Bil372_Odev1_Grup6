@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Account/Login/");
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -156,6 +162,12 @@
                                 </li>
 
                             </ul>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("LogOut","Account")">
+
+                                Logout
+                            </a>
                         </li>
 
                     </ul>
