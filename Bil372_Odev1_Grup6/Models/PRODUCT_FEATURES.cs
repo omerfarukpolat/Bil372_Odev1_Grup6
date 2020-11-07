@@ -14,9 +14,12 @@ namespace Bil372_Odev1_Grup6.Models
     
     public partial class PRODUCT_FEATURES
     {
-        public int M_SYSCODE { get; set; }
-        public int FEATURE_ID { get; set; }
+        public Nullable<int> M_SYSCODE { get; set; }
+        public Nullable<int> FEATURE_ID { get; set; }
         public double MINVAL { get; set; }
         public double MAXVAL { get; set; }
+    
+        public virtual FEATURES FEATURES { get; set; }
+        public virtual PRODUCT PRODUCT { get; set; }
     }
 }

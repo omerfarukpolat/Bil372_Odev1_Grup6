@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -13,6 +13,37 @@ namespace Bil372_Odev1_Grup6.Controllers
 
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
 
+        public DatabaseController(char a)
+        {
+            con.Open();
+
+            var cmd = new SqlCommand();
+            cmd.Connection = con;
+
+
+            cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS FLOW";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS BRAND_ORGS";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS ORGANISATIONS";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT_BRANDS";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS MANUFACTURERS";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS COUNTRY_CITY";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS COUNTRY";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT_FEATURES";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS FEATURES";
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT";
+            cmd.ExecuteNonQuery();
+        }
         public DatabaseController(int a)
         {
             con.Open();
@@ -22,26 +53,19 @@ namespace Bil372_Odev1_Grup6.Controllers
 
 
 
-            cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT";
-            cmd.ExecuteNonQuery();
-
             cmd.CommandText = @"CREATE TABLE PRODUCT(
                 M_SYSCODE int identity(1,1) NOT NULL PRIMARY KEY,
                 M_CODE VARCHAR(15) NOT NULL UNIQUE,
                 M_NAME  VARCHAR(25),
                 M_SHORTNAME  VARCHAR(10),
                 M_PARENTCODE  VARCHAR(15),
-                M_ABSTRACT  BINARY,
+                M_ABSTRACT  BIT,
                 M_CATEGORY  VARCHAR(12),
-                IS_ACTIVE  BINARY 
+                IS_ACTIVE  BIT 
                          )";
 
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table PRODUCT created");
-
-
-            cmd.CommandText = "DROP TABLE IF EXISTS FEATURES";
-            cmd.ExecuteNonQuery();
 
             cmd.CommandText = @"CREATE TABLE FEATURES(
                 FEATURE_ID  int identity(1,1) NOT NULL PRIMARY KEY,
@@ -52,9 +76,6 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             Console.WriteLine("Table FEATURES created");
 
-
-            cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT_FEATURES";
-            cmd.ExecuteNonQuery();
 
 
             cmd.CommandText = @"CREATE TABLE PRODUCT_FEATURES(
@@ -70,9 +91,6 @@ namespace Bil372_Odev1_Grup6.Controllers
             Console.WriteLine("Table PRODUCT_FEATURES created");
 
 
-            cmd.CommandText = "DROP TABLE IF EXISTS COUNTRY";
-            cmd.ExecuteNonQuery();
-
             cmd.CommandText = @"CREATE TABLE COUNTRY(
                           Country_Code  CHAR(3) PRIMARY KEY NOT NULL,
                           Country_Name  VARCHAR(50)
@@ -81,9 +99,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table COUNTRY created");
-
-            cmd.CommandText = "DROP TABLE IF EXISTS COUNTRY_CITY";
-            cmd.ExecuteNonQuery();
+       
 
             cmd.CommandText = @"CREATE TABLE COUNTRY_CITY(
                             Country_Code CHAR(3),
@@ -94,8 +110,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.ExecuteNonQuery();
 
-            cmd.CommandText = "DROP TABLE IF EXISTS MANUFACTURERS";
-            cmd.ExecuteNonQuery();
+         
 
 
             cmd.CommandText = @"CREATE TABLE MANUFACTURERS(
@@ -112,9 +127,6 @@ namespace Bil372_Odev1_Grup6.Controllers
             Console.WriteLine("Table MANUFACTURERS created");
 
 
-            cmd.CommandText = "DROP TABLE IF EXISTS PRODUCT_BRANDS";
-            cmd.ExecuteNonQuery();
-
             cmd.CommandText = @"CREATE TABLE PRODUCT_BRANDS(
                        MANUFACTURER_ID INTEGER,
                        M_SYSCODE INTEGER,
@@ -128,24 +140,18 @@ namespace Bil372_Odev1_Grup6.Controllers
             Console.WriteLine("Table PRODUCT_BRANDS created");
 
 
-            cmd.CommandText = "DROP TABLE IF EXISTS ORGANISATIONS";
-            cmd.ExecuteNonQuery();
 
             cmd.CommandText = @"CREATE TABLE ORGANISATIONS(
                     ORG_ID INTEGER PRIMARY KEY,
                     ORG_NAME VARCHAR(100),
                     PARENT_ORG INTEGER UNIQUE,
-                    ORG_ABSTRACT  BINARY ,
+                    ORG_ABSTRACT  BIT ,
                     ORG_ADDRESS  VARCHAR(200),
                     ORG_CITY  INTEGER,
-                    ORG_TYPE BINARY CHECK (ORG_TYPE<=2),
+                    ORG_TYPE INT CHECK (ORG_TYPE<=2),
                          )";
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table ORGANISATIONS created");
-
-
-            cmd.CommandText = "DROP TABLE IF EXISTS BRAND_ORGS";
-            cmd.ExecuteNonQuery();
 
 
             cmd.CommandText = @"CREATE TABLE BRAND_ORGS(
@@ -164,8 +170,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table BRAND_ORGS created");
 
-            cmd.CommandText = "DROP TABLE IF EXISTS FLOW";
-            cmd.ExecuteNonQuery();
+        
 
             cmd.CommandText = @"CREATE TABLE FLOW(
                         Source_LOT_ID INT,
@@ -187,15 +192,16 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table FLOW created");
 
-            cmd.CommandText = "DROP TABLE IF EXISTS ALTERNATIVE_BRANDS";
-            cmd.ExecuteNonQuery();
 
             cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
                             BRAND_BARCODE CHAR(13),
                             M_SYSCODE INT,
                             ALTERNATIVE_BRAND_BARCODE CHAR(13),
                             ALTERNATIVE_M_SYSCODE INT
-                            primary key (BRAND_BARCODE,M_SYSCODE,ALTERNATIVE_BRAND_BARCODE,ALTERNATIVE_M_SYSCODE)
+                            FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE),
+                            FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE),
+                            FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE),
+                            FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE)
                          )";
 
             cmd.ExecuteNonQuery();
@@ -264,9 +270,9 @@ namespace Bil372_Odev1_Grup6.Controllers
                 p.M_NAME = rdr.GetString(2);
                 p.M_SHORTNAME = rdr.GetString(3);
                 p.M_PARENTCODE = rdr.GetString(4);
-                p.M_ABSTRACT = (byte[])rdr[5];
+                p.M_ABSTRACT =  rdr.GetBoolean(5);
                 p.M_CATEGORY = rdr.GetString(6);
-                p.IS_ACTIVE = (byte[])rdr[7];
+                p.IS_ACTIVE = rdr.GetBoolean(7);
                 listProduct.Add(p);  
              
             }
@@ -347,7 +353,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                 m.MANUFACTURER_ID = rdr.GetInt32(0);
                 m.MANUFACTURER_NAME = rdr.GetString(1);
                 m.MANUFACTURER_ADDRESS = rdr.GetString(2);
-                m.COUNTRY = rdr.GetString(3);
+                m.Country_Code = rdr.GetString(3);
+                m.CITY = rdr.GetInt32(4);
                 manufacturers.Add(m);
             }
             return manufacturers;
@@ -381,6 +388,10 @@ namespace Bil372_Odev1_Grup6.Controllers
                 item.ORG_ID = rdr.GetInt32(0);
                 item.ORG_NAME = rdr.GetString(1);
                 item.PARENT_ORG = rdr.GetInt32(2);
+                item.ORG_ABSTRACT = rdr.GetBoolean(3);
+                item.ORG_ADDRESS = rdr.GetString(4);
+                item.ORG_CITY = rdr.GetInt32(5);
+                item.ORG_TYPE = rdr.GetInt32(6);
                 list.Add(item);
             }
             return list;
@@ -424,23 +435,23 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return list;
         }
-        public List<ALTERNATIVE_BRANDS> getAlternativeBrands()
-        {
-            List<ALTERNATIVE_BRANDS> list = new List<ALTERNATIVE_BRANDS>();
-            string sql = "SELECT * FROM ALTERNATIVE_BRANDS";
-            using var asd = new SqlCommand(sql, con);
-            using SqlDataReader rdr = asd.ExecuteReader();
-            while (rdr.Read())
-            {
-                ALTERNATIVE_BRANDS item = new ALTERNATIVE_BRANDS();
-                item.BRAND_BARCODE = rdr.GetString(0);
-                item.M_SYSCODE = rdr.GetInt32(1);
-                item.ALTERNATIVE_BRAND_BARCODE = rdr.GetString(2);
-                item.ALTERNATIVE_M_SYSCODE = rdr.GetInt32(3);
-                list.Add(item);
-            }
-            return list;
-        }
+        //public List<ALTERNATIVE_BRANDS> getAlternativeBrands()
+        //{
+        //    List<ALTERNATIVE_BRANDS> list = new List<ALTERNATIVE_BRANDS>();
+        //    string sql = "SELECT * FROM ALTERNATIVE_BRANDS";
+        //    using var asd = new SqlCommand(sql, con);
+        //    using SqlDataReader rdr = asd.ExecuteReader();
+        //    while (rdr.Read())
+        //    {
+        //        ALTERNATIVE_BRANDS item = new ALTERNATIVE_BRANDS();
+        //        item.BRAND_BARCODE = rdr.GetString(0);
+        //        item.M_SYSCODE = rdr.GetInt32(1);
+        //        item.ALTERNATIVE_BRAND_BARCODE = rdr.GetString(2);
+        //        item.ALTERNATIVE_M_SYSCODE = rdr.GetInt32(3);
+        //        list.Add(item);
+        //    }
+        //    return list;
+        //}
         public void insertProduct(string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "INSERT INTO PRODUCT(M_CODE, M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
@@ -705,14 +716,43 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void deleteFromProduct(int syscode)
+        public void deleteFromProduct(int syscode, int deleteStyle)
         {
-            string s = "DELETE FROM PRODUCT WHERE M_SYSCODE =@syscode";
+            
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@syscode", syscode);
-            cmd.CommandText = s;
-            cmd.ExecuteNonQuery();
+            
+            if (deleteStyle == 1)
+            {
+                string s2 = "UPDATE PRODUCT SET M_PARENTCODE = (SELECT M_PARENTCODE FROM PRODUCT WHERE M_SYSCODE = @syscode) WHERE M_PARENTCODE =(SELECT M_CODE FROM PRODUCT WHERE M_SYSCODE = @syscode)";
+                cmd.CommandText = s2;
+                cmd.ExecuteNonQuery();
+                string s = "DELETE FROM PRODUCT WHERE M_SYSCODE =@syscode";
+                cmd.CommandText = s;
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                string sql = "SELECT M_SYSCODE,M_CODE FROM PRODUCT WHERE M_PARENTCODE = (SELECT M_CODE FROM PRODUCT WHERE M_SYSCODE = @syscode)";
+                using var asd = new SqlCommand(sql, con);
+                using SqlDataReader rdr = asd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    int childSysCode = rdr.GetInt32(0);
+                    string childProdcutId = rdr.GetString(1);
+                    string s3 = "DELETE FROM PRODUCT WHERE M_CODE =@childprocutId";
+                    cmd.Parameters.AddWithValue("@childProdcutId", childProdcutId);
+                    cmd.CommandText = s3;
+                    cmd.ExecuteNonQuery();
+                    deleteFromProduct(childSysCode, 0);
+                }
+                string s = "DELETE FROM PRODUCT WHERE M_SYSCODE=@syscode";
+                cmd.CommandText = s;
+                cmd.ExecuteNonQuery();
+
+            }
+
         }
         public void deleteFromFeatures(int featureid)
         {
@@ -772,6 +812,41 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
+        }
+
+        public void deleteFromOrganisations(int orgid,int deleteStyle)
+        {
+            var cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@orgid", orgid);
+            if (deleteStyle == 1)
+            {
+                string s2 = "UPDATE ORGANISATIONS SET PARENT_ORG = (SELECT PARENT_ORG FROM PRODUCT WHERE ORG_ID = @orgid) " +
+                    "WHERE PARENT_ORG = (SELECT ORG_ID FROM PRODUCT WHERE ORG_ID = @orgid)";
+                cmd.CommandText = s2;
+                cmd.ExecuteNonQuery();
+                string s = "DELETE FROM ORGANISATIONS WHERE ORG_ID=@orgid";
+                cmd.CommandText = s;
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                string sql = "SELECT ORG_ID FROM ORGANISATIONS WHERE PARENT_ORG = @orgid";
+                using var asd = new SqlCommand(sql, con);
+                using SqlDataReader rdr = asd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    int childOrgid = rdr.GetInt32(0);
+                    string s3 = "DELETE FROM ORGANISATIONS WHERE ORG_ID = "+ childOrgid;
+                    cmd.CommandText = s3;
+                    cmd.ExecuteNonQuery();
+                    deleteFromOrganisations(childOrgid, 0);
+                }
+                string s = "DELETE FROM ORGANISATIONS WHERE ORG_ID=@orgid";
+                cmd.CommandText = s;
+                cmd.ExecuteNonQuery();
+            }
+          
         }
 
 

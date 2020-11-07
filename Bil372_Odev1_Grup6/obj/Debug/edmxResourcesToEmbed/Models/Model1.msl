@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="UygulamaModelStoreContainer" CdmEntityContainer="UygulamaEntities">
+  <EntityContainerMapping StorageEntityContainer="UygulamaModelStoreContainer" CdmEntityContainer="UygulamaEntities1">
     <EntitySetMapping Name="BRAND_ORGS">
       <EntityTypeMapping TypeName="UygulamaModel.BRAND_ORGS">
         <MappingFragment StoreEntitySet="BRAND_ORGS">
@@ -10,6 +10,14 @@
           <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
           <ScalarProperty Name="INNN" ColumnName="INNN" />
           <ScalarProperty Name="OUTTTT" ColumnName="OUTTTT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="COUNTRY">
+      <EntityTypeMapping TypeName="UygulamaModel.COUNTRY">
+        <MappingFragment StoreEntitySet="COUNTRY">
+          <ScalarProperty Name="Country_Code" ColumnName="Country_Code" />
+          <ScalarProperty Name="Country_Name" ColumnName="Country_Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -50,7 +58,7 @@
           <ScalarProperty Name="MANUFACTURER_NAME" ColumnName="MANUFACTURER_NAME" />
           <ScalarProperty Name="MANUFACTURER_ADDRESS" ColumnName="MANUFACTURER_ADDRESS" />
           <ScalarProperty Name="CITY" ColumnName="CITY" />
-          <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+          <ScalarProperty Name="Country_Code" ColumnName="Country_Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

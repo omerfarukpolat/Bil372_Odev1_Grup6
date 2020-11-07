@@ -19,7 +19,7 @@ namespace Bil372_Odev1_Grup6.Models
         public int Target_LOT_ID { get; set; }
         public int Target_ORG_ID { get; set; }
         public int BRAND_BARCODE { get; set; }
-        public int QUANTITY { get; set; }
+        public float QUANTITY { get; set; }
         public System.DateTime FlowDate { get; set; }
     }
 }

@@ -14,9 +14,20 @@ namespace Bil372_Odev1_Grup6.Models
     
     public partial class PRODUCT_BRANDS
     {
-        public int MANUFACTURER_ID { get; set; }
-        public int M_SYSCODE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PRODUCT_BRANDS()
+        {
+            this.BRAND_ORGS = new HashSet<BRAND_ORGS>();
+        }
+    
+        public Nullable<int> MANUFACTURER_ID { get; set; }
+        public Nullable<int> M_SYSCODE { get; set; }
         public string BRAND_BARCODE { get; set; }
         public string BRAND_NAME { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BRAND_ORGS> BRAND_ORGS { get; set; }
+        public virtual MANUFACTURERS MANUFACTURERS { get; set; }
+        public virtual PRODUCT PRODUCT { get; set; }
     }
 }
