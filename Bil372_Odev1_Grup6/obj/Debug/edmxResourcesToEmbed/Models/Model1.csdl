@@ -10,8 +10,8 @@
     <Property Name="QUANTITY" Type="Double" />
     <Property Name="INNN" Type="Double" />
     <Property Name="OUTTTT" Type="Double" />
-    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__BRAND_ORG__BRAND__3C69FB99" FromRole="BRAND_ORGS" ToRole="PRODUCT_BRANDS" />
-    <NavigationProperty Name="ORGANISATIONS" Relationship="Self.FK__BRAND_ORG__ORG_I__3D5E1FD2" FromRole="BRAND_ORGS" ToRole="ORGANISATIONS" />
+    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__BRAND_ORG__BRAND__60A75C0F" FromRole="BRAND_ORGS" ToRole="PRODUCT_BRANDS" />
+    <NavigationProperty Name="ORGANISATIONS" Relationship="Self.FK__BRAND_ORG__ORG_I__5FB337D6" FromRole="BRAND_ORGS" ToRole="ORGANISATIONS" />
   </EntityType>
   <EntityType Name="COUNTRY">
     <Key>
@@ -19,18 +19,18 @@
     </Key>
     <Property Name="Country_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
     <Property Name="Country_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="COUNTRY_CITY" Relationship="Self.FK__COUNTRY_C__Count__2E1BDC42" FromRole="COUNTRY" ToRole="COUNTRY_CITY" />
-    <NavigationProperty Name="MANUFACTURERS" Relationship="Self.FK__MANUFACTU__Count__31EC6D26" FromRole="COUNTRY" ToRole="MANUFACTURERS" />
+    <NavigationProperty Name="COUNTRY_CITY" Relationship="Self.FK__COUNTRY_C__Count__5165187F" FromRole="COUNTRY" ToRole="COUNTRY_CITY" />
+    <NavigationProperty Name="MANUFACTURERS" Relationship="Self.FK__MANUFACTU__Count__5535A963" FromRole="COUNTRY" ToRole="MANUFACTURERS" />
   </EntityType>
   <EntityType Name="COUNTRY_CITY">
     <Key>
       <PropertyRef Name="CityID" />
     </Key>
     <Property Name="Country_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-    <Property Name="CityID" Type="Int32" Nullable="false" />
+    <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="City_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="COUNTRY" Relationship="Self.FK__COUNTRY_C__Count__2E1BDC42" FromRole="COUNTRY_CITY" ToRole="COUNTRY" />
-    <NavigationProperty Name="MANUFACTURERS" Relationship="Self.FK__MANUFACTUR__CITY__30F848ED" FromRole="COUNTRY_CITY" ToRole="MANUFACTURERS" />
+    <NavigationProperty Name="COUNTRY" Relationship="Self.FK__COUNTRY_C__Count__5165187F" FromRole="COUNTRY_CITY" ToRole="COUNTRY" />
+    <NavigationProperty Name="MANUFACTURERS" Relationship="Self.FK__MANUFACTUR__CITY__5441852A" FromRole="COUNTRY_CITY" ToRole="MANUFACTURERS" />
   </EntityType>
   <EntityType Name="FEATURES">
     <Key>
@@ -38,7 +38,7 @@
     </Key>
     <Property Name="FEATURE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="FEATURE_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="PRODUCT_FEATURES" Relationship="Self.FK__PRODUCT_F__FEATU__29572725" FromRole="FEATURES" ToRole="PRODUCT_FEATURES" />
+    <NavigationProperty Name="PRODUCT_FEATURES" Relationship="Self.FK__PRODUCT_F__FEATU__4CA06362" FromRole="FEATURES" ToRole="PRODUCT_FEATURES" />
   </EntityType>
   <EntityType Name="FLOW">
     <Key>
@@ -55,7 +55,7 @@
     <Property Name="Target_LOT_ID" Type="Int32" Nullable="false" />
     <Property Name="Target_ORG_ID" Type="Int32" Nullable="false" />
     <Property Name="BRAND_BARCODE" Type="Int32" Nullable="false" />
-    <Property Name="QUANTITY" Type="Int32" Nullable="false" />
+    <Property Name="QUANTITY" Type="Double" Nullable="false" />
     <Property Name="FlowDate" Type="DateTime" Nullable="false" Precision="0" />
   </EntityType>
   <EntityType Name="MANUFACTURERS">
@@ -67,9 +67,9 @@
     <Property Name="MANUFACTURER_ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="CITY" Type="Int32" />
     <Property Name="Country_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-    <NavigationProperty Name="COUNTRY" Relationship="Self.FK__MANUFACTU__Count__31EC6D26" FromRole="MANUFACTURERS" ToRole="COUNTRY" />
-    <NavigationProperty Name="COUNTRY_CITY" Relationship="Self.FK__MANUFACTUR__CITY__30F848ED" FromRole="MANUFACTURERS" ToRole="COUNTRY_CITY" />
-    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__PRODUCT_B__MANUF__34C8D9D1" FromRole="MANUFACTURERS" ToRole="PRODUCT_BRANDS" />
+    <NavigationProperty Name="COUNTRY" Relationship="Self.FK__MANUFACTU__Count__5535A963" FromRole="MANUFACTURERS" ToRole="COUNTRY" />
+    <NavigationProperty Name="COUNTRY_CITY" Relationship="Self.FK__MANUFACTUR__CITY__5441852A" FromRole="MANUFACTURERS" ToRole="COUNTRY_CITY" />
+    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__PRODUCT_B__MANUF__5812160E" FromRole="MANUFACTURERS" ToRole="PRODUCT_BRANDS" />
   </EntityType>
   <EntityType Name="ORGANISATIONS">
     <Key>
@@ -78,11 +78,11 @@
     <Property Name="ORG_ID" Type="Int32" Nullable="false" />
     <Property Name="ORG_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="PARENT_ORG" Type="Int32" />
-    <Property Name="ORG_ABSTRACT" Type="Binary" MaxLength="1" FixedLength="true" />
+    <Property Name="ORG_ABSTRACT" Type="Boolean" />
     <Property Name="ORG_ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="ORG_CITY" Type="Int32" />
-    <Property Name="ORG_TYPE" Type="Binary" MaxLength="1" FixedLength="true" />
-    <NavigationProperty Name="BRAND_ORGS" Relationship="Self.FK__BRAND_ORG__ORG_I__3D5E1FD2" FromRole="ORGANISATIONS" ToRole="BRAND_ORGS" />
+    <Property Name="ORG_TYPE" Type="Int32" />
+    <NavigationProperty Name="BRAND_ORGS" Relationship="Self.FK__BRAND_ORG__ORG_I__5FB337D6" FromRole="ORGANISATIONS" ToRole="BRAND_ORGS" />
   </EntityType>
   <EntityType Name="PRODUCT">
     <Key>
@@ -93,11 +93,13 @@
     <Property Name="M_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="M_SHORTNAME" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="M_PARENTCODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-    <Property Name="M_ABSTRACT" Type="Binary" MaxLength="1" FixedLength="true" />
+    <Property Name="M_ABSTRACT" Type="Boolean" />
     <Property Name="M_CATEGORY" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-    <Property Name="IS_ACTIVE" Type="Binary" MaxLength="1" FixedLength="true" />
-    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__PRODUCT_B__M_SYS__35BCFE0A" FromRole="PRODUCT" ToRole="PRODUCT_BRANDS" />
-    <NavigationProperty Name="PRODUCT_FEATURES" Relationship="Self.FK__PRODUCT_F__M_SYS__286302EC" FromRole="PRODUCT" ToRole="PRODUCT_FEATURES" />
+    <Property Name="IS_ACTIVE" Type="Boolean" />
+    <NavigationProperty Name="ALTERNATIVE_BRANDS" Relationship="Self.FK__ALTERNATI__M_SYS__66603565" FromRole="PRODUCT" ToRole="ALTERNATIVE_BRANDS" />
+    <NavigationProperty Name="ALTERNATIVE_BRANDS1" Relationship="Self.FK__ALTERNATI__M_SYS__6754599E" FromRole="PRODUCT" ToRole="ALTERNATIVE_BRANDS" />
+    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__PRODUCT_B__M_SYS__59063A47" FromRole="PRODUCT" ToRole="PRODUCT_BRANDS" />
+    <NavigationProperty Name="PRODUCT_FEATURES" Relationship="Self.FK__PRODUCT_F__M_SYS__4BAC3F29" FromRole="PRODUCT" ToRole="PRODUCT_FEATURES" />
   </EntityType>
   <EntityType Name="PRODUCT_BRANDS">
     <Key>
@@ -107,9 +109,11 @@
     <Property Name="M_SYSCODE" Type="Int32" />
     <Property Name="BRAND_BARCODE" Type="String" MaxLength="13" FixedLength="true" Unicode="false" Nullable="false" />
     <Property Name="BRAND_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="BRAND_ORGS" Relationship="Self.FK__BRAND_ORG__BRAND__3C69FB99" FromRole="PRODUCT_BRANDS" ToRole="BRAND_ORGS" />
-    <NavigationProperty Name="MANUFACTURERS" Relationship="Self.FK__PRODUCT_B__MANUF__34C8D9D1" FromRole="PRODUCT_BRANDS" ToRole="MANUFACTURERS" />
-    <NavigationProperty Name="PRODUCT" Relationship="Self.FK__PRODUCT_B__M_SYS__35BCFE0A" FromRole="PRODUCT_BRANDS" ToRole="PRODUCT" />
+    <NavigationProperty Name="BRAND_ORGS" Relationship="Self.FK__BRAND_ORG__BRAND__60A75C0F" FromRole="PRODUCT_BRANDS" ToRole="BRAND_ORGS" />
+    <NavigationProperty Name="MANUFACTURERS" Relationship="Self.FK__PRODUCT_B__MANUF__5812160E" FromRole="PRODUCT_BRANDS" ToRole="MANUFACTURERS" />
+    <NavigationProperty Name="PRODUCT" Relationship="Self.FK__PRODUCT_B__M_SYS__59063A47" FromRole="PRODUCT_BRANDS" ToRole="PRODUCT" />
+    <NavigationProperty Name="ALTERNATIVE_BRANDS" Relationship="Self.FK__ALTERNATI__ALTER__6477ECF3" FromRole="PRODUCT_BRANDS" ToRole="ALTERNATIVE_BRANDS" />
+    <NavigationProperty Name="ALTERNATIVE_BRANDS1" Relationship="Self.FK__ALTERNATI__BRAND__656C112C" FromRole="PRODUCT_BRANDS" ToRole="ALTERNATIVE_BRANDS" />
   </EntityType>
   <EntityType Name="PRODUCT_FEATURES">
     <Key>
@@ -120,10 +124,23 @@
     <Property Name="FEATURE_ID" Type="Int32" />
     <Property Name="MINVAL" Type="Double" Nullable="false" />
     <Property Name="MAXVAL" Type="Double" Nullable="false" />
-    <NavigationProperty Name="FEATURES" Relationship="Self.FK__PRODUCT_F__FEATU__29572725" FromRole="PRODUCT_FEATURES" ToRole="FEATURES" />
-    <NavigationProperty Name="PRODUCT" Relationship="Self.FK__PRODUCT_F__M_SYS__286302EC" FromRole="PRODUCT_FEATURES" ToRole="PRODUCT" />
+    <NavigationProperty Name="FEATURES" Relationship="Self.FK__PRODUCT_F__FEATU__4CA06362" FromRole="PRODUCT_FEATURES" ToRole="FEATURES" />
+    <NavigationProperty Name="PRODUCT" Relationship="Self.FK__PRODUCT_F__M_SYS__4BAC3F29" FromRole="PRODUCT_FEATURES" ToRole="PRODUCT" />
   </EntityType>
-  <Association Name="FK__BRAND_ORG__BRAND__3C69FB99">
+  <EntityType Name="ALTERNATIVE_BRANDS">
+    <Key>
+      <PropertyRef Name="M_SYSCODE" />
+    </Key>
+    <Property Name="BRAND_BARCODE" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+    <Property Name="M_SYSCODE" Type="Int32" Nullable="false" />
+    <Property Name="ALTERNATIVE_BRAND_BARCODE" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+    <Property Name="ALTERNATIVE_M_SYSCODE" Type="Int32" />
+    <NavigationProperty Name="PRODUCT" Relationship="Self.FK__ALTERNATI__M_SYS__66603565" FromRole="ALTERNATIVE_BRANDS" ToRole="PRODUCT" />
+    <NavigationProperty Name="PRODUCT1" Relationship="Self.FK__ALTERNATI__M_SYS__6754599E" FromRole="ALTERNATIVE_BRANDS" ToRole="PRODUCT" />
+    <NavigationProperty Name="PRODUCT_BRANDS" Relationship="Self.FK__ALTERNATI__ALTER__6477ECF3" FromRole="ALTERNATIVE_BRANDS" ToRole="PRODUCT_BRANDS" />
+    <NavigationProperty Name="PRODUCT_BRANDS1" Relationship="Self.FK__ALTERNATI__BRAND__656C112C" FromRole="ALTERNATIVE_BRANDS" ToRole="PRODUCT_BRANDS" />
+  </EntityType>
+  <Association Name="FK__BRAND_ORG__BRAND__60A75C0F">
     <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
     <End Role="BRAND_ORGS" Type="Self.BRAND_ORGS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -135,7 +152,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BRAND_ORG__ORG_I__3D5E1FD2">
+  <Association Name="FK__BRAND_ORG__ORG_I__5FB337D6">
     <End Role="ORGANISATIONS" Type="Self.ORGANISATIONS" Multiplicity="0..1" />
     <End Role="BRAND_ORGS" Type="Self.BRAND_ORGS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -147,7 +164,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__COUNTRY_C__Count__2E1BDC42">
+  <Association Name="FK__COUNTRY_C__Count__5165187F">
     <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="0..1" />
     <End Role="COUNTRY_CITY" Type="Self.COUNTRY_CITY" Multiplicity="*" />
     <ReferentialConstraint>
@@ -159,7 +176,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MANUFACTU__Count__31EC6D26">
+  <Association Name="FK__MANUFACTU__Count__5535A963">
     <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="0..1" />
     <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -171,7 +188,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MANUFACTUR__CITY__30F848ED">
+  <Association Name="FK__MANUFACTUR__CITY__5441852A">
     <End Role="COUNTRY_CITY" Type="Self.COUNTRY_CITY" Multiplicity="0..1" />
     <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -183,7 +200,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_F__FEATU__29572725">
+  <Association Name="FK__PRODUCT_F__FEATU__4CA06362">
     <End Role="FEATURES" Type="Self.FEATURES" Multiplicity="0..1" />
     <End Role="PRODUCT_FEATURES" Type="Self.PRODUCT_FEATURES" Multiplicity="*" />
     <ReferentialConstraint>
@@ -195,7 +212,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_B__MANUF__34C8D9D1">
+  <Association Name="FK__PRODUCT_B__MANUF__5812160E">
     <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="0..1" />
     <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -207,7 +224,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_B__M_SYS__35BCFE0A">
+  <Association Name="FK__ALTERNATI__M_SYS__66603565">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="M_SYSCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="M_SYSCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ALTERNATI__M_SYS__6754599E">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="M_SYSCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="M_SYSCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCT_B__M_SYS__59063A47">
     <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
     <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -219,7 +260,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_F__M_SYS__286302EC">
+  <Association Name="FK__PRODUCT_F__M_SYS__4BAC3F29">
     <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
     <End Role="PRODUCT_FEATURES" Type="Self.PRODUCT_FEATURES" Multiplicity="*" />
     <ReferentialConstraint>
@@ -231,7 +272,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="UygulamaEntities1" annotation:LazyLoadingEnabled="true">
+  <Association Name="FK__ALTERNATI__ALTER__6477ECF3">
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ALTERNATI__BRAND__656C112C">
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UygulamaEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="BRAND_ORGS" EntityType="Self.BRAND_ORGS" />
     <EntitySet Name="COUNTRY" EntityType="Self.COUNTRY" />
     <EntitySet Name="COUNTRY_CITY" EntityType="Self.COUNTRY_CITY" />
@@ -242,41 +307,58 @@
     <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" />
     <EntitySet Name="PRODUCT_BRANDS" EntityType="Self.PRODUCT_BRANDS" />
     <EntitySet Name="PRODUCT_FEATURES" EntityType="Self.PRODUCT_FEATURES" />
-    <AssociationSet Name="FK__BRAND_ORG__BRAND__3C69FB99" Association="Self.FK__BRAND_ORG__BRAND__3C69FB99">
+    <EntitySet Name="ALTERNATIVE_BRANDS" EntityType="Self.ALTERNATIVE_BRANDS" />
+    <AssociationSet Name="FK__BRAND_ORG__BRAND__60A75C0F" Association="Self.FK__BRAND_ORG__BRAND__60A75C0F">
       <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
       <End Role="BRAND_ORGS" EntitySet="BRAND_ORGS" />
     </AssociationSet>
-    <AssociationSet Name="FK__BRAND_ORG__ORG_I__3D5E1FD2" Association="Self.FK__BRAND_ORG__ORG_I__3D5E1FD2">
+    <AssociationSet Name="FK__BRAND_ORG__ORG_I__5FB337D6" Association="Self.FK__BRAND_ORG__ORG_I__5FB337D6">
       <End Role="ORGANISATIONS" EntitySet="ORGANISATIONS" />
       <End Role="BRAND_ORGS" EntitySet="BRAND_ORGS" />
     </AssociationSet>
-    <AssociationSet Name="FK__COUNTRY_C__Count__2E1BDC42" Association="Self.FK__COUNTRY_C__Count__2E1BDC42">
+    <AssociationSet Name="FK__COUNTRY_C__Count__5165187F" Association="Self.FK__COUNTRY_C__Count__5165187F">
       <End Role="COUNTRY" EntitySet="COUNTRY" />
       <End Role="COUNTRY_CITY" EntitySet="COUNTRY_CITY" />
     </AssociationSet>
-    <AssociationSet Name="FK__MANUFACTU__Count__31EC6D26" Association="Self.FK__MANUFACTU__Count__31EC6D26">
+    <AssociationSet Name="FK__MANUFACTU__Count__5535A963" Association="Self.FK__MANUFACTU__Count__5535A963">
       <End Role="COUNTRY" EntitySet="COUNTRY" />
       <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
     </AssociationSet>
-    <AssociationSet Name="FK__MANUFACTUR__CITY__30F848ED" Association="Self.FK__MANUFACTUR__CITY__30F848ED">
+    <AssociationSet Name="FK__MANUFACTUR__CITY__5441852A" Association="Self.FK__MANUFACTUR__CITY__5441852A">
       <End Role="COUNTRY_CITY" EntitySet="COUNTRY_CITY" />
       <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_F__FEATU__29572725" Association="Self.FK__PRODUCT_F__FEATU__29572725">
+    <AssociationSet Name="FK__PRODUCT_F__FEATU__4CA06362" Association="Self.FK__PRODUCT_F__FEATU__4CA06362">
       <End Role="FEATURES" EntitySet="FEATURES" />
       <End Role="PRODUCT_FEATURES" EntitySet="PRODUCT_FEATURES" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_B__MANUF__34C8D9D1" Association="Self.FK__PRODUCT_B__MANUF__34C8D9D1">
+    <AssociationSet Name="FK__PRODUCT_B__MANUF__5812160E" Association="Self.FK__PRODUCT_B__MANUF__5812160E">
       <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
       <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_B__M_SYS__35BCFE0A" Association="Self.FK__PRODUCT_B__M_SYS__35BCFE0A">
+    <AssociationSet Name="FK__ALTERNATI__M_SYS__66603565" Association="Self.FK__ALTERNATI__M_SYS__66603565">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALTERNATI__M_SYS__6754599E" Association="Self.FK__ALTERNATI__M_SYS__6754599E">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCT_B__M_SYS__59063A47" Association="Self.FK__PRODUCT_B__M_SYS__59063A47">
       <End Role="PRODUCT" EntitySet="PRODUCT" />
       <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_F__M_SYS__286302EC" Association="Self.FK__PRODUCT_F__M_SYS__286302EC">
+    <AssociationSet Name="FK__PRODUCT_F__M_SYS__4BAC3F29" Association="Self.FK__PRODUCT_F__M_SYS__4BAC3F29">
       <End Role="PRODUCT" EntitySet="PRODUCT" />
       <End Role="PRODUCT_FEATURES" EntitySet="PRODUCT_FEATURES" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALTERNATI__ALTER__6477ECF3" Association="Self.FK__ALTERNATI__ALTER__6477ECF3">
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALTERNATI__BRAND__656C112C" Association="Self.FK__ALTERNATI__BRAND__656C112C">
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

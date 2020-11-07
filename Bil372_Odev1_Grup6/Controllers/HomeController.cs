@@ -13,7 +13,11 @@ namespace Bil372_Odev1_Grup6.Controllers
     {
         public ActionResult Index()
         {
+<<<<<<< HEAD
             DatabaseController dbc = new DatabaseController("1");
+=======
+            DatabaseController dbc = new DatabaseController("s");
+>>>>>>> a7162bd2cdd09059512618226e6a70b56f77eaf2
 
    //         dbc.insertCountry("230", "Turkiye");
             dbc.deleteFromProduct(8, 0);

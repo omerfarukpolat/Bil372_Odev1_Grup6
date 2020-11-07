@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="UygulamaModelStoreContainer" CdmEntityContainer="UygulamaEntities1">
+  <EntityContainerMapping StorageEntityContainer="UygulamaModelStoreContainer" CdmEntityContainer="UygulamaEntities">
     <EntitySetMapping Name="BRAND_ORGS">
       <EntityTypeMapping TypeName="UygulamaModel.BRAND_ORGS">
         <MappingFragment StoreEntitySet="BRAND_ORGS">
@@ -106,6 +106,16 @@
           <ScalarProperty Name="FEATURE_ID" ColumnName="FEATURE_ID" />
           <ScalarProperty Name="MINVAL" ColumnName="MINVAL" />
           <ScalarProperty Name="MAXVAL" ColumnName="MAXVAL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ALTERNATIVE_BRANDS">
+      <EntityTypeMapping TypeName="UygulamaModel.ALTERNATIVE_BRANDS">
+        <MappingFragment StoreEntitySet="ALTERNATIVE_BRANDS">
+          <ScalarProperty Name="BRAND_BARCODE" ColumnName="BRAND_BARCODE" />
+          <ScalarProperty Name="M_SYSCODE" ColumnName="M_SYSCODE" />
+          <ScalarProperty Name="ALTERNATIVE_BRAND_BARCODE" ColumnName="ALTERNATIVE_BRAND_BARCODE" />
+          <ScalarProperty Name="ALTERNATIVE_M_SYSCODE" ColumnName="ALTERNATIVE_M_SYSCODE" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

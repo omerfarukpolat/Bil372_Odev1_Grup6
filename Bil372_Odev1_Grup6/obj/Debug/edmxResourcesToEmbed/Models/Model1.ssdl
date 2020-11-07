@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="UygulamaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <!--Errors Found During Generation:
-warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="ALTERNATIVE_BRANDS">
-          <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" />
-          <Property Name="M_SYSCODE" Type="int" />
-          <Property Name="ALTERNATIVE_BRAND_BARCODE" Type="char" MaxLength="13" />
-          <Property Name="ALTERNATIVE_M_SYSCODE" Type="int" />
-        </EntityType>-->
+warning 6002: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ALTERNATIVE_BRANDS">
+    <Key>
+      <PropertyRef Name="M_SYSCODE" />
+    </Key>
+    <Property Name="BRAND_BARCODE" Type="char" MaxLength="13" />
+    <Property Name="M_SYSCODE" Type="int" Nullable="false" />
+    <Property Name="ALTERNATIVE_BRAND_BARCODE" Type="char" MaxLength="13" />
+    <Property Name="ALTERNATIVE_M_SYSCODE" Type="int" />
+  </EntityType>
   <EntityType Name="BRAND_ORGS">
     <Key>
       <PropertyRef Name="LOT_ID" />
@@ -31,7 +34,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       <PropertyRef Name="CityID" />
     </Key>
     <Property Name="Country_Code" Type="char" MaxLength="3" />
-    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="City_Name" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="FEATURES">
@@ -56,7 +59,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
     <Property Name="Target_LOT_ID" Type="int" Nullable="false" />
     <Property Name="Target_ORG_ID" Type="int" Nullable="false" />
     <Property Name="BRAND_BARCODE" Type="int" Nullable="false" />
-    <Property Name="QUANTITY" Type="int" Nullable="false" />
+    <Property Name="QUANTITY" Type="float" Nullable="false" />
     <Property Name="FlowDate" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="MANUFACTURERS">
@@ -76,10 +79,10 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
     <Property Name="ORG_ID" Type="int" Nullable="false" />
     <Property Name="ORG_NAME" Type="varchar" MaxLength="100" />
     <Property Name="PARENT_ORG" Type="int" />
-    <Property Name="ORG_ABSTRACT" Type="binary" MaxLength="1" />
+    <Property Name="ORG_ABSTRACT" Type="bit" />
     <Property Name="ORG_ADDRESS" Type="varchar" MaxLength="200" />
     <Property Name="ORG_CITY" Type="int" />
-    <Property Name="ORG_TYPE" Type="binary" MaxLength="1" />
+    <Property Name="ORG_TYPE" Type="int" />
   </EntityType>
   <EntityType Name="PRODUCT">
     <Key>
@@ -90,9 +93,9 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
     <Property Name="M_NAME" Type="varchar" MaxLength="25" />
     <Property Name="M_SHORTNAME" Type="varchar" MaxLength="10" />
     <Property Name="M_PARENTCODE" Type="varchar" MaxLength="15" />
-    <Property Name="M_ABSTRACT" Type="binary" MaxLength="1" />
+    <Property Name="M_ABSTRACT" Type="bit" />
     <Property Name="M_CATEGORY" Type="varchar" MaxLength="12" />
-    <Property Name="IS_ACTIVE" Type="binary" MaxLength="1" />
+    <Property Name="IS_ACTIVE" Type="bit" />
   </EntityType>
   <EntityType Name="PRODUCT_BRANDS">
     <Key>
@@ -113,7 +116,55 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
     <Property Name="MINVAL" Type="float" Nullable="false" />
     <Property Name="MAXVAL" Type="float" Nullable="false" />
   </EntityType>
-  <Association Name="FK__BRAND_ORG__BRAND__3C69FB99">
+  <Association Name="FK__ALTERNATI__ALTER__6477ECF3">
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ALTERNATI__BRAND__656C112C">
+    <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="BRAND_BARCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ALTERNATI__M_SYS__66603565">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="M_SYSCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="M_SYSCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ALTERNATI__M_SYS__6754599E">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+    <End Role="ALTERNATIVE_BRANDS" Type="Self.ALTERNATIVE_BRANDS" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="M_SYSCODE" />
+      </Principal>
+      <Dependent Role="ALTERNATIVE_BRANDS">
+        <PropertyRef Name="M_SYSCODE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BRAND_ORG__BRAND__60A75C0F">
     <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="0..1" />
     <End Role="BRAND_ORGS" Type="Self.BRAND_ORGS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -125,7 +176,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BRAND_ORG__ORG_I__3D5E1FD2">
+  <Association Name="FK__BRAND_ORG__ORG_I__5FB337D6">
     <End Role="ORGANISATIONS" Type="Self.ORGANISATIONS" Multiplicity="0..1" />
     <End Role="BRAND_ORGS" Type="Self.BRAND_ORGS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -137,7 +188,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__COUNTRY_C__Count__2E1BDC42">
+  <Association Name="FK__COUNTRY_C__Count__5165187F">
     <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="0..1" />
     <End Role="COUNTRY_CITY" Type="Self.COUNTRY_CITY" Multiplicity="*" />
     <ReferentialConstraint>
@@ -149,7 +200,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MANUFACTU__Count__31EC6D26">
+  <Association Name="FK__MANUFACTU__Count__5535A963">
     <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="0..1" />
     <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -161,7 +212,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MANUFACTUR__CITY__30F848ED">
+  <Association Name="FK__MANUFACTUR__CITY__5441852A">
     <End Role="COUNTRY_CITY" Type="Self.COUNTRY_CITY" Multiplicity="0..1" />
     <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -173,7 +224,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_B__M_SYS__35BCFE0A">
+  <Association Name="FK__PRODUCT_B__M_SYS__59063A47">
     <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
     <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -185,7 +236,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_B__MANUF__34C8D9D1">
+  <Association Name="FK__PRODUCT_B__MANUF__5812160E">
     <End Role="MANUFACTURERS" Type="Self.MANUFACTURERS" Multiplicity="0..1" />
     <End Role="PRODUCT_BRANDS" Type="Self.PRODUCT_BRANDS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -197,7 +248,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_F__FEATU__29572725">
+  <Association Name="FK__PRODUCT_F__FEATU__4CA06362">
     <End Role="FEATURES" Type="Self.FEATURES" Multiplicity="0..1" />
     <End Role="PRODUCT_FEATURES" Type="Self.PRODUCT_FEATURES" Multiplicity="*" />
     <ReferentialConstraint>
@@ -209,7 +260,7 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PRODUCT_F__M_SYS__286302EC">
+  <Association Name="FK__PRODUCT_F__M_SYS__4BAC3F29">
     <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
     <End Role="PRODUCT_FEATURES" Type="Self.PRODUCT_FEATURES" Multiplicity="*" />
     <ReferentialConstraint>
@@ -232,39 +283,63 @@ warning 6013: The table/view 'Uygulama.dbo.ALTERNATIVE_BRANDS' does not have a p
     <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRODUCT_BRANDS" EntityType="Self.PRODUCT_BRANDS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRODUCT_FEATURES" EntityType="Self.PRODUCT_FEATURES" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__BRAND_ORG__BRAND__3C69FB99" Association="Self.FK__BRAND_ORG__BRAND__3C69FB99">
+    <EntitySet Name="ALTERNATIVE_BRANDS" EntityType="Self.ALTERNATIVE_BRANDS" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ALTERNATIVE_BRANDS].[BRAND_BARCODE] AS [BRAND_BARCODE], 
+    [ALTERNATIVE_BRANDS].[M_SYSCODE] AS [M_SYSCODE], 
+    [ALTERNATIVE_BRANDS].[ALTERNATIVE_BRAND_BARCODE] AS [ALTERNATIVE_BRAND_BARCODE], 
+    [ALTERNATIVE_BRANDS].[ALTERNATIVE_M_SYSCODE] AS [ALTERNATIVE_M_SYSCODE]
+    FROM [dbo].[ALTERNATIVE_BRANDS] AS [ALTERNATIVE_BRANDS]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__ALTERNATI__ALTER__6477ECF3" Association="Self.FK__ALTERNATI__ALTER__6477ECF3">
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALTERNATI__BRAND__656C112C" Association="Self.FK__ALTERNATI__BRAND__656C112C">
+      <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALTERNATI__M_SYS__66603565" Association="Self.FK__ALTERNATI__M_SYS__66603565">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ALTERNATI__M_SYS__6754599E" Association="Self.FK__ALTERNATI__M_SYS__6754599E">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="ALTERNATIVE_BRANDS" EntitySet="ALTERNATIVE_BRANDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BRAND_ORG__BRAND__60A75C0F" Association="Self.FK__BRAND_ORG__BRAND__60A75C0F">
       <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
       <End Role="BRAND_ORGS" EntitySet="BRAND_ORGS" />
     </AssociationSet>
-    <AssociationSet Name="FK__BRAND_ORG__ORG_I__3D5E1FD2" Association="Self.FK__BRAND_ORG__ORG_I__3D5E1FD2">
+    <AssociationSet Name="FK__BRAND_ORG__ORG_I__5FB337D6" Association="Self.FK__BRAND_ORG__ORG_I__5FB337D6">
       <End Role="ORGANISATIONS" EntitySet="ORGANISATIONS" />
       <End Role="BRAND_ORGS" EntitySet="BRAND_ORGS" />
     </AssociationSet>
-    <AssociationSet Name="FK__COUNTRY_C__Count__2E1BDC42" Association="Self.FK__COUNTRY_C__Count__2E1BDC42">
+    <AssociationSet Name="FK__COUNTRY_C__Count__5165187F" Association="Self.FK__COUNTRY_C__Count__5165187F">
       <End Role="COUNTRY" EntitySet="COUNTRY" />
       <End Role="COUNTRY_CITY" EntitySet="COUNTRY_CITY" />
     </AssociationSet>
-    <AssociationSet Name="FK__MANUFACTU__Count__31EC6D26" Association="Self.FK__MANUFACTU__Count__31EC6D26">
+    <AssociationSet Name="FK__MANUFACTU__Count__5535A963" Association="Self.FK__MANUFACTU__Count__5535A963">
       <End Role="COUNTRY" EntitySet="COUNTRY" />
       <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
     </AssociationSet>
-    <AssociationSet Name="FK__MANUFACTUR__CITY__30F848ED" Association="Self.FK__MANUFACTUR__CITY__30F848ED">
+    <AssociationSet Name="FK__MANUFACTUR__CITY__5441852A" Association="Self.FK__MANUFACTUR__CITY__5441852A">
       <End Role="COUNTRY_CITY" EntitySet="COUNTRY_CITY" />
       <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_B__M_SYS__35BCFE0A" Association="Self.FK__PRODUCT_B__M_SYS__35BCFE0A">
+    <AssociationSet Name="FK__PRODUCT_B__M_SYS__59063A47" Association="Self.FK__PRODUCT_B__M_SYS__59063A47">
       <End Role="PRODUCT" EntitySet="PRODUCT" />
       <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_B__MANUF__34C8D9D1" Association="Self.FK__PRODUCT_B__MANUF__34C8D9D1">
+    <AssociationSet Name="FK__PRODUCT_B__MANUF__5812160E" Association="Self.FK__PRODUCT_B__MANUF__5812160E">
       <End Role="MANUFACTURERS" EntitySet="MANUFACTURERS" />
       <End Role="PRODUCT_BRANDS" EntitySet="PRODUCT_BRANDS" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_F__FEATU__29572725" Association="Self.FK__PRODUCT_F__FEATU__29572725">
+    <AssociationSet Name="FK__PRODUCT_F__FEATU__4CA06362" Association="Self.FK__PRODUCT_F__FEATU__4CA06362">
       <End Role="FEATURES" EntitySet="FEATURES" />
       <End Role="PRODUCT_FEATURES" EntitySet="PRODUCT_FEATURES" />
     </AssociationSet>
-    <AssociationSet Name="FK__PRODUCT_F__M_SYS__286302EC" Association="Self.FK__PRODUCT_F__M_SYS__286302EC">
+    <AssociationSet Name="FK__PRODUCT_F__M_SYS__4BAC3F29" Association="Self.FK__PRODUCT_F__M_SYS__4BAC3F29">
       <End Role="PRODUCT" EntitySet="PRODUCT" />
       <End Role="PRODUCT_FEATURES" EntitySet="PRODUCT_FEATURES" />
     </AssociationSet>

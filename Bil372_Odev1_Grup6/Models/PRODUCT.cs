@@ -26,10 +26,12 @@ namespace Bil372_Odev1_Grup6.Models
         public string M_NAME { get; set; }
         public string M_SHORTNAME { get; set; }
         public string M_PARENTCODE { get; set; }
-        public bool M_ABSTRACT { get; set; }
+        public Nullable<bool> M_ABSTRACT { get; set; }
         public string M_CATEGORY { get; set; }
-        public bool IS_ACTIVE { get; set; }
+        public Nullable<bool> IS_ACTIVE { get; set; }
     
+        public virtual ALTERNATIVE_BRANDS ALTERNATIVE_BRANDS { get; set; }
+        public virtual ALTERNATIVE_BRANDS ALTERNATIVE_BRANDS1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCT_BRANDS> PRODUCT_BRANDS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

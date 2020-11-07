@@ -13,10 +13,10 @@ namespace Bil372_Odev1_Grup6.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UygulamaEntities1 : DbContext
+    public partial class UygulamaEntities : DbContext
     {
-        public UygulamaEntities1()
-            : base("name=UygulamaEntities1")
+        public UygulamaEntities()
+            : base("name=UygulamaEntities")
         {
         }
     
@@ -35,5 +35,6 @@ namespace Bil372_Odev1_Grup6.Models
         public virtual DbSet<PRODUCT> PRODUCT { get; set; }
         public virtual DbSet<PRODUCT_BRANDS> PRODUCT_BRANDS { get; set; }
         public virtual DbSet<PRODUCT_FEATURES> PRODUCT_FEATURES { get; set; }
+        public virtual DbSet<ALTERNATIVE_BRANDS> ALTERNATIVE_BRANDS { get; set; }
     }
 }
