@@ -1,0 +1,114 @@
+﻿@model Bil372_Odev1_Grup6.Models.USER
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>Giriş Yap</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #login-div {
+            margin: auto;
+            margin-top: 15%;
+            width: 17%;
+            border: 3px solid grey;
+            padding: 10px;
+        }
+
+        .field-validation-error {
+            color: red;
+        }
+    </style>
+
+    <link href="~/wwwroot/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <!-- Bootstrap CSS-->
+    <link href="~/wwwroot/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="~/wwwroot/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/wwwroot/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="~/wwwroot/css/theme.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Login
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Authorise", "Account", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName)
+                            @Html.EditorFor(model => model.UserName)
+
+
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.Password)
+
+                            @Html.EditorFor(model => model.Password)
+
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <label class="field-validation-error">
+                                        @Html.DisplayFor(model => model.LoginErrorMessage)
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="form-group">
+                            <input type="submit" value="Giriş" />
+                        </div>
+
+                    }
+
+                </div>
+                <div>
+                    <button type="button" onclick="location.href='@Url.Action("Register","Account")'">Kayıt Ol</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Jquery JS-->
+    <script src="~/wwwroot/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="~/wwwroot/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/wwwroot/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="~/wwwroot/vendor/slick/slick.min.js"></script>
+    <script src="~/wwwroot/vendor/wow/wow.min.js"></script>
+    <script src="~/wwwroot/vendor/animsition/animsition.min.js"></script>
+    <script src="~/wwwroot/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="~/wwwroot/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="~/wwwroot/vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="~/wwwroot/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="~/wwwroot/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/wwwroot/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="~/wwwroot/vendor/select2/select2.min.js"></script>
+
+    <!-- Main JS-->
+    <script src="~/wwwroot/js/main.js"></script>
+</body>
+</html>
