@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bil372_Odev1_Grup6.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 {
     public class ManufacturersController : Controller
     {
+        DatabaseController db = new DatabaseController("s");
         // GET: Manufacturers/Create
         public ActionResult Create()
         {
@@ -18,10 +20,9 @@ namespace Bil372_Odev1_Grup6.Controllers
 
         // POST: Manufacturers/Create
         [HttpPost]
-        public ActionResult Create(string mname, string maddress, string mcity, string mcountry)
+        public ActionResult Create(string mname, string maddress, int mcity, string mcountry)
         {
-            
-
+            db.insertManufacturers(mname, maddress, mcity, mcountry);
             return View();
 
         }
@@ -29,20 +30,23 @@ namespace Bil372_Odev1_Grup6.Controllers
         // GET: Manufacturers/Read
         public ActionResult Read()
         {
-            return View();
+            List<MANUFACTURERS> manufacturers = db.getManufacturers();
+            return View(manufacturers);
         }
 
         // GET: Manufacturers/Update
         public ActionResult Update()
         {
-            return View();
+            List<MANUFACTURERS> manufacturers = db.getManufacturers();
+            return View(manufacturers);
         }
 
 
         // GET: Manufacturers/Delete
         public ActionResult Delete()
         {
-            return View();
+            List<MANUFACTURERS> manufacturers = db.getManufacturers();
+            return View(manufacturers);
         }
 
 

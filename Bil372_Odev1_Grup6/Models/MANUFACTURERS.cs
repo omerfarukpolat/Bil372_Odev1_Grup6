@@ -26,6 +26,8 @@ namespace Bil372_Odev1_Grup6.Models
         public Nullable<int> CITY { get; set; }
         public string Country_Code { get; set; }
     
+        public virtual COUNTRY COUNTRY { get; set; }
+        public virtual COUNTRY_CITY COUNTRY_CITY { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCT_BRANDS> PRODUCT_BRANDS { get; set; }
     }

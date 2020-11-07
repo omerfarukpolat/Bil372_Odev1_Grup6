@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bil372_Odev1_Grup6.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,7 @@ namespace Bil372_Odev1_Grup6.Controllers
   
         public class ProductController : Controller
         {
+        DatabaseController db = new DatabaseController("s");
             // GET: Product/Create
             public ActionResult Create()
             {
@@ -21,8 +23,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             [HttpPost]
             public ActionResult Create(string pcode, string pname, string pshortname, string pcategory)
             {
-
-
+              db.insertProduct(pcode, pname, pshortname, pcode, true, pcategory, true);              
                 return View();
 
             }
@@ -30,20 +31,23 @@ namespace Bil372_Odev1_Grup6.Controllers
             // GET: Product/Read
             public ActionResult Read()
             {
-                return View();
+            List<PRODUCT> products = db.getProduct();
+                return View(products);
             }
 
             // GET: Product/Update
             public ActionResult Update()
             {
-                return View();
+            List<PRODUCT> products = db.getProduct();
+                return View(products);
             }
 
 
             // GET: Product/Delete
             public ActionResult Delete()
             {
-                return View();
+            List<PRODUCT> products = db.getProduct();
+                return View(products);
             }
 
 

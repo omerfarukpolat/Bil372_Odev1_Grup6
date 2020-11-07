@@ -11,7 +11,7 @@ namespace Bil372_Odev1_Grup6.Controllers
     public class DatabaseController : Controller
     {
 
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
 
         public DatabaseController(char a)
         {
@@ -84,8 +84,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                         MINVAL FLOAT,
                         MAXVAL FLOAT,
                         primary key(MINVAL,MAXVAL),
-                        FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE) ON DELETE CASCADE,
-                        FOREIGN KEY(FEATURE_ID) REFERENCES FEATURES(FEATURE_ID) ON DELETE CASCADE
+                        FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE),
+                        FOREIGN KEY(FEATURE_ID) REFERENCES FEATURES(FEATURE_ID)
                          )";
             cmd.ExecuteNonQuery();
             Console.WriteLine("Table PRODUCT_FEATURES created");
@@ -105,7 +105,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                             Country_Code CHAR(3),
                             CityID INT identity(1,1) NOT NULL PRIMARY KEY,
                             City_Name VARCHAR(100),
-                            FOREIGN KEY(Country_Code) REFERENCES COUNTRY(Country_Code) ON DELETE CASCADE
+                            FOREIGN KEY(Country_Code) REFERENCES COUNTRY(Country_Code)
                          )";
 
             cmd.ExecuteNonQuery();
@@ -119,8 +119,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                 MANUFACTURER_ADDRESS VARCHAR(200),
                 CITY INTEGER,
                 Country_Code CHAR(3),
-                FOREIGN KEY(CITY) REFERENCES COUNTRY_CITY(CityID) ON DELETE CASCADE,
-                FOREIGN KEY(Country_Code) REFERENCES COUNTRY(Country_Code) ON DELETE CASCADE
+                FOREIGN KEY(CITY) REFERENCES COUNTRY_CITY(CityID),
+                FOREIGN KEY(Country_Code) REFERENCES COUNTRY(Country_Code)
                          )";
 
             cmd.ExecuteNonQuery();
@@ -132,8 +132,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                        M_SYSCODE INTEGER,
                        BRAND_BARCODE CHAR(13) PRIMARY KEY,
                        BRAND_NAME VARCHAR(100),
-                       FOREIGN KEY(MANUFACTURER_ID) REFERENCES MANUFACTURERS(MANUFACTURER_ID) ON DELETE CASCADE,
-                       FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE) ON DELETE CASCADE
+                       FOREIGN KEY(MANUFACTURER_ID) REFERENCES MANUFACTURERS(MANUFACTURER_ID),
+                       FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE)
                          )";
             cmd.ExecuteNonQuery();
 
@@ -162,8 +162,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                         QUANTITY FLOAT,
                         INNN FLOAT,
                         OUTTTT FLOAT,
-                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID) ON DELETE CASCADE,
-                        FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE) ON DELETE CASCADE
+                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID),
+                        FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE)
                          )";
             cmd.ExecuteNonQuery();
 
@@ -195,13 +195,13 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             cmd.CommandText = @"CREATE TABLE ALTERNATIVE_BRANDS(
                             BRAND_BARCODE CHAR(13),
-                            M_SYSCODE INT,
+                            M_SYSCODE INT NOT NULL,
                             ALTERNATIVE_BRAND_BARCODE CHAR(13),
                             ALTERNATIVE_M_SYSCODE INT
-                            FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE) ON DELETE CASCADE,
-                            FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE) ON DELETE CASCADE,
-                            FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE) ON DELETE CASCADE,
-                            FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE) ON DELETE CASCADE
+                            FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE),
+                            FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE),
+                            FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE),
+                            FOREIGN KEY(M_SYSCODE) REFERENCES PRODUCT(M_SYSCODE)
                          )";
 
             cmd.ExecuteNonQuery();
@@ -452,7 +452,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return list;
         }
-        public void insertProduct(string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
+        public void insertProduct(string code, string name, string shortname, string parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "INSERT INTO PRODUCT(M_CODE, M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
                 "VALUES (@code,@name,@shortname,@parentcode,@isAbstract,@category,@isActive)";
@@ -599,7 +599,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void updateProduct(int syscode, string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
+        public void updateProduct(int syscode, string code, string name, string shortname, string parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "UPDATE PRODUCT SET M_CODE =@code , M_NAME =@name , M_SHORTNAME = @shortname ," +
                 " M_PARENTCODE = @parentcode , M_ABSTRACT= @isAbstract , M_CATEGORY = @category , IS_ACTIVE = @isActive WHERE M_SYSCODE= @syscode";

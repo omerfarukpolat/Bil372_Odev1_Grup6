@@ -18,6 +18,8 @@ namespace Bil372_Odev1_Grup6.Models
         public PRODUCT_BRANDS()
         {
             this.BRAND_ORGS = new HashSet<BRAND_ORGS>();
+            this.ALTERNATIVE_BRANDS = new HashSet<ALTERNATIVE_BRANDS>();
+            this.ALTERNATIVE_BRANDS1 = new HashSet<ALTERNATIVE_BRANDS>();
         }
     
         public Nullable<int> MANUFACTURER_ID { get; set; }
@@ -29,5 +31,9 @@ namespace Bil372_Odev1_Grup6.Models
         public virtual ICollection<BRAND_ORGS> BRAND_ORGS { get; set; }
         public virtual MANUFACTURERS MANUFACTURERS { get; set; }
         public virtual PRODUCT PRODUCT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ALTERNATIVE_BRANDS> ALTERNATIVE_BRANDS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ALTERNATIVE_BRANDS> ALTERNATIVE_BRANDS1 { get; set; }
     }
 }
