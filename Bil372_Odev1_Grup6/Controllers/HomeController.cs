@@ -13,16 +13,17 @@ namespace Bil372_Odev1_Grup6.Controllers
     {
         public ActionResult Index()
         {
-            DatabaseController dbc = new DatabaseController(1);
+            DatabaseController dbc = new DatabaseController("1");
 
-     //       dbc.insertCountry("230", "Turkiye");
+   //         dbc.insertCountry("230", "Turkiye");
+            dbc.deleteFromProduct(8, 0);
+
+    //        dbc.insertCountry("230", "Turkiye");
         //    dbc.deleteFromProduct(5);
+      //      dbc.insertCountryCity("230", 06, "Ankara");
+       //     dbc.insertCountryCity("230", 08, "Antalya");
+        //    dbc.updateCountryCity("230", 08, "Artvin");
 
-   //      dbc.insertCountry("230", "Turkiye");
-    //        dbc.deleteFromProduct(5);
-            //dbc.insertCountryCity("230", 06, "Ankara");
-            //dbc.insertCountryCity("230", 08, "Antalya");
-       //     dbc.updateCountryCity("230", 08, "Artvin");
 
             return View();
         }
