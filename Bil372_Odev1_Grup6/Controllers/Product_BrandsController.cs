@@ -19,6 +19,15 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View();
         }
 
+        // POST: Product_Brands/Create
+        [HttpPost]
+        public ActionResult Create(string mid,string scode,string bbarcode,string bname)
+        {
+            db.insertProductBrands(Int32.Parse(mid),Int32.Parse(scode), bbarcode, bname);
+            return View();
+
+        }
+
 
         // GET: Product_Brands/Read
         public ActionResult Read()
@@ -32,6 +41,15 @@ namespace Bil372_Odev1_Grup6.Controllers
         {
             List<PRODUCT_BRANDS> productbrans = db.getProductBrands();
             return View(productbrans);
+        }
+
+        // POST: Product_Brands/Update
+        [HttpPost]
+        public ActionResult Update(string mid, string scode, string bbarcode, string bname)
+        {
+            db.updateProductBrands(Int32.Parse(mid), Int32.Parse(scode), bbarcode, bname);
+            return View();
+
         }
 
 

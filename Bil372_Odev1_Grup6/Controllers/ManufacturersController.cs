@@ -41,6 +41,17 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View(manufacturers);
         }
 
+        // POST: Manufacturers/Update
+        [HttpPost]
+        public ActionResult Update(string mid,string mname, string maddress, string mcity, string mcountry)
+        {
+            db.updateManufacturers(Int32.Parse(mid),Int32.Parse(mcity),mcountry,mname,maddress);
+            return View();
+
+        }
+
+
+
 
         // GET: Manufacturers/Delete
         public ActionResult Delete()

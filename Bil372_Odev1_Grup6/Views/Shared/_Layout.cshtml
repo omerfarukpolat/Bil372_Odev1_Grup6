@@ -16,6 +16,12 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <style>
+        html {
+            font-size: 15px;
+        }
+    </style>
+
     <link href="~/wwwroot/css/font-face.css" rel="stylesheet" media="all">
     <link href="~/wwwroot/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="~/wwwroot/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
@@ -228,4 +234,12 @@
 </body>
 
 </html>
+<script>
+    var screenHeight = screen.height;
+    if (screenHeight < 800) {
+        $('body').css('zoom', 0.8);
+    } else {
+        $('body').css('zoom', 1);
+    }
+</script>
 

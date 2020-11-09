@@ -353,8 +353,9 @@ namespace Bil372_Odev1_Grup6.Controllers
                 m.MANUFACTURER_ID = rdr.GetInt32(0);
                 m.MANUFACTURER_NAME = rdr.GetString(1);
                 m.MANUFACTURER_ADDRESS = rdr.GetString(2);
-                m.Country_Code = rdr.GetString(3);
-                m.CITY = rdr.GetInt32(4);
+                m.CITY = rdr.GetInt32(3);
+                m.Country_Code = rdr.GetString(4);
+                
                 manufacturers.Add(m);
             }
             return manufacturers;

@@ -1,13 +1,41 @@
-﻿<!DOCTYPE html>
+﻿@model List<Bil372_Odev1_Grup6.Models.FEATURES>
+
+<!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <style>
+        html {
+            font-size: 15px;
+        }
+    </style>
+
 </head>
 <body>
     <div>
-
+        <div class="col-lg-9">
+            <div class="table-responsive table--no-card m-b-30">
+                <table class="table table-borderless table-striped table-earning">
+                    <thead>
+                        <tr>
+                            <th>Kodu</th>
+                            <th>Adı</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FEATURE_ID</td>
+                                <td>@item.FEATURE_NAME</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>
+

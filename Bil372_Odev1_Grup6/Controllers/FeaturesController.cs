@@ -39,6 +39,16 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View(features);
         }
 
+        // POST: Features/Update
+        [HttpPost]
+        public ActionResult Update(string fid,string fname)
+        {
+            db.updateFeatures(Int32.Parse(fid),fname);
+
+            return View();
+
+        }
+
 
         // GET: Features/Delete
         public ActionResult Delete()

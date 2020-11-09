@@ -1,13 +1,62 @@
-﻿<!DOCTYPE html>
+﻿@model List<Bil372_Odev1_Grup6.Models.FEATURES>
+<!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <style>
+        html {
+            font-size: 15px;
+        }
+    </style>
+
 </head>
 <body>
-    <div>
+    <div class="card">
+        <div class="card-header">
+            <strong>Özellik Güncelle </strong>
+        </div>
+        <div class="card-body card-block">
+            <form action="" method="post" class="">
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Özellik Kodu</label>
+                    <input id="fid" name="fid" placeholder="" onChange="ValueKeyPress()" onKeyPress="ValueKeyPress()" class="form-control">
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">
+                        <label for="textarea-input" class=" form-control-label">İsim</label>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <textarea name="fname" id="fname" rows="9" placeholder="" class="form-control"></textarea>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary btn-sm" value="Güncelle">
+            </form>
+        </div>
+        <div class="card-footer">
 
+        </div>
     </div>
 </body>
 </html>
+<script>
+
+    function ValueKeyPress() {
+        var model = '@Html.Raw(Json.Encode(Model))';
+        var data = JSON.parse(model);
+        var val = document.getElementById("fid");
+        document.getElementById("fname").value = null;
+        
+
+        for (i = 0; i < data.length; i++) {
+            if (val.value == data[i].FEATURE_ID) {
+                document.getElementById("fname").value = data[i].FEATURE_NAME;
+               
+            }
+
+
+        }
+
+
+        }
+
+</script>

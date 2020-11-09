@@ -1,13 +1,45 @@
-﻿<!DOCTYPE html>
+﻿@model List<Bil372_Odev1_Grup6.Models.PRODUCT_BRANDS>
+
+<!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <style>
+        html {
+            font-size: 15px;
+        }
+    </style>
+
 </head>
 <body>
     <div>
-
+        <div class="col-lg-9">
+            <div class="table-responsive table--no-card m-b-30">
+                <table class="table table-borderless table-striped table-earning">
+                    <thead>
+                        <tr>
+                            <th>Sistem Kodu</th>
+                            <th>Üretici Kodu</th>
+                            <th>Marka Barkodu</th>
+                            <th>Marka Adı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.M_SYSCODE</td>
+                                <td>@item.MANUFACTURER_ID</td>
+                                <td>@item.BRAND_BARCODE</td>
+                                <td>@item.BRAND_NAME</td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>
+

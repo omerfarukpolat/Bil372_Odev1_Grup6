@@ -10,20 +10,20 @@ namespace Bil372_Odev1_Grup6.Controllers
   
         public class ProductController : Controller
         {
-        DatabaseController db = new DatabaseController("s");
+        DatabaseController db = new DatabaseController("1");
             // GET: Product/Create
             public ActionResult Create()
             {
 
-
+                
                 return View();
             }
 
             // POST: Product/Create
             [HttpPost]
-            public ActionResult Create(string pcode, string pname, string pshortname, string pcategory)
+            public ActionResult Create(string pcode, string pname, string pshortname, string pparentcode, string pcategory)
             {
-              db.insertProduct(pcode, pname, pshortname, pcode, true, pcategory, true);              
+              db.insertProduct(pcode, pname, pshortname, pparentcode , true, pcategory, true);              
                 return View();
 
             }
@@ -42,13 +42,22 @@ namespace Bil372_Odev1_Grup6.Controllers
                 return View(products);
             }
 
+            // POST: Product/Update
+            [HttpPost]
+            public ActionResult Update(string scode,string pcode, string pname, string pshortname, string pparentcode, string pcategory)
+            {
+                db.updateProduct(Int32.Parse(scode), pcode, pname, pshortname, pparentcode , true, pcategory, true);
+                return View();
+
+            }
+
 
             // GET: Product/Delete
             public ActionResult Delete()
-            {
-            List<PRODUCT> products = db.getProduct();
-                return View(products);
-            }
+                {
+                List<PRODUCT> products = db.getProduct();
+                    return View(products);
+                }
 
 
         }
