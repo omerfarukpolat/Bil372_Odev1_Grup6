@@ -23,7 +23,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             [HttpPost]
             public ActionResult Create(string pcode, string pname, string pshortname, string pparentcode, string pcategory)
             {
-              db.insertProduct(pcode, pname, pshortname, pparentcode , true, pcategory, true);              
+              db.insertProduct(pcode, pname, pshortname, Int32.Parse(pparentcode) , true, pcategory, true);              
                 return View();
 
             }
@@ -46,7 +46,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             [HttpPost]
             public ActionResult Update(string scode,string pcode, string pname, string pshortname, string pparentcode, string pcategory)
             {
-                db.updateProduct(Int32.Parse(scode), pcode, pname, pshortname, pparentcode , true, pcategory, true);
+                db.updateProduct(Int32.Parse(scode), pcode, pname, pshortname, Int32.Parse(pparentcode) , true, pcategory, true);
                 return View();
 
             }
