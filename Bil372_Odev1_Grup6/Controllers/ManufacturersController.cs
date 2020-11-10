@@ -54,8 +54,10 @@ namespace Bil372_Odev1_Grup6.Controllers
 
 
         // GET: Manufacturers/Delete
-        public ActionResult Delete()
+        public ActionResult Delete(string mid)
         {
+            if (mid != null)
+                db.deleteFromManufacturers(Int32.Parse(mid));
             List<MANUFACTURERS> manufacturers = db.getManufacturers();
             return View(manufacturers);
         }

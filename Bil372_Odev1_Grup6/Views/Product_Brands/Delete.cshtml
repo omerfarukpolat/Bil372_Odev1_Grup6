@@ -1,6 +1,6 @@
 ﻿@model List<Bil372_Odev1_Grup6.Models.PRODUCT_BRANDS>
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -13,10 +13,7 @@
                 <thead>
                     <tr>
                         <th>
-                            <label class="au-checkbox">
-                                <input type="checkbox">
-                                <span class="au-checkmark"></span>
-                            </label>
+
                         </th>
                         <th>Sistem Kodu</th>
                         <th>Üretici Kodu</th>
@@ -31,22 +28,16 @@
                     {
                         <tr class="tr-shadow">
                             <td>
-                                <label class="au-checkbox">
-                                    <input type="checkbox">
-                                    <span class="au-checkmark"></span>
-                                </label>
                             </td>
-                            <td class="desc" id="1">@item.MANUFACTURER_ID</td>
                             <td class="desc">@item.M_SYSCODE</td>
+                            <td class="desc">@item.MANUFACTURER_ID</td>
                             <td class="desc">@item.BRAND_BARCODE</td>
                             <td class="desc">@item.BRAND_NAME</td>
                             
                             <td>
                                 <div class="table-data-feature">
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </button>
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                   
+                                    <button class="item" data-toggle="tooltip" onclick="deleteFunction(@item.M_SYSCODE,@item.MANUFACTURER_ID,@item.BRAND_BARCODE)" data-placement="top" title="Delete">
                                         <i class="zmdi zmdi-delete"></i>
                                     </button>
 
@@ -60,3 +51,16 @@
     </div>
 </body>
 </html>
+
+<script>
+   function deleteFunction(id, syscode, bcode) {
+         var url = "@Url.Action("Delete", "Product")" + "?scode=" + syscode + "&bcd=" + bcode + "&value=" + id;
+          window.location = url;
+
+
+
+
+
+    }
+
+</script>              

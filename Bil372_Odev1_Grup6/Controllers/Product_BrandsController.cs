@@ -54,8 +54,10 @@ namespace Bil372_Odev1_Grup6.Controllers
 
 
         // GET: Product_Brands/Delete
-        public ActionResult Delete()
+        public ActionResult Delete(string scode, string bcd,string value)
         {
+            if (scode != null)
+                db.deleteFromProductBrands(Int32.Parse(scode),Int32.Parse(value),bcd);
             List<PRODUCT_BRANDS> productbrans = db.getProductBrands();
             return View(productbrans);
         }

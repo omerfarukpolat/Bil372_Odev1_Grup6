@@ -12,15 +12,9 @@
             <table class="table table-data2">
                 <thead>
                     <tr>
-                        <th>
-                            <label class="au-checkbox">
-                                <input type="checkbox">
-                                <span class="au-checkmark"></span>
-                            </label>
-                        </th>
-                        <th></th>
+                       
                         <th>Kodu</th>
-                        <th>Adı</th>
+                        <th>Adı</th>   
                         <th></th>
                     </tr>
                 </thead>
@@ -28,32 +22,38 @@
                     <tr class="spacer"></tr>
                     @foreach (var item in Model)
                     {
-                        <tr class="tr-shadow">
-                            <td>
-                                <label class="au-checkbox">
-                                    <input type="checkbox">
-                                    <span class="au-checkmark"></span>
-                                </label>
-                            </td>
-                            <td class="desc" id="1">@item.FEATURE_ID</td>
-                            <td class="desc">@item.FEATURE_NAME</td>
-                           
-                            <td>
-                                <div class="table-data-feature">
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </button>
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                        <i class="zmdi zmdi-delete"></i>
-                                    </button>
+                <tr class="tr-shadow">
+                    <td>
+                    </td>
+                    <td class="desc">@item.FEATURE_ID</td>
+                    <td class="desc">@item.FEATURE_NAME</td>
+                    <td>
+                        <div class="table-data-feature">
+                            
+                            <button class="item" data-toggle="tooltip" onclick="deleteFunctionF(@item.FEATURE_ID)" data-placement="top" title="Delete">
+                                <i class="zmdi zmdi-delete"></i>
+                            </button>
 
-                                </div>
-                            </td>
-                        </tr>
+                        </div>
+                    </td>
+                </tr>
                     }
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
 </body>
 </html>
+
+<script>
+    function deleteFunctionF(id) {
+         var url = "@Url.Action("Delete", "Features")" + "?value=" + id;
+          window.location = url;
+         
+        
+
+
+
+    }
+
+</script>

@@ -51,8 +51,10 @@ namespace Bil372_Odev1_Grup6.Controllers
 
 
         // GET: Features/Delete
-        public ActionResult Delete()
+        public ActionResult Delete(string value)
         {
+            if(value != null)
+                db.deleteFromFeatures(Int32.Parse(value));
             List<FEATURES> features = db.getFeatures();
             return View(features);
         }

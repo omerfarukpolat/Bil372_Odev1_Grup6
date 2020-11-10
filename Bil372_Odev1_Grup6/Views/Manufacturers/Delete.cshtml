@@ -13,16 +13,13 @@
                 <thead>
                     <tr>
                         <th>
-                            <label class="au-checkbox">
-                                <input type="checkbox">
-                                <span class="au-checkmark"></span>
-                            </label>
+
                         </th>
-                        <th>Kodu</th>
-                        <th>Adı</th>
+                        <th>Kod</th>
+                        <th>Ad</th>
                         <th>Adres</th>
                         <th>Şehir</th>
-                        <th>Ülke Kodu</th>
+                        <th>Ülke Kod</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -32,22 +29,16 @@
                     {
                         <tr class="tr-shadow">
                             <td>
-                                <label class="au-checkbox">
-                                    <input type="checkbox">
-                                    <span class="au-checkmark"></span>
-                                </label>
                             </td>
-                            <td class="desc" id="1">@item.MANUFACTURER_ID</td>
+                            <td class="desc">@item.MANUFACTURER_ID</td>
                             <td class="desc">@item.MANUFACTURER_NAME</td>
                             <td class="desc">@item.MANUFACTURER_ADDRESS</td>
                             <td class="desc">@item.CITY</td>
                             <td class="desc">@item.Country_Code</td>
                             <td>
                                 <div class="table-data-feature">
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                        <i class="zmdi zmdi-edit"></i>
-                                    </button>
-                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    
+                                    <button class="item" data-toggle="tooltip" onclick="deleteFunction(@item.MANUFACTURER_ID)" data-placement="top" title="Delete">
                                         <i class="zmdi zmdi-delete"></i>
                                     </button>
 
@@ -61,3 +52,16 @@
     </div>
 </body>
 </html>
+
+<script>
+    function deleteFunction(id) {
+        var url = "@Url.Action("Delete", "Manufacturers")" + "?mid=" + id;
+          window.location = url;
+
+
+
+
+
+    }
+
+</script>
