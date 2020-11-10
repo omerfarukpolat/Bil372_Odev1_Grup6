@@ -1,13 +1,90 @@
-﻿<!DOCTYPE html>
+﻿@model List<Bil372_Odev1_Grup6.Models.ORGANISATIONS>
+
+<!DOCTYPE html>
+<head>
+    <style>
+        html {
+            font-size: 15px;
+        }
+    </style>
+
+</head>
 
 <html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
 
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <strong>Organizasyon Güncelle </strong>
+        </div>
+        <div class="card-body card-block">
+            <form action="" method="post" class="">
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon Kodu</label>
+                    <input id="oid" name="oid" placeholder="" onChange="ValueKeyPress()" onKeyPress="ValueKeyPress()" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon Adı</label>
+                    <input id="oname" name="oname" placeholder="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Üst Kodu</label>
+                    <input id="pid" name="pid" placeholder="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon Adresi</label>
+                    <input id="oaddress" name="oaddress" placeholder="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon Şehri</label>
+                    <input id="ocity" name="ocity" placeholder="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon İlçesi</label>
+                    <input id="odist" name="odist" placeholder="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon Tipi</label>
+                    <input id="otype" name="otype" placeholder="Tedarikçi / Tüketici / Her ikiside (0/1/2)" class="form-control">
+                </div>
+                <input type="submit" class="btn btn-primary btn-sm" value="Güncelle">
+            </form>
+        </div>
+        <div class="card-footer">
+
+        </div>
     </div>
 </body>
 </html>
+<script>
+
+    function ValueKeyPress() {
+        var model = '@Html.Raw(Json.Encode(Model))';
+        var data = JSON.parse(model);
+        var val = document.getElementById("oid");
+        document.getElementById("oname").value = null;
+        document.getElementById("pid").value = null;
+        document.getElementById("oaddress").value = null;
+        document.getElementById("ocity").value = null;
+        document.getElementById("odist").value = null;
+        document.getElementById("otype").value = null;
+
+        for (i = 0; i < data.length; i++) {
+            if (val.value == data[i].ORG_ID) {
+                document.getElementById("oname").value = data[i].ORG_NAME;
+                document.getElementById("pid").value = data[i].PARENT_ORG;
+                document.getElementById("oaddress").value = data[i].ORG_NAME;
+                document.getElementById("ocity").value = data[i].ORG_CITY;
+                //DİST
+                document.getElementById("otype").value = data[i].ORG_TYPE;
+
+            }
+
+
+        }
+
+
+        }
+
+</script>

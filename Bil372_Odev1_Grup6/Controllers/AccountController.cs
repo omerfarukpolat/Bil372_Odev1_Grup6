@@ -9,6 +9,8 @@ namespace Bil372_Odev1_Grup6.Controllers
 {
     public class AccountController : Controller
     {
+
+        DatabaseController db = new DatabaseController("s");
         // GET: Account
         // GET: Login
         public ActionResult Login()
@@ -28,10 +30,19 @@ namespace Bil372_Odev1_Grup6.Controllers
             // using (LoginDataBaseEntities db = new LoginDataBaseEntities())
             //{
             //var userDetails = db.Users.Where(x => x.UserName == userModel.UserName && x.Password == userModel.Password).FirstOrDefault();
+            List<ORGANISATIONS> organisations = db.getOrganisations();
 
+            string username = "";
+            string password = "";
 
-            string username = "a";
-            string password = "1";
+            for(int i = 0; i < organisations.Count; i++)
+            {
+                if((organisations[i].ORG_ID+"") == userModel.Password && organisations[i].ORG_NAME.Equals(userModel.UserName) && organisations[i].PARENT_ORG == 0)
+                {
+                    username = userModel.UserName;
+                    password = userModel.Password;
+                }
+            }
 
             if (username != userModel.UserName || password != userModel.Password)
             {
@@ -40,8 +51,8 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             else
             {
-                Session["userID"] = username;
-                Session["userName"] = password;
+                Session["userName"] = username;
+                Session["userID"] = password;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -49,8 +60,9 @@ namespace Bil372_Odev1_Grup6.Controllers
         }
         // POST: Account/Register
         [HttpPost]
-        public ActionResult Register(string uname, string pw, string oname, string mname, string omail, string otel, string ofax, string oaddress)
+        public ActionResult Register(string oname, string oaddress, string ocity, string odist, string otype)
         {
+            db.insertOrganisations(1, oname, 0, true, oaddress, Int32.Parse(otype));
             
 
             return RedirectToAction("Login", "Account");

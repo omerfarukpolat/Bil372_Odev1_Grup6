@@ -1,13 +1,49 @@
-﻿<!DOCTYPE html>
+﻿@model List<Bil372_Odev1_Grup6.Models.ORGANISATIONS>
+
+<!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <style>
+        html {
+            font-size: 15px;
+        }
+    </style>
+
 </head>
 <body>
     <div>
+        <div class="col-lg-9">
+            <div class="table-responsive table--no-card m-b-30">
+                <table class="table table-borderless table-striped table-earning">
+                    <thead>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Üst Organizasyon Kod</th>
+                            <th>Adres</th>
+                            <th>Şehir</th>
+                            <th>İlçe</th>
+                            <th>Türü</th>
 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ORG_NAME</td>
+                                <td>@item.PARENT_ORG</td>
+                                <td>@item.ORG_ADDRESS</td>
+                                <td>@item.ORG_CITY</td>
+                                <td>Eksik</td>
+                                <td>@item.ORG_TYPE</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>
+

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model List<Bil372_Odev1_Grup6.Models.ORGANISATIONS>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -7,7 +8,64 @@
 </head>
 <body>
     <div>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                    <tr>
+                        <th>
 
+                        </th>
+                        <th>Ad</th>
+                        <th>Üst Organizasyon Kod</th>
+                        <th>Adres</th>
+                        <th>Şehir</th>
+                        <th>İlçe</th>
+                        <th>Türü</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="spacer"></tr>
+                    @foreach (var item in Model)
+                    {
+                <tr class="tr-shadow">
+                    <td>
+                    </td>
+                    <td class="desc">@item.ORG_NAME</td>
+                    <td class="desc">@item.PARENT_ORG</td>
+                    <td class="desc">@item.ORG_ADDRESS</td>
+                    <td class="desc">@item.ORG_CITY</td>
+                    <td class="desc">Eksik</td>
+                    <td class="desc">@item.ORG_TYPE</td>
+                    <td>
+                        <div class="table-data-feature">
+                            <button class="item" data-toggle="tooltip" onclick="deleteFunction(0,@item.ORG_ID)" data-placement="top" title="Edit">
+                                <i class="zmdi zmdi-edit"></i>
+                            </button>
+                            <button class="item" data-toggle="tooltip" onclick="deleteFunction(1,@item.ORG_ID)" data-placement="top" title="Delete">
+                                <i class="zmdi zmdi-delete"></i>
+                            </button>
+
+                        </div>
+                    </td>
+                </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>
+
+<script>
+    function deleteFunction(id, org_id) {
+         var url = "@Url.Action("Delete", "Organisations")" + "?oid=" + org_id + "&value=" + id;
+          window.location = url;
+
+
+
+
+
+    }
+
+</script>
