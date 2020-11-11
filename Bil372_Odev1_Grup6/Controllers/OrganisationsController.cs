@@ -24,7 +24,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Create(string oname,string pw, string oaddress, string ocity, string odist, string otype)
         {
             
-            db.insertOrganisations(5,oname, Int32.Parse(pw), true ,oaddress , odist,Int32.Parse(otype));
+            db.insertOrganisations(oname, Int32.Parse(pw), true ,oaddress , Int32.Parse(ocity), odist,Int32.Parse(otype));
             return View();
 
         }

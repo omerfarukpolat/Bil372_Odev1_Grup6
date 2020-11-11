@@ -4,31 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="790fedff1472488eb916a29ac6505b12" Name="Diagram1">
-        <EntityTypeShape EntityType="UygulamaModel.BRAND_ORGS" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+      <Diagram DiagramId="bcaf2a6211714611907ddff04174ba16" Name="Diagram1">
+        <EntityTypeShape EntityType="UygulamaModel.BRAND_ORGS" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.COUNTRY" Width="1.5" PointX="1.5" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.COUNTRY_CITY" Width="1.5" PointX="1.5" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.FEATURES" Width="1.5" PointX="3.75" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="UygulamaModel.FLOW" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="UygulamaModel.FLOW" Width="1.5" PointX="7.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.MANUFACTURERS" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="UygulamaModel.ORGANISATIONS" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UygulamaModel.ORGANISATIONS" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.PRODUCT" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.PRODUCT_BRANDS" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.PRODUCT_FEATURES" Width="1.5" PointX="6" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="UygulamaModel.ALTERNATIVE_BRANDS" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
-        <AssociationConnector Association="UygulamaModel.FK__BRAND_ORG__BRAND__60A75C0F" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__BRAND_ORG__ORG_I__5FB337D6" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__COUNTRY_C__Count__5165187F" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__MANUFACTU__Count__5535A963" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__MANUFACTUR__CITY__5441852A" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_F__FEATU__4CA06362" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_B__MANUF__5812160E" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__M_SYS__66603565" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__M_SYS__6754599E" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_B__M_SYS__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_F__M_SYS__4BAC3F29" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__ALTER__6477ECF3" ManuallyRouted="false" />
-        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__BRAND__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__BRAND_ORG__BRAND__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__BRAND_ORG__ORG_I__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__COUNTRY_C__Count__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__MANUFACTU__Count__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__MANUFACTUR__CITY__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_F__FEATU__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_B__MANUF__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__M_SYS__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__M_SYS__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_B__M_SYS__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__PRODUCT_F__M_SYS__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__ALTER__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="UygulamaModel.FK__ALTERNATI__BRAND__68487DD7" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

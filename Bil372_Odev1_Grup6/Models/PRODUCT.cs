@@ -26,7 +26,7 @@ namespace Bil372_Odev1_Grup6.Models
         public string M_NAME { get; set; }
         public string M_SHORTNAME { get; set; }
         public string M_PARENTCODE { get; set; }
-        public Nullable<bool> M_ABSTRACT { get; set; }
+        public  bool M_ABSTRACT { get; set; }
         public string M_CATEGORY { get; set; }
         public Nullable<bool> IS_ACTIVE { get; set; }
     

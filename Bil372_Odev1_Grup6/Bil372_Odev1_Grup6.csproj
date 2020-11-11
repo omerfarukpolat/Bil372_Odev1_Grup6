@@ -159,6 +159,7 @@
     <Compile Include="Models\FLOW.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LINKINGBRANDORGS.cs" />
     <Compile Include="Models\MANUFACTURERS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

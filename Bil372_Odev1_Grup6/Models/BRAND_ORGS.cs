@@ -17,6 +17,8 @@ namespace Bil372_Odev1_Grup6.Models
         public int LOT_ID { get; set; }
         public Nullable<int> ORG_ID { get; set; }
         public string BRAND_BARCODE { get; set; }
+        public Nullable<double> UNIT { get; set; }
+        public Nullable<double> BASEPRICE { get; set; }
         public Nullable<double> QUANTITY { get; set; }
         public Nullable<double> INNN { get; set; }
         public Nullable<double> OUTTTT { get; set; }

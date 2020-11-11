@@ -26,6 +26,7 @@ namespace Bil372_Odev1_Grup6.Models
         public Nullable<bool> ORG_ABSTRACT { get; set; }
         public string ORG_ADDRESS { get; set; }
         public Nullable<int> ORG_CITY { get; set; }
+        public string ORG_DISTRICT { get; set; }
         public Nullable<int> ORG_TYPE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

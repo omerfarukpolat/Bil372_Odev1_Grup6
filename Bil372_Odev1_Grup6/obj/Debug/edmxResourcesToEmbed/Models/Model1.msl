@@ -7,6 +7,8 @@
           <ScalarProperty Name="LOT_ID" ColumnName="LOT_ID" />
           <ScalarProperty Name="ORG_ID" ColumnName="ORG_ID" />
           <ScalarProperty Name="BRAND_BARCODE" ColumnName="BRAND_BARCODE" />
+          <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+          <ScalarProperty Name="BASEPRICE" ColumnName="BASEPRICE" />
           <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
           <ScalarProperty Name="INNN" ColumnName="INNN" />
           <ScalarProperty Name="OUTTTT" ColumnName="OUTTTT" />
@@ -71,6 +73,7 @@
           <ScalarProperty Name="ORG_ABSTRACT" ColumnName="ORG_ABSTRACT" />
           <ScalarProperty Name="ORG_ADDRESS" ColumnName="ORG_ADDRESS" />
           <ScalarProperty Name="ORG_CITY" ColumnName="ORG_CITY" />
+          <ScalarProperty Name="ORG_DISTRICT" ColumnName="ORG_DISTRICT" />
           <ScalarProperty Name="ORG_TYPE" ColumnName="ORG_TYPE" />
         </MappingFragment>
       </EntityTypeMapping>

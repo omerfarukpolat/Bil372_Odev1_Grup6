@@ -11,7 +11,7 @@ namespace Bil372_Odev1_Grup6.Controllers
     public class DatabaseController : Controller
     {
 
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Uygulama"].ConnectionString);
 
         public DatabaseController(char a)
         {
@@ -208,6 +208,75 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             Console.WriteLine("Table ALTERNATIVE_BRANDS created");
 
+            
+            //Ýnsert country
+            cmd.CommandText = "INSERT INTO COUNTRY(Country_Code , Country_Name) " +
+                              "VALUES('DEU','Almanya')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY(Country_Code , Country_Name) " +
+                              "VALUES('USA','Amerika')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY(Country_Code , Country_Name) " +
+                              "VALUES('DNK','Danimarka')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY(Country_Code , Country_Name) " +
+                              "VALUES('FRA','Fransa')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY(Country_Code , Country_Name) " +
+                               "VALUES('TUR','Türkiye')";
+            cmd.ExecuteNonQuery();
+
+            //Ýnsert CountryCity
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('DEU','Berlin')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('DEU','Münih')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('USA','New York')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('USA','Boston')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('DNK','Kopenhag')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('DNK','Odense')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('FRA','Paris')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('FRA','Nice')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('TUR','Ankara')";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "INSERT INTO COUNTRY_CITY(Country_Code , City_Name) " +
+                               "VALUES('TUR','Ýstanbul')";
+            cmd.ExecuteNonQuery();
+
+
+
+
+
+
+
 
         }
         public DatabaseController(String s)
@@ -374,27 +443,27 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return productBrands;
         }
-        //public List<ORGANISATIONS> getOrganisations()
-        //{
-        //    List<ORGANISATIONS> list = new List<ORGANISATIONS>();
-        //    string sql = "SELECT * FROM ORGANISATIONS";
-        //    using var asd = new SqlCommand(sql, con);
-        //    using SqlDataReader rdr = asd.ExecuteReader();
-        //    while (rdr.Read())
-        //    {
-        //        ORGANISATIONS item = new ORGANISATIONS();
-        //        item.ORG_ID = rdr.GetInt32(0);
-        //        item.ORG_NAME = rdr.GetString(1);
-        //        item.PARENT_ORG = rdr.GetInt32(2);
-        //        item.ORG_ABSTRACT = rdr.GetBoolean(3);
-        //        item.ORG_ADDRESS = rdr.GetString(4);
-        //        item.ORG_CITY = rdr.GetInt32(5);
-        //        item.ORG_DISTRICT = rdr.GetString(6);
-        //        item.ORG_TYPE = rdr.GetInt32(7);
-        //        list.Add(item);
-        //    }
-        //    return list;
-        //}
+        public List<ORGANISATIONS> getOrganisations()
+        {
+            List<ORGANISATIONS> list = new List<ORGANISATIONS>();
+            string sql = "SELECT * FROM ORGANISATIONS";
+            using var asd = new SqlCommand(sql, con);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
+                ORGANISATIONS item = new ORGANISATIONS();
+                item.ORG_ID = rdr.GetInt32(0);
+                item.ORG_NAME = rdr.GetString(1);
+                item.PARENT_ORG = rdr.GetInt32(2);
+                item.ORG_ABSTRACT = rdr.GetBoolean(3);
+                item.ORG_ADDRESS = rdr.GetString(4);
+                item.ORG_CITY = rdr.GetInt32(5);
+                item.ORG_DISTRICT = rdr.GetString(6);
+                item.ORG_TYPE = rdr.GetInt32(7);
+                list.Add(item);
+            }
+            return list;
+        }
         public List<BRAND_ORGS> getBrandOrgs()
         {
             List<BRAND_ORGS> list = new List<BRAND_ORGS>();
@@ -453,7 +522,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return list;
         }
-        public void insertProduct(string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
+        public void insertProduct(string code, string name, string shortname, string parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "INSERT INTO PRODUCT(M_CODE, M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
                 "VALUES (@code,@name,@shortname,@parentcode,@isAbstract,@category,@isActive)";
@@ -503,14 +572,13 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertCountryCity(string countryCode, int cityid, string cityName)
+        public void insertCountryCity(string countryCode,string cityName)
         {
-            string s = "INSERT INTO COUNTRY_CITY(Country_Code, CityID,City_Name) " +
-                "VALUES (@countryCode,@cityid,@cityName)";
+            string s = "INSERT INTO COUNTRY_CITY(Country_Code,City_Name) " +
+                "VALUES (@countryCode,@cityName)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@countryCode", countryCode);
-            cmd.Parameters.AddWithValue("@cityid", cityid);
             cmd.Parameters.AddWithValue("@cityName", cityName);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
@@ -544,7 +612,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public void insertOrganisations(string name, int parentOrg, bool isAbstract, string address,int cityid, string district, int orgType)
         {
             string s = "INSERT INTO ORGANISATIONS(ORG_NAME, PARENT_ORG, ORG_ABSTRACT, ORG_ADDRESS, ORG_CITY, ORG_DISTRICT, ORG_TYPE) " +
-                "VALUES (@name,@parentOrg,@isAbstract,@address,@cityid,@orgType)";
+                "VALUES (@name,@parentOrg,@isAbstract,@address,@cityid,@district,@orgType)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@name", name);
@@ -603,7 +671,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void updateProduct(int syscode, string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
+        public void updateProduct(int syscode, string code, string name, string shortname, string parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "UPDATE PRODUCT SET M_CODE =@code , M_NAME =@name , M_SHORTNAME = @shortname ," +
                 " M_PARENTCODE = @parentcode , M_ABSTRACT= @isAbstract , M_CATEGORY = @category , IS_ACTIVE = @isActive WHERE M_SYSCODE= @syscode";
