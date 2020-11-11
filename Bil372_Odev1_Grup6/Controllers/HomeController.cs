@@ -14,10 +14,10 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Index()
         {
 
-            DatabaseController dbc = new DatabaseController("s");
+            DatabaseController dbc = new DatabaseController('s');
 
    //         dbc.insertCountry("230", "Turkiye");
-            dbc.deleteFromProduct(8, 0);
+    //        dbc.deleteFromProduct(8, 0);
 
     //        dbc.insertCountry("230", "Turkiye");
         //    dbc.deleteFromProduct(5);

@@ -145,6 +145,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                     ORG_ABSTRACT  BIT ,
                     ORG_ADDRESS  VARCHAR(200),
                     ORG_CITY  INTEGER,
+                    ORG_DISTRICT VARCHAR(50),
                     ORG_TYPE INT CHECK (ORG_TYPE<=2),
                          )";
             cmd.ExecuteNonQuery();
@@ -371,26 +372,27 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return productBrands;
         }
-        public List<ORGANISATIONS> getOrganisations()
-        {
-            List<ORGANISATIONS> list = new List<ORGANISATIONS>();
-            string sql = "SELECT * FROM ORGANISATIONS";
-            using var asd = new SqlCommand(sql, con);
-            using SqlDataReader rdr = asd.ExecuteReader();
-            while (rdr.Read())
-            {
-                ORGANISATIONS item = new ORGANISATIONS();
-                item.ORG_ID = rdr.GetInt32(0);
-                item.ORG_NAME = rdr.GetString(1);
-                item.PARENT_ORG = rdr.GetInt32(2);
-                item.ORG_ABSTRACT = rdr.GetBoolean(3);
-                item.ORG_ADDRESS = rdr.GetString(4);
-                item.ORG_CITY = rdr.GetInt32(5);
-                item.ORG_TYPE = rdr.GetInt32(6);
-                list.Add(item);
-            }
-            return list;
-        }
+        //public List<ORGANISATIONS> getOrganisations()
+        //{
+        //    List<ORGANISATIONS> list = new List<ORGANISATIONS>();
+        //    string sql = "SELECT * FROM ORGANISATIONS";
+        //    using var asd = new SqlCommand(sql, con);
+        //    using SqlDataReader rdr = asd.ExecuteReader();
+        //    while (rdr.Read())
+        //    {
+        //        ORGANISATIONS item = new ORGANISATIONS();
+        //        item.ORG_ID = rdr.GetInt32(0);
+        //        item.ORG_NAME = rdr.GetString(1);
+        //        item.PARENT_ORG = rdr.GetInt32(2);
+        //        item.ORG_ABSTRACT = rdr.GetBoolean(3);
+        //        item.ORG_ADDRESS = rdr.GetString(4);
+        //        item.ORG_CITY = rdr.GetInt32(5);
+        //        item.ORG_DISTRICT = rdr.GetString(6);
+        //        item.ORG_TYPE = rdr.GetInt32(7);
+        //        list.Add(item);
+        //    }
+        //    return list;
+        //}
         public List<BRAND_ORGS> getBrandOrgs()
         {
             List<BRAND_ORGS> list = new List<BRAND_ORGS>();
@@ -535,17 +537,19 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertOrganisations(int orgid, string name, int parentOrg, bool isAbstract, string address, int orgType)
+        public void insertOrganisations(int orgid, string name, int parentOrg, bool isAbstract, string address,int cityid, string district, int orgType)
         {
-            string s = "INSERT INTO ORGANISATIONS(ORG_ID, ORG_NAME, PARENT_ORG, ORG_ABSTRACT, ORG_ADDRESS, ORG_CITY, ORG_TYPE) " +
-                "VALUES (@orgid,@name,@parentOrg,@isAbstract,@address,@orgType)";
+            string s = "INSERT INTO ORGANISATIONS(ORG_ID, ORG_NAME, PARENT_ORG, ORG_ABSTRACT, ORG_ADDRESS, ORG_CITY, ORG_DISTRICT, ORG_TYPE) " +
+                "VALUES (@orgid,@name,@parentOrg,@isAbstract,@address,@cityid,@orgType)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@orgid", orgid);
             cmd.Parameters.AddWithValue("@name", name);
             cmd.Parameters.AddWithValue("@parentOrg", parentOrg);
             cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
+            cmd.Parameters.AddWithValue("@cityid", cityid);
             cmd.Parameters.AddWithValue("@address", address);
+            cmd.Parameters.AddWithValue("@district", district);
             cmd.Parameters.AddWithValue("@orgType", Convert.ToInt32(orgType));
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
@@ -600,7 +604,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                 " M_PARENTCODE = @parentcode , M_ABSTRACT= @isAbstract , M_CATEGORY = @category , IS_ACTIVE = @isActive WHERE M_SYSCODE= @syscode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.Parameters.AddWithValue("@syscode,", syscode);
+            cmd.Parameters.AddWithValue("@syscode", syscode);
             cmd.Parameters.AddWithValue("@code", code);
             cmd.Parameters.AddWithValue("@name", name);
             cmd.Parameters.AddWithValue("@shortname", shortname);
@@ -659,7 +663,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public void updateManufacturers(int manufacturerid, int city, string countryCode, string name, string address)
         {
             string s = "UPDATE MANUFACTURERS SET MANUFACTURER_NAME =@name , MANUFACTURER_ADDRESS = @address " +
-                "WHERE MANUFACTURER_ID= @manufacturerid AND CITY = @city AND Counrty_Code = @countryCode";
+                "WHERE MANUFACTURER_ID= @manufacturerid AND CITY = @city AND Country_Code = @countryCode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
@@ -683,18 +687,20 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void updateOrganisations(int orgid, string orgName, int parentOrg, bool isAbstract, string address, int city, int orgType)
+        public void updateOrganisations(int orgid, string orgName, int parentOrg, bool isAbstract, string address, int city,string district, int orgType)
         {
             string s = "UPDATE ORGANISATIONS SET ORG_NAME =@orgname , ORG_ABSTRACT = @isAbstract , ORG_ADDRESS = @address" +
-                ", ORG_CITY = @city , ORG_TYPE = @orgType " +
+                ", ORG_CITY = @city , ORG_DISTRICT = @district = @orgType " +
                     " WHERE ORG_ID=@orgid AND PARENT_ORG = @parentOrg";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@orgid", orgid);
+            cmd.Parameters.AddWithValue("@district", district);
             cmd.Parameters.AddWithValue("@orgName", orgName);
             cmd.Parameters.AddWithValue("@parentOrg", parentOrg);
             cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
             cmd.Parameters.AddWithValue("@address", address);
+            cmd.Parameters.AddWithValue("@city", city);
             cmd.Parameters.AddWithValue("@orgType", orgType);
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
@@ -874,8 +880,36 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
+        public void searchWithOrgName(string orgname)
+        {
+            string sql = "SELECT ORG_NAME,BRAND_NAME,IN,OUT,QUANTITY FROM " +
+                "ORGANISATIONS,PRODUCT_BRANDS,BRAND_ORGS WHERE " +
+                "ORGANISATIONS.ORG_NAME = @orgname AND " +
+                "ORGANISATIONS.ORG_ID = BRAND_ORGS.ORG_ID AND " +
+                "PRODUCT_BRANDS.BRAND_BARCODE = BRAND_ORGS.BRAND_BARCODE";
+            using var asd = new SqlCommand(sql, con);
+            asd.Parameters.AddWithValue("@orgname", orgname);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
+               
+            }
+        }
+        public void searchWithBrandName(string brandname)
+        {
+            string sql = "SELECT ORG_NAME,BRAND_NAME,IN,OUT,QUANTITY FROM " +
+                "ORGANISATIONS,PRODUCT_BRANDS,BRAND_ORGS WHERE " +
+                "PRODUCT_BRANDS.BRAND_NAME = @brandname AND " +
+                "ORGANISATIONS.ORG_ID = BRAND_ORGS.ORG_ID AND " +
+                "PRODUCT_BRANDS.BRAND_BARCODE = BRAND_ORGS.BRAND_BARCODE";
+            using var asd = new SqlCommand(sql, con);
+            asd.Parameters.AddWithValue("@brandname", brandname);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
 
-
+            }
+        }
     }
 
 
