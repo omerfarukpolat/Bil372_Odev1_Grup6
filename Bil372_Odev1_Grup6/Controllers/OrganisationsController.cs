@@ -9,7 +9,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 {
     public class OrganisationsController : Controller
     {
-        DatabaseController db = new DatabaseController("s");
+        DatabaseController db = new DatabaseController('s');
          
         // GET: Organisation/Create
         public ActionResult Create()
@@ -24,7 +24,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Create(string oname,string pw, string oaddress, string ocity, string odist, string otype)
         {
             
-            db.insertOrganisations(5,oname, Int32.Parse(pw), true ,oaddress , Int32.Parse(otype));
+            db.insertOrganisations(5,oname, Int32.Parse(pw), true ,oaddress , odist,Int32.Parse(otype));
             return View();
 
         }
@@ -49,7 +49,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Update(string oid,string oname,string pid,string oaddress,string ocity,string odist, string otype)
         {
-            db.updateOrganisations(Int32.Parse(oid),oname,Int32.Parse(pid),true,oaddress,Int32.Parse(ocity),Int32.Parse(otype));
+            db.updateOrganisations(Int32.Parse(oid),oname,Int32.Parse(pid),true,oaddress,Int32.Parse(ocity),odist,Int32.Parse(otype));
             return View();
 
         }
