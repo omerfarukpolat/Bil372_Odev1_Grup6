@@ -139,7 +139,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
 
             cmd.CommandText = @"CREATE TABLE ORGANISATIONS(
-                    ORG_ID INTEGER PRIMARY KEY,
+                    ORG_ID INTEGER identity(1,1) PRIMARY KEY,
                     ORG_NAME VARCHAR(100),
                     PARENT_ORG INTEGER UNIQUE,
                     ORG_ABSTRACT  BIT ,
@@ -157,6 +157,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                         LOT_ID int identity(1,1) PRIMARY KEY,
                         ORG_ID INTEGER,
                         BRAND_BARCODE CHAR(13),
+                        UNIT FLOAT,
+                        BASEPRICE FLOAT,
                         QUANTITY FLOAT,
                         INNN FLOAT,
                         OUTTTT FLOAT,
@@ -405,9 +407,11 @@ namespace Bil372_Odev1_Grup6.Controllers
                 item.LOT_ID = rdr.GetInt32(0);
                 item.ORG_ID = rdr.GetInt32(1);
                 item.BRAND_BARCODE = rdr.GetString(2);
-                item.QUANTITY = rdr.GetFloat(3);
-                item.INNN = rdr.GetFloat(4);
-                item.OUTTTT = rdr.GetFloat(5);
+                item.UNIT = rdr.GetFloat(3);
+                item.BASEPRICE = rdr.GetFloat(4);
+                item.QUANTITY = rdr.GetFloat(5);
+                item.INNN = rdr.GetFloat(6);
+                item.OUTTTT = rdr.GetFloat(7);
                 list.Add(item);
             }
             return list;
@@ -432,23 +436,23 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return list;
         }
-        //public List<ALTERNATIVE_BRANDS> getAlternativeBrands()
-        //{
-        //    List<ALTERNATIVE_BRANDS> list = new List<ALTERNATIVE_BRANDS>();
-        //    string sql = "SELECT * FROM ALTERNATIVE_BRANDS";
-        //    using var asd = new SqlCommand(sql, con);
-        //    using SqlDataReader rdr = asd.ExecuteReader();
-        //    while (rdr.Read())
-        //    {
-        //        ALTERNATIVE_BRANDS item = new ALTERNATIVE_BRANDS();
-        //        item.BRAND_BARCODE = rdr.GetString(0);
-        //        item.M_SYSCODE = rdr.GetInt32(1);
-        //        item.ALTERNATIVE_BRAND_BARCODE = rdr.GetString(2);
-        //        item.ALTERNATIVE_M_SYSCODE = rdr.GetInt32(3);
-        //        list.Add(item);
-        //    }
-        //    return list;
-        //}
+        public List<ALTERNATIVE_BRANDS> getAlternativeBrands()
+        {
+            List<ALTERNATIVE_BRANDS> list = new List<ALTERNATIVE_BRANDS>();
+            string sql = "SELECT * FROM ALTERNATIVE_BRANDS";
+            using var asd = new SqlCommand(sql, con);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
+                ALTERNATIVE_BRANDS item = new ALTERNATIVE_BRANDS();
+                item.BRAND_BARCODE = rdr.GetString(0);
+                item.M_SYSCODE = rdr.GetInt32(1);
+                item.ALTERNATIVE_BRAND_BARCODE = rdr.GetString(2);
+                item.ALTERNATIVE_M_SYSCODE = rdr.GetInt32(3);
+                list.Add(item);
+            }
+            return list;
+        }
         public void insertProduct(string code, string name, string shortname, int parentcode, bool isAbstract, string category, bool isActive)
         {
             string s = "INSERT INTO PRODUCT(M_CODE, M_NAME, M_SHORTNAME, M_PARENTCODE, M_ABSTRACT, M_CATEGORY, IS_ACTIVE) " +
@@ -537,13 +541,12 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertOrganisations(int orgid, string name, int parentOrg, bool isAbstract, string address,int cityid, string district, int orgType)
+        public void insertOrganisations(string name, int parentOrg, bool isAbstract, string address,int cityid, string district, int orgType)
         {
-            string s = "INSERT INTO ORGANISATIONS(ORG_ID, ORG_NAME, PARENT_ORG, ORG_ABSTRACT, ORG_ADDRESS, ORG_CITY, ORG_DISTRICT, ORG_TYPE) " +
-                "VALUES (@orgid,@name,@parentOrg,@isAbstract,@address,@cityid,@orgType)";
+            string s = "INSERT INTO ORGANISATIONS(ORG_NAME, PARENT_ORG, ORG_ABSTRACT, ORG_ADDRESS, ORG_CITY, ORG_DISTRICT, ORG_TYPE) " +
+                "VALUES (@name,@parentOrg,@isAbstract,@address,@cityid,@orgType)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.Parameters.AddWithValue("@orgid", orgid);
             cmd.Parameters.AddWithValue("@name", name);
             cmd.Parameters.AddWithValue("@parentOrg", parentOrg);
             cmd.Parameters.AddWithValue("@isAbstract", isAbstract);
@@ -554,13 +557,15 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertBrandOrgs(int orgid, int brandBarcode, float quantity, float innn, float outttt)
+        public void insertBrandOrgs(int orgid, int brandBarcode, float unit, float baseprice, float quantity, float innn, float outttt)
         {
-            string s = "INSERT INTO BRAND_ORGS(ORG_ID, BRAND_BARCODE, QUANTITY, INNN, OUTTTT) " +
-                "VALUES (@orgid,@brandBarcode,@quantity,@innn,@outttt)";
+            string s = "INSERT INTO BRAND_ORGS(ORG_ID, BRAND_BARCODE, UNIT, BASEPRICE, QUANTITY, INNN, OUTTTT) " +
+                "VALUES (@orgid,@brandBarcode,@unit, @baseprice,@quantity,@innn,@outttt)";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@orgid", orgid);
+            cmd.Parameters.AddWithValue("@unit", unit);
+            cmd.Parameters.AddWithValue("@baseprice", baseprice);
             cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
             cmd.Parameters.AddWithValue("@quantity", quantity);
             cmd.Parameters.AddWithValue("@innn", innn);
@@ -705,14 +710,17 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void updateBrandOrgs(int lotid, int orgid, string brandBarcode, float innn, float outttt)
+        public void updateBrandOrgs(int lotid, int orgid, string brandBarcode, float unit, float baseprice, float innn, float outttt)
         {
-            string s = "UPDATE BRAND_ORGS SET INNN = @innn ,  OUTTTT = @" + outttt + "," + " QUANTITY = " + (innn + outttt) +
-                    " WHERE LOT_ID=" + lotid + " AND ORG_ID = " + orgid + " AND BRAND_BARCODE = " + brandBarcode;
+            string s = "UPDATE BRAND_ORGS SET INNN = @innn , OUTTTT = @outttt, UNIT = @unit, BASEPRICE = @baseprice ," +
+                    " QUANTITY = " + (innn + outttt) +
+                    " WHERE LOT_ID=@lotid AND ORG_ID =@orgid AND BRAND_BARCODE =@brandBarcode";
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@orgid", orgid);
             cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@unit", unit);
+            cmd.Parameters.AddWithValue("@baseprice", baseprice);
             cmd.Parameters.AddWithValue("@innn", innn);
             cmd.Parameters.AddWithValue("@outttt", outttt);
             cmd.CommandText = s;
@@ -897,7 +905,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         }
         public void searchWithBrandName(string brandname)
         {
-            string sql = "SELECT ORG_NAME,BRAND_NAME,IN,OUT,QUANTITY FROM " +
+            string sql = "SELECT ORG_NAME,BRAND_NAME,IN,OUT,QUANTITY, UNIT, BASEPRICE FROM " +
                 "ORGANISATIONS,PRODUCT_BRANDS,BRAND_ORGS WHERE " +
                 "PRODUCT_BRANDS.BRAND_NAME = @brandname AND " +
                 "ORGANISATIONS.ORG_ID = BRAND_ORGS.ORG_ID AND " +
