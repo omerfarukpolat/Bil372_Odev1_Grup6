@@ -37,7 +37,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             for(int i = 0; i < organisations.Count; i++)
             {
-                if((organisations[i].ORG_ID+"") == userModel.Password && organisations[i].ORG_NAME.Equals(userModel.UserName) && organisations[i].PARENT_ORG == 0)
+                if((organisations[i].ORG_ID+"") == userModel.Password && organisations[i].ORG_NAME.Equals(userModel.UserName))
                 {
                     username = userModel.UserName;
                     password = userModel.Password;
