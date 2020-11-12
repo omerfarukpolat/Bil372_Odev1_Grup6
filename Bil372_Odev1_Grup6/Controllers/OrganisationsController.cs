@@ -9,7 +9,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 {
     public class OrganisationsController : Controller
     {
-        DatabaseController db = new DatabaseController('s');
+        DatabaseController db = new DatabaseController("s");
          
         // GET: Organisation/Create
         public ActionResult Create()

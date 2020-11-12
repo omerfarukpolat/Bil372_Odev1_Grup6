@@ -12,6 +12,8 @@ namespace Bil372_Odev1_Grup6.Models
         public string ORG_NAME { get; set; }
 
         public float INNN { get; set; }
+        public float BASEPRICE { get; set; }
+        public float UNIT { get; set; }
 
         public float OUTTTT { get; set; }
 
