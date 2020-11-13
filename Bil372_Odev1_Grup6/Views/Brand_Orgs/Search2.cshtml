@@ -31,6 +31,7 @@
                 <table class="table table-borderless table-striped table-earning">
                     <thead>
                         <tr>
+                            <th>Organizasyon Adı</th>
                             <th>Marka Adı</th>
                             <th>Miktar</th>
                             <th>Birim</th>
@@ -42,14 +43,15 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>@item.BRAND_NAME</td>
-                                <td>@item.QUANTITY</td>
-                                <td>@item.UNIT</td>
-                                <td>@item.BASEPRICE</td>
-                                <td>@item.INNN</td>
-                                <td>@item.OUTTTT</td>
-                            </tr>
+                        <tr>
+                            <td>@item.ORG_NAME</td>
+                            <td>@item.BRAND_NAME</td>
+                            <td>@item.QUANTITY</td>
+                            <td>@item.UNIT</td>
+                            <td>@item.BASEPRICE</td>
+                            <td>@item.INNN</td>
+                            <td>@item.OUTTTT</td>
+                        </tr>
                         }
                     </tbody>
                 </table>
