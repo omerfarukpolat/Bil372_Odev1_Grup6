@@ -15,7 +15,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         {
 
             DatabaseController dbc = new DatabaseController("1");
-            dbc.searchWithOrgName("adas");
+           // dbc.searchWithOrgName("adas");
             return View();
         }
 

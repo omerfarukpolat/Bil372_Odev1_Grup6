@@ -754,7 +754,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public void updateOrganisations(int orgid, string orgName, int parentOrg, bool isAbstract, string address, int city, string district, int orgType)
         {
             string s = "UPDATE ORGANISATIONS SET ORG_NAME =@orgname , ORG_ABSTRACT = @isAbstract , ORG_ADDRESS = @address" +
-                ", ORG_CITY = @city , ORG_DISTRICT = @district = @orgType " +
+                ", ORG_CITY = @city , ORG_DISTRICT = @district , ORG_TYPE = @orgType " +
                     " WHERE ORG_ID=@orgid AND PARENT_ORG = @parentOrg";
             var cmd = new SqlCommand();
             cmd.Connection = con;

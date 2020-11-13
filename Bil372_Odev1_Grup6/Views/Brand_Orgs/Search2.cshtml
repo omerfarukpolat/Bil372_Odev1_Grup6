@@ -1,0 +1,60 @@
+﻿@model List<Bil372_Odev1_Grup6.Models.LINKINGBRANDORGS>
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <strong>Organizasyon Adı ile Ara </strong>
+        </div>
+        <div class="card-body card-block">
+            <form action="" method="post" class="">
+                <div class="form-group">
+                    <label for="nf-email" class=" form-control-label">Organizasyon Adı</label>
+                    <input id="oname" name="oname" placeholder="" class="form-control">
+                </div>
+                <input type="submit" class="btn btn-primary btn-sm" value="Ara">
+            </form>
+        </div>
+
+        <div class="card-footer">
+
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="col-lg-9">
+            <div class="table-responsive table--no-card m-b-30">
+                <table class="table table-borderless table-striped table-earning">
+                    <thead>
+                        <tr>
+                            <th>Marka Adı</th>
+                            <th>Miktar</th>
+                            <th>Birim</th>
+                            <th>Taban Fiyatı</th>
+                            <th>Girdi</th>
+                            <th>Çıktı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.BRAND_NAME</td>
+                                <td>@item.QUANTITY</td>
+                                <td>@item.UNIT</td>
+                                <td>@item.BASEPRICE</td>
+                                <td>@item.INNN</td>
+                                <td>@item.OUTTTT</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</body>
+</html>

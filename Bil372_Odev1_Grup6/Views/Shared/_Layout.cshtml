@@ -169,6 +169,23 @@
 
                             </ul>
                         </li>
+                        <li class="active has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-copy"></i>BRAND_ORGS
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="~/Brand_Orgs/Create">CREATE</a>
+                                </li>
+                                <li>
+                                    <a href="~/Brand_Orgs/Search1">SEARCHWITHBRAND</a>
+                                </li>
+                                <li>
+                                    <a href="~/Brand_Orgs/Search2">SEARCHWITHORG</a>
+                                </li>
+
+                            </ul>
+                        </li>
                         <li>
                             <a href="@Url.Action("LogOut","Account")">
 
@@ -236,7 +253,7 @@
 </html>
 <script>
     var screenHeight = screen.height;
-    if (screenHeight < 1400) {
+    if (screenHeight < 1000) {
         $('body').css('zoom', 0.8);
     } else {
         $('body').css('zoom', 1);
