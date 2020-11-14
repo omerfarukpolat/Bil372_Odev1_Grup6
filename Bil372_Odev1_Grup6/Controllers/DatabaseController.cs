@@ -222,7 +222,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                         QUANTITY FLOAT,
                         INNN FLOAT,
                         OUTTTT FLOAT,
-                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID),
+                        FOREIGN KEY(ORG_ID) REFERENCES ORGANISATIONS(ORG_ID) ON DELETE CASCADE,
                         FOREIGN KEY(BRAND_BARCODE) REFERENCES PRODUCT_BRANDS(BRAND_BARCODE)
                          )";
             cmd.ExecuteNonQuery();
@@ -908,8 +908,8 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.Parameters.AddWithValue("@orgid", orgid);
             if (deleteStyle == 1)
             {
-                string s2 = "UPDATE ORGANISATIONS SET PARENT_ORG = (SELECT PARENT_ORG FROM PRODUCT WHERE ORG_ID = @orgid) " +
-                    "WHERE PARENT_ORG = (SELECT ORG_ID FROM PRODUCT WHERE ORG_ID = @orgid)";
+                string s2 = "UPDATE ORGANISATIONS SET PARENT_ORG = (SELECT PARENT_ORG FROM ORGANISATIONS WHERE ORG_ID = @orgid) " +
+                    "WHERE PARENT_ORG = (SELECT ORG_ID FROM ORGANISATIONS WHERE ORG_ID = @orgid)";
                 cmd.CommandText = s2;
                 cmd.ExecuteNonQuery();
                 string s = "DELETE FROM ORGANISATIONS WHERE ORG_ID=@orgid";
@@ -1000,7 +1000,54 @@ namespace Bil372_Odev1_Grup6.Controllers
             }
             return brandorgs;
         }
+        public List<LINKINGPRODUCTFEATURES> searchWithProductName(string productname)
+        {
+            List<LINKINGPRODUCTFEATURES> productNames = new List<LINKINGPRODUCTFEATURES>();
+            string sql = "SELECT M_CODE ,M_NAME  ,M_PARENTCODE  ,M_CATEGORY  ,FEATURE_NAME  , MINVAL , MAXVAL  FROM " +
+                "PRODUCT,FEATURES,PRODUCT_FEATURES WHERE " +
+                "PRODUCT.M_NAME LIKE " + "'%" + productname + "%'" + " AND " +
+                "PRODUCT.M_SYSCODE = PRODUCT_FEATURES.M_SYSCODE AND " +
+                "FEATURES.FEATURE_ID   = PRODUCT_FEATURES.FEATURE_ID";
+            using var asd = new SqlCommand(sql, con);
+            //      asd.Parameters.AddWithValue("@brandname", ("%" + brandname + "%"));
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
+                LINKINGPRODUCTFEATURES b = new LINKINGPRODUCTFEATURES();
+                b.M_CODE = rdr.GetString(0);
+                b.M_NAME = rdr.GetString(1);
+                b.M_CATEGORY = rdr.GetString(1);
+                b.FEATURE_NAME = rdr.GetString(1);
+                b.MINVAL = (float)rdr.GetDouble(4);
+                b.MAXVAL = (float)rdr.GetDouble(5);
+                productNames.Add(b);
+            }
+            return productNames;
+        }
+        public List<LINKINGPRODUCTFEATURES> searchWithFeature(string featurename)
+        {
+            List<LINKINGPRODUCTFEATURES> productNames = new List<LINKINGPRODUCTFEATURES>();
+            string sql = "SELECT M_CODE ,M_NAME  ,M_PARENTCODE  ,M_CATEGORY  ,FEATURE_NAME  , MINVAL , MAXVAL  FROM " +
+                "PRODUCT,FEATURES,PRODUCT_FEATURES WHERE " +
+                "FEATURES.FEATURE_NAME LIKE " + "'%" + featurename + "%'" + " AND " +
+                "PRODUCT.M_SYSCODE = PRODUCT_FEATURES.M_SYSCODE AND " +
+                "FEATURES.FEATURE_ID   = PRODUCT_FEATURES.FEATURE_ID";
+            using var asd = new SqlCommand(sql, con);
+            //      asd.Parameters.AddWithValue("@brandname", ("%" + brandname + "%"));
+            using SqlDataReader rdr = asd.ExecuteReader();
+            while (rdr.Read())
+            {
+                LINKINGPRODUCTFEATURES b = new LINKINGPRODUCTFEATURES();
+                b.M_CODE = rdr.GetString(0);
+                b.M_NAME = rdr.GetString(1);
+                b.M_CATEGORY = rdr.GetString(1);
+                b.FEATURE_NAME = rdr.GetString(1);
+                b.MINVAL = (float)rdr.GetDouble(4);
+                b.MAXVAL = (float)rdr.GetDouble(5);
+                productNames.Add(b);
+            }
+            return productNames;
+        }
     }
-
-
+   
 }
