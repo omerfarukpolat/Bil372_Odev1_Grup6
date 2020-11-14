@@ -22,12 +22,12 @@ namespace Bil372_Odev1_Grup6.Models
     
         public int ORG_ID { get; set; }
         public string ORG_NAME { get; set; }
-        public Nullable<int> PARENT_ORG { get; set; }
-        public Nullable<bool> ORG_ABSTRACT { get; set; }
+        public  int PARENT_ORG { get; set; }
+        public  bool ORG_ABSTRACT { get; set; }
         public string ORG_ADDRESS { get; set; }
-        public Nullable<int> ORG_CITY { get; set; }
+        public  int ORG_CITY { get; set; }
         public string ORG_DISTRICT { get; set; }
-        public Nullable<int> ORG_TYPE { get; set; }
+        public  int ORG_TYPE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BRAND_ORGS> BRAND_ORGS { get; set; }

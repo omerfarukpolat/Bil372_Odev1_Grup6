@@ -139,6 +139,7 @@
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\Product_BrandsController.cs" />
+    <Compile Include="Controllers\Product_FeaturesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -161,6 +162,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LINKINGBRANDORGS.cs" />
+    <Compile Include="Models\LINKINGPRODUCTFEATURES.cs" />
     <Compile Include="Models\MANUFACTURERS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -571,6 +573,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Product_Features\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css.map" />

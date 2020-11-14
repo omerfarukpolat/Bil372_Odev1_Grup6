@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bil372_Odev1_Grup6.Models;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Bil372_Odev1_Grup6.Controllers
 {
@@ -15,6 +17,26 @@ namespace Bil372_Odev1_Grup6.Controllers
         // GET: Login
         public ActionResult Login()
         {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["IMECE"].ConnectionString);
+            bool exists;
+            con.Open();
+            var cmd = new SqlCommand();
+            string sql = "select count (*) from information_schema.tables where table_name = 'PRODUCT'";
+            cmd.Connection = con;
+            using var asd = new SqlCommand(sql, con);
+            cmd.CommandText = sql;
+            exists = (int)cmd.ExecuteScalar() == 1;
+            con.Close();
+
+            if (exists)
+            {
+                db = new DatabaseController("1");
+            }
+            else
+            {
+                db = new DatabaseController(1);
+                db = new DatabaseController("1");
+            }
             return View();
         }
 
