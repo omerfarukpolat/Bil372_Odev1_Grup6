@@ -617,7 +617,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertBrandOrgs(int orgid, int brandBarcode, float unit, float baseprice, float quantity, float innn, float outttt)
+        public void insertBrandOrgs(int orgid, string brandBarcode, float unit, float baseprice, float quantity, float innn, float outttt)
         {
             string s = "INSERT INTO BRAND_ORGS(ORG_ID, BRAND_BARCODE, UNIT, BASEPRICE, QUANTITY, INNN, OUTTTT) " +
                 "VALUES (@orgid,@brandBarcode,@unit, @baseprice,@quantity,@innn,@outttt)";
@@ -633,7 +633,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertAlternativeBrands(int brandBarcode, int syscode, float altBrandBarcode, float altSysCode)
+        public void insertAlternativeBrands(string brandBarcode, int syscode, float altBrandBarcode, float altSysCode)
         {
             string s = "INSERT INTO ALTERNATIVE_BRANDS(BRAND_BARCODE, M_SYSCODE, ALTERNATIVE_BRAND_BARCODE, ALTERNATIVE_M_SYSCODE) " +
                 "VALUES (@brandBarcode,@syscode,@altBrandBarcode,@altSysCode )";
@@ -647,41 +647,43 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
         }
 
-        public void insertINFlow(int sourceorgid, float brandBarcode, float quantity, DateTime flowDate)
+        public void insertINFlow(int sourceorgid, string brandBarcode, float quantity, DateTime flowDate)
         {
             int lotId;
             var cmd = new SqlCommand();
             cmd.Connection = con;
-            string sql = "SELECT LOT_ID FROM BRAND_ORGS WHERE ORG_ID = @sourceorgid AND BRAND_BARCODE = @brandBarcode"; 
-            cmd.Parameters.AddWithValue("@sourceorgid", sourceorgid);
-            cmd.Parameters.AddWithValue("@quantity", quantity);
-            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
-            cmd.Parameters.AddWithValue("@flowDate", flowDate);
+            string sql = "SELECT LOT_ID FROM BRAND_ORGS WHERE ORG_ID = @sourceorgid AND BRAND_BARCODE = @brandBarcode";
+
             using var asd = new SqlCommand(sql, con);
+            asd.Parameters.AddWithValue("@sourceorgid", sourceorgid);
+            asd.Parameters.AddWithValue("@quantity", quantity);
+            asd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            asd.Parameters.AddWithValue("@flowDate", flowDate);
             using SqlDataReader rdr = asd.ExecuteReader();
             lotId = rdr.GetInt32(0);
-            cmd.Parameters.AddWithValue("@lotId", lotId);
+            asd.Parameters.AddWithValue("@lotId", lotId);
             rdr.Close();
             string s = "INSERT INTO FLOW(Source_LOT_ID, Source_ORG_ID, Target_LOT_ID, Target_ORG_ID, BRAND_BARCODE,QUANTITY,FlowDate) " +
                 "VALUES (@lotId,@sourceorgid,@lotId,@sourceorgid,@brandBarcode,@quantity,@flowDate)";
 
-       
+
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-        public void insertOUTFlow(int sourceorgid, int targetOrgId, float brandBarcode, float quantity, DateTime flowDate)
+        public void insertOUTFlow(int sourceorgid, int targetOrgId, string brandBarcode, float quantity, DateTime flowDate)
         {
             int lotId;
             int targetlotId;
             var cmd = new SqlCommand();
             cmd.Connection = con;
             string sql = "SELECT LOT_ID FROM BRAND_ORGS WHERE ORG_ID = @sourceorgid AND BRAND_BARCODE = @brandBarcode";
-            cmd.Parameters.AddWithValue("@sourceorgid", sourceorgid);
-            cmd.Parameters.AddWithValue("@targetOrgId", targetOrgId);
-            cmd.Parameters.AddWithValue("@quantity", quantity);
-            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
-            cmd.Parameters.AddWithValue("@flowDate", flowDate);
+
             using var asd = new SqlCommand(sql, con);
+            asd.Parameters.AddWithValue("@sourceorgid", sourceorgid);
+            asd.Parameters.AddWithValue("@targetOrgId", targetOrgId);
+            asd.Parameters.AddWithValue("@quantity", quantity);
+            asd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            asd.Parameters.AddWithValue("@flowDate", flowDate);
             using SqlDataReader rdr = asd.ExecuteReader();
             lotId = rdr.GetInt32(0);
             cmd.Parameters.AddWithValue("@lotId", lotId);
@@ -769,7 +771,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             var cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.Parameters.AddWithValue("@manufacturerid", manufacturerid);
-            cmd.Parameters.AddWithValue("@manufacturerName", name);
+            cmd.Parameters.AddWithValue("@name", name);
             cmd.Parameters.AddWithValue("@address", address);
             cmd.Parameters.AddWithValue("@city", city);
             cmd.Parameters.AddWithValue("@countryCode", countryCode);
@@ -1041,7 +1043,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<LINKINGPRODUCTFEATURES> searchWithProductName(string productname)
         {
             List<LINKINGPRODUCTFEATURES> productNames = new List<LINKINGPRODUCTFEATURES>();
-            string sql = "SELECT M_CODE ,M_NAME  ,M_PARENTCODE  ,M_CATEGORY  ,FEATURE_NAME  , MINVAL , MAXVAL  FROM " +
+            string sql = "SELECT M_CODE ,M_NAME, M_CATEGORY  ,FEATURE_NAME  , MINVAL , MAXVAL  FROM " +
                 "PRODUCT,FEATURES,PRODUCT_FEATURES WHERE " +
                 "PRODUCT.M_NAME LIKE " + "'%" + productname + "%'" + " AND " +
                 "PRODUCT.M_SYSCODE = PRODUCT_FEATURES.M_SYSCODE AND " +
@@ -1054,8 +1056,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                 LINKINGPRODUCTFEATURES b = new LINKINGPRODUCTFEATURES();
                 b.M_CODE = rdr.GetString(0);
                 b.M_NAME = rdr.GetString(1);
-                b.M_CATEGORY = rdr.GetString(1);
-                b.FEATURE_NAME = rdr.GetString(1);
+                b.M_CATEGORY = rdr.GetString(2);
+                b.FEATURE_NAME = rdr.GetString(3);
                 b.MINVAL = (float)rdr.GetDouble(4);
                 b.MAXVAL = (float)rdr.GetDouble(5);
                 productNames.Add(b);
@@ -1065,7 +1067,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public List<LINKINGPRODUCTFEATURES> searchWithFeature(string featurename)
         {
             List<LINKINGPRODUCTFEATURES> productNames = new List<LINKINGPRODUCTFEATURES>();
-            string sql = "SELECT M_CODE ,M_NAME  ,M_PARENTCODE  ,M_CATEGORY  ,FEATURE_NAME  , MINVAL , MAXVAL  FROM " +
+            string sql = "SELECT M_CODE ,M_NAME, M_CATEGORY  ,FEATURE_NAME  , MINVAL , MAXVAL  FROM " +
                 "PRODUCT,FEATURES,PRODUCT_FEATURES WHERE " +
                 "FEATURES.FEATURE_NAME LIKE " + "'%" + featurename + "%'" + " AND " +
                 "PRODUCT.M_SYSCODE = PRODUCT_FEATURES.M_SYSCODE AND " +
@@ -1078,8 +1080,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                 LINKINGPRODUCTFEATURES b = new LINKINGPRODUCTFEATURES();
                 b.M_CODE = rdr.GetString(0);
                 b.M_NAME = rdr.GetString(1);
-                b.M_CATEGORY = rdr.GetString(1);
-                b.FEATURE_NAME = rdr.GetString(1);
+                b.M_CATEGORY = rdr.GetString(2);
+                b.FEATURE_NAME = rdr.GetString(3);
                 b.MINVAL = (float)rdr.GetDouble(4);
                 b.MAXVAL = (float)rdr.GetDouble(5);
                 productNames.Add(b);

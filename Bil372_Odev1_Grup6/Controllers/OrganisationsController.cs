@@ -34,7 +34,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                 bool check = false;
                 foreach (var org in o)
                 {
-                    if (org.PARENT_ORG == Int32.Parse(pw))
+                    if (org.ORG_ID == Int32.Parse(pw))
                     {
                         db.insertOrganisations(oname, Int32.Parse(pw), false, oaddress, Int32.Parse(ocity), odist, Int32.Parse(otype));
                         db.updateOrganisations(org.ORG_ID, org.ORG_NAME, org.PARENT_ORG, true, org.ORG_ADDRESS, org.ORG_CITY, org.ORG_DISTRICT, org.ORG_TYPE);

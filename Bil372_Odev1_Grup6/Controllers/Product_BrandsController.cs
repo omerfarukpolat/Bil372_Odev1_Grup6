@@ -23,7 +23,22 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Create(string mid,string scode,string bbarcode,string bname)
         {
-            db.insertProductBrands(Int32.Parse(mid),Int32.Parse(scode), bbarcode, bname);
+            List<PRODUCT> products = db.getProduct();
+            foreach(var p in products)
+            {
+                if(p.M_SYSCODE == Int32.Parse(scode))
+                {
+                    if(p.M_ABSTRACT == true)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        db.insertProductBrands(Int32.Parse(mid), Int32.Parse(scode), bbarcode, bname);
+
+                    }
+                }
+            }
             return View();
 
         }
@@ -57,7 +72,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Delete(string scode, string bcd,string value)
         {
             if (scode != null)
-                db.deleteFromProductBrands(Int32.Parse(scode),Int32.Parse(value),bcd);
+                db.deleteFromProductBrands(Int32.Parse(value),Int32.Parse(scode),bcd);
             List<PRODUCT_BRANDS> productbrans = db.getProductBrands();
             return View(productbrans);
         }

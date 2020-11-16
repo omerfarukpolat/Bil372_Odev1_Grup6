@@ -22,7 +22,22 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Create(string scode, string fid, string minval, string maxval)
         {
-            db.insertProductFeatures(Int32.Parse(scode), Int32.Parse(fid), float.Parse(minval, CultureInfo.InvariantCulture), float.Parse(maxval, CultureInfo.InvariantCulture));
+            List<PRODUCT> products = db.getProduct();
+            foreach(var p in products)
+            {
+                if(p.M_SYSCODE == Int32.Parse(scode))
+                {
+                    if(p.M_ABSTRACT == true)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        db.insertProductFeatures(Int32.Parse(scode), Int32.Parse(fid), float.Parse(minval, CultureInfo.InvariantCulture), float.Parse(maxval, CultureInfo.InvariantCulture));
+
+                    }
+                }
+            }
 
 
             return View();
