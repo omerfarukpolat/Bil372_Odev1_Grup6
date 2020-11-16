@@ -15,13 +15,13 @@ namespace Bil372_Odev1_Grup6.Models
     public partial class BRAND_ORGS
     {
         public int LOT_ID { get; set; }
-        public Nullable<int> ORG_ID { get; set; }
+        public int ORG_ID { get; set; }
         public string BRAND_BARCODE { get; set; }
-        public Nullable<double> UNIT { get; set; }
-        public Nullable<double> BASEPRICE { get; set; }
-        public Nullable<double> QUANTITY { get; set; }
-        public Nullable<double> INNN { get; set; }
-        public Nullable<double> OUTTTT { get; set; }
+        public double UNIT { get; set; }
+        public double BASEPRICE { get; set; }
+        public double QUANTITY { get; set; }
+        public double INNN { get; set; }
+        public  double OUTTTT { get; set; }
     
         public virtual PRODUCT_BRANDS PRODUCT_BRANDS { get; set; }
         public virtual ORGANISATIONS ORGANISATIONS { get; set; }
