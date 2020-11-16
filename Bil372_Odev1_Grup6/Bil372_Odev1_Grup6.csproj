@@ -134,6 +134,7 @@
     <Compile Include="Controllers\Brand_OrgsController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\FeaturesController.cs" />
+    <Compile Include="Controllers\FlowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManufacturersController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
@@ -570,10 +571,13 @@
     <Content Include="Views\Brand_Orgs\Create.cshtml" />
     <Content Include="Views\Brand_Orgs\Search2.cshtml" />
     <Content Include="Views\Brand_Orgs\Search1.cshtml" />
+    <Content Include="Views\Product_Features\Create.cshtml" />
+    <Content Include="Views\Product_Features\Search1.cshtml" />
+    <Content Include="Views\Product_Features\Search2.cshtml" />
+    <Content Include="Views\Flow\inTransfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Product_Features\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css.map" />
