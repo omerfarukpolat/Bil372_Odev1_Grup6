@@ -18,6 +18,7 @@
                 <table class="table table-borderless table-striped table-earning">
                     <thead>
                         <tr>
+                            <th>Sistem Kodu</th>
                             <th>Kodu</th>
                             <th>Adı</th>
                             <th>Kısa Adı</th>
@@ -29,6 +30,7 @@
                         @foreach (var item in Model)
                         {  
                         <tr>  
+                            <td>@item.M_SYSCODE</td>
                             <td>@item.M_CODE</td>
                             <td>@item.M_NAME</td>
                             <td>@item.M_SHORTNAME</td>

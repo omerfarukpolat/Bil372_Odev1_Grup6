@@ -22,6 +22,17 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Create(string orgid,string bcode,string unit,string edate,string bprice,string inn,string outt)
         {
+            List<ORGANISATIONS> organisations = db.getOrganisations();
+            List<PRODUCT_BRANDS> productbrands = db.getProductBrands();
+            bool check = false;
+
+            foreach(var organisation in organisations)
+            {
+                if (organisation.ORG_ID == Int32.Parse(orgid)) check = true;
+            }
+
+            if (!check) return RedirectToAction("Index", "Exception");
+
             float quantityy = float.Parse(inn, CultureInfo.InvariantCulture) + float.Parse(outt, CultureInfo.InvariantCulture);
             List<ORGANISATIONS> org = db.getOrganisations();
             foreach(var o in org)
@@ -30,31 +41,13 @@ namespace Bil372_Odev1_Grup6.Controllers
                 {
                     if(o.ORG_TYPE == 0)
                     {
-                        if(Int32.Parse(inn) != 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            db.insertBrandOrgs(Int32.Parse(orgid), bcode, float.Parse(unit, CultureInfo.InvariantCulture), float.Parse(bprice, CultureInfo.InvariantCulture), quantityy, float.Parse(inn, CultureInfo.InvariantCulture), float.Parse(outt, CultureInfo.InvariantCulture));
-                        }
+                        if(Int32.Parse(inn) != 0) return RedirectToAction("Index", "Exception");
                     }
                     else if(o.ORG_TYPE == 1)
                     {
-                        if(Int32.Parse(outt) != 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            db.insertBrandOrgs(Int32.Parse(orgid), bcode, float.Parse(unit, CultureInfo.InvariantCulture), float.Parse(bprice, CultureInfo.InvariantCulture), quantityy, float.Parse(inn, CultureInfo.InvariantCulture), float.Parse(outt, CultureInfo.InvariantCulture));
-                        }
+                        if(Int32.Parse(outt) != 0) return RedirectToAction("Index", "Exception");
                     }
-                    else
-                    {
-                        db.insertBrandOrgs(Int32.Parse(orgid),  bcode, float.Parse(unit, CultureInfo.InvariantCulture), float.Parse(bprice, CultureInfo.InvariantCulture), quantityy, float.Parse(inn, CultureInfo.InvariantCulture), float.Parse(outt, CultureInfo.InvariantCulture));
-
-                    }
+                    db.insertBrandOrgs(Int32.Parse(orgid), bcode, float.Parse(unit, CultureInfo.InvariantCulture), float.Parse(bprice, CultureInfo.InvariantCulture), quantityy, float.Parse(inn, CultureInfo.InvariantCulture), float.Parse(outt, CultureInfo.InvariantCulture));
                 }
             }
             return View();
@@ -65,7 +58,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         // GET: Brand_Orgs/Search1
         public ActionResult Search1()
         {
- 
             return View();
         }
 
@@ -73,19 +65,13 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Search1(string bname)
         {
-
             List<LINKINGBRANDORGS> model = db.searchWithBrandName(bname);
-
             return View(model);
-
         }
 
         // GET: Brand_Orgs/Search2
         public ActionResult Search2()
         {
-            
-
-
             return View();
         }
 
@@ -93,9 +79,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Search2(string oname)
         {
-            
             List<LINKINGBRANDORGS> model = db.searchWithOrgName(oname);
-            
             return View(model);
 
         }

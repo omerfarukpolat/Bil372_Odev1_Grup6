@@ -84,7 +84,7 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Register(string oname, string oaddress, string ocity, string odist, string otype)
         {
-             db.insertOrganisations(oname, 0, true, oaddress, Int32.Parse(ocity), odist, Int32.Parse(otype));
+             db.insertOrganisations(oname, 0, false, oaddress, Int32.Parse(ocity), odist, Int32.Parse(otype));
             
 
             return RedirectToAction("Login", "Account");

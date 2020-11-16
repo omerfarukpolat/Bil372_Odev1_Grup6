@@ -24,31 +24,43 @@ namespace Bil372_Odev1_Grup6.Controllers
             public ActionResult Create(string pcode, string pname, string pshortname, string pparentcode, string pcategory)
             {
             List<PRODUCT> p = db.getProduct();
-            if (p.Count == 0)
+
+            foreach(var productt in p)
             {
-                db.insertProduct(pcode, pname, pshortname, "NULL", false, pcategory, true);
-            }
-            else
-            {
-                Boolean check = false;
-                foreach (var product in p)
+                if (productt.M_CODE.Equals(pcode)) //İki ürün aynı code sahip olamaz...
+                    return RedirectToAction("Index", "Exception");
+                else
                 {
 
-                    if (product.M_CATEGORY.Equals(pparentcode))
+                    if (p.Count == 0) //İlk defa ürün ekleniyorsa parentı Null olur...
                     {
-                        db.insertProduct(pcode, pname, pshortname, product.M_CODE, false, pcategory, true);
-                        db.updateProduct(product.M_SYSCODE, product.M_CODE, product.M_NAME, product.M_SHORTNAME, product.M_PARENTCODE, true, product.M_CATEGORY, true);
-                        check = true;
+                        db.insertProduct(pcode, pname, pshortname, "NULL", false, pcategory, true);
                     }
+                    else
+                    {
+                        Boolean check = false;
+                        foreach (var product in p)
+                        {
 
-                }
-                if (!check)
-                {
-                    db.insertProduct(pcode, pname, pshortname, "NULL", false, pcategory, true);
+                            if (product.M_CATEGORY.Equals(pparentcode)) //Ürün başka bir ürünün altına ekleniyorsa abstract false olur parentın abstractı true olur... 
+                            {
+                                db.insertProduct(pcode, pname, pshortname, product.M_CODE, false, pcategory, true);
+                                db.updateProduct(product.M_SYSCODE, product.M_CODE, product.M_NAME, product.M_SHORTNAME, product.M_PARENTCODE, true, product.M_CATEGORY, true);
+                                check = true;
+                            }
+
+                        }
+                        if (!check)
+                        {
+                            db.insertProduct(pcode, pname, pshortname, "NULL", false, pcategory, true);
+                        }
+                    }
+                   
                 }
             }
-            return View();
 
+            return View();
+ 
         }
 
             // GET: Product/Read
@@ -72,14 +84,25 @@ namespace Bil372_Odev1_Grup6.Controllers
             List<PRODUCT> products = db.getProduct();
             bool isAbstract = false;
 
-            foreach(var product in products)
+
+            foreach(var productt in products)
             {
-                if (Int32.Parse(scode) == product.M_SYSCODE)
+                if(productt.M_SYSCODE != Int32.Parse(scode) && productt.M_CODE.Equals(pcode)) //Güncelleme yapılırken başka bir ürünün kodu girilirse hata verir...
                 {
-                    isAbstract = product.M_ABSTRACT;
+                    return RedirectToAction("Index", "Exception");
+                }
+                else
+                {
+                    foreach (var product in products)
+                    {
+                        if (Int32.Parse(scode) == product.M_SYSCODE)
+                        {
+                            isAbstract = product.M_ABSTRACT;
+                        }
+                    }
                 }
             }
-                 db.updateProduct(Int32.Parse(scode), pcode, pname, pshortname, pparentcode , isAbstract, pcategory, true);
+               db.updateProduct(Int32.Parse(scode), pcode, pname, pshortname, pparentcode , isAbstract, pcategory, true);
                 return View();
 
             }
@@ -94,7 +117,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             {
                 db.deleteFromProduct(Int32.Parse(scode), Int32.Parse(value));
                  
-                 foreach (var product in products)
+                 foreach (var product in products) 
                 {
                     bool check = false;
                     if (Int32.Parse(scode) == product.M_SYSCODE)
@@ -102,7 +125,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                         string mcode = product.M_CODE;
                         foreach (var product2 in products)
                         {
-                            if (product2.M_PARENTCODE.Equals(mcode))
+                            if (product2.M_PARENTCODE.Equals(mcode)) //Eğer silinen ürün leaf ise bir şey yapılmaz...
                             {
                                 check = true;
                             }
@@ -111,7 +134,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                         {
                             foreach (var parent in products)
                             {
-                                if (product.M_PARENTCODE.Equals(parent.M_CODE))
+                                if (product.M_PARENTCODE.Equals(parent.M_CODE)) // Eğer silinen ürün leaf değilse parentının abstract type değişir.
                                 {
                                     db.updateProduct(parent.M_SYSCODE, parent.M_CODE, parent.M_NAME, parent.M_SHORTNAME, parent.M_PARENTCODE, false, parent.M_CATEGORY, true);
                                 }

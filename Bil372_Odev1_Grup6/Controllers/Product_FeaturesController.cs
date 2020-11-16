@@ -22,6 +22,20 @@ namespace Bil372_Odev1_Grup6.Controllers
         [HttpPost]
         public ActionResult Create(string scode, string fid, string minval, string maxval)
         {
+            List<PRODUCT> productss = db.getProduct();
+            List<FEATURES> features = db.getFeatures();
+            bool check = false;
+
+            foreach(var product in productss)
+            {
+                foreach(var feature in features)
+                {
+                    if (product.M_SYSCODE == Int32.Parse(scode) && feature.FEATURE_ID == Int32.Parse(fid)) check = true;
+                }
+            }
+
+            if (!check) return RedirectToAction("Index", "Exception");
+
             List<PRODUCT> products = db.getProduct();
             foreach(var p in products)
             {

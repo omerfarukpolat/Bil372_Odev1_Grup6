@@ -22,9 +22,9 @@ namespace Bil372_Odev1_Grup6.Controllers
 
         // POST: Flow/inTransfer
         [HttpPost]
-        public ActionResult inTransfer(string sourceid, string bbarcode , string quantity , DateTime flowDate)
+        public ActionResult inTransfer(string sourceid, string bbarcode , string quantity)
         {
-            db.insertINFlow(Int32.Parse(sourceid), bbarcode, float.Parse(quantity, CultureInfo.InvariantCulture), flowDate);
+            db.insertINFlow(Int32.Parse(sourceid), bbarcode, float.Parse(quantity, CultureInfo.InvariantCulture), DateTime.Now);
             List<BRAND_ORGS> brandorgs = db.getBrandOrgs();
             foreach(var brandorg in brandorgs)
             {
@@ -45,9 +45,9 @@ namespace Bil372_Odev1_Grup6.Controllers
 
         // POST: Flow/outTransfer
         [HttpPost]
-        public ActionResult outTransfer(string sourceid, string bbarcode , string targetid, string quantity , DateTime flowDate)
+        public ActionResult outTransfer(string sourceid, string bbarcode , string targetid, string quantity)
         {
-            db.insertOUTFlow(Int32.Parse(sourceid), Int32.Parse(targetid), bbarcode, float.Parse(quantity, CultureInfo.InvariantCulture), flowDate);
+            db.insertOUTFlow(Int32.Parse(sourceid), Int32.Parse(targetid), bbarcode, float.Parse(quantity, CultureInfo.InvariantCulture), DateTime.Now);
             List<BRAND_ORGS> brandorgs = db.getBrandOrgs();
             foreach(var brandorg in brandorgs)
             {
@@ -61,6 +61,12 @@ namespace Bil372_Odev1_Grup6.Controllers
                 }
             }
             return View();
+        }
+
+        public ActionResult Read()
+        {
+            List<FLOW> flows = db.getFlow();
+            return View(flows);
         }
 
 

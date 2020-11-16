@@ -24,6 +24,14 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Create(string mid,string scode,string bbarcode,string bname)
         {
             List<PRODUCT> products = db.getProduct();
+            List<MANUFACTURERS> manufacturers = db.getManufacturers();
+            bool check = false;
+             foreach(var manufacturer in manufacturers)
+            {
+                if (manufacturer.MANUFACTURER_ID == Int32.Parse(mid)) check = true;
+            } 
+             
+            if (!check) return RedirectToAction("Index", "Exception");
             foreach(var p in products)
             {
                 if(p.M_SYSCODE == Int32.Parse(scode))

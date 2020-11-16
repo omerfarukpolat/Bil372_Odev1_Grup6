@@ -24,6 +24,18 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Create(string oname, string pw, string oaddress, string ocity, string odist, string otype)
         {
             List<ORGANISATIONS> o = db.getOrganisations();
+            List<COUNTRY_CITY> countrycities = db.getCountryCity();
+            bool check1 = false;
+
+            foreach(var countrycity in countrycities)
+            {
+                if(countrycity.CityID == Int32.Parse(ocity)) check1 = true;
+            }
+
+            if (!check1) return RedirectToAction("Index", "Exception");
+
+
+
             if (o.Count == 0)
             {
                 db.insertOrganisations(oname, Int32.Parse(pw), false, oaddress, Int32.Parse(ocity), odist, Int32.Parse(otype));
