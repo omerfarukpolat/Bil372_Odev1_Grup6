@@ -21,7 +21,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             bool exists;
             con.Open();
             var cmd = new SqlCommand();
-            string sql = "select count (*) from information_schema.tables where table_name = 'PRODUCT'";
+            string sql = "select count (*) from INFORMATION_SCHEMA.TABLES where table_name = 'PRODUCT'";
             cmd.Connection = con;
             using var asd = new SqlCommand(sql, con);
             cmd.CommandText = sql;

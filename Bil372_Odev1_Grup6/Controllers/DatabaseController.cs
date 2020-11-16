@@ -647,19 +647,57 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.ExecuteNonQuery();
         }
 
-        public void insertFlow(int sourcelotid, int sourceorgid, int targetlotid, int targetorgid, float brandBarcode, float quantity, DateTime flowDate)
+        public void insertINFlow(int sourceorgid, float brandBarcode, float quantity, DateTime flowDate)
         {
-            string s = "INSERT INTO FLOW(Source_LOT_ID, Source_ORG_ID, Target_LOT_ID, Target_ORG_ID, BRAND_BARCODE,QUANTITY,FlowDate) " +
-                "VALUES (@sourcelotid,@sourceorgid,@targetlotid,@targetorgid,@brandBarcode,@quantity,@flowDate)";
+            int lotId;
             var cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.Parameters.AddWithValue("@sourcelotid", sourcelotid);
+            string sql = "SELECT LOT_ID FROM BRAND_ORGS WHERE ORG_ID = @sourceorgid AND BRAND_BARCODE = @brandBarcode"; 
             cmd.Parameters.AddWithValue("@sourceorgid", sourceorgid);
             cmd.Parameters.AddWithValue("@quantity", quantity);
-            cmd.Parameters.AddWithValue("@targetlotid", targetlotid);
-            cmd.Parameters.AddWithValue("@targetorgid", targetorgid);
             cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
             cmd.Parameters.AddWithValue("@flowDate", flowDate);
+            using var asd = new SqlCommand(sql, con);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            lotId = rdr.GetInt32(0);
+            cmd.Parameters.AddWithValue("@lotId", lotId);
+            rdr.Close();
+            string s = "INSERT INTO FLOW(Source_LOT_ID, Source_ORG_ID, Target_LOT_ID, Target_ORG_ID, BRAND_BARCODE,QUANTITY,FlowDate) " +
+                "VALUES (@lotId,@sourceorgid,@lotId,@sourceorgid,@brandBarcode,@quantity,@flowDate)";
+
+       
+            cmd.CommandText = s;
+            cmd.ExecuteNonQuery();
+        }
+        public void insertOUTFlow(int sourceorgid, int targetOrgId, float brandBarcode, float quantity, DateTime flowDate)
+        {
+            int lotId;
+            int targetlotId;
+            var cmd = new SqlCommand();
+            cmd.Connection = con;
+            string sql = "SELECT LOT_ID FROM BRAND_ORGS WHERE ORG_ID = @sourceorgid AND BRAND_BARCODE = @brandBarcode";
+            cmd.Parameters.AddWithValue("@sourceorgid", sourceorgid);
+            cmd.Parameters.AddWithValue("@targetOrgId", targetOrgId);
+            cmd.Parameters.AddWithValue("@quantity", quantity);
+            cmd.Parameters.AddWithValue("@brandBarcode", brandBarcode);
+            cmd.Parameters.AddWithValue("@flowDate", flowDate);
+            using var asd = new SqlCommand(sql, con);
+            using SqlDataReader rdr = asd.ExecuteReader();
+            lotId = rdr.GetInt32(0);
+            cmd.Parameters.AddWithValue("@lotId", lotId);
+            rdr.Close();
+
+            string sql2 = "SELECT LOT_ID FROM BRAND_ORGS WHERE ORG_ID = @targetOrgId AND BRAND_BARCODE = @brandBarcode";
+            using var asd2 = new SqlCommand(sql2, con);
+            using SqlDataReader rdr2 = asd2.ExecuteReader();
+            targetlotId = rdr.GetInt32(0);
+            cmd.Parameters.AddWithValue("@targetlotId", targetlotId);
+            rdr.Close();
+
+            string s = "INSERT INTO FLOW(Source_LOT_ID, Source_ORG_ID, Target_LOT_ID, Target_ORG_ID, BRAND_BARCODE,QUANTITY,FlowDate) " +
+                "VALUES (@lotId,@sourceorgid,@targetlotId,@targetOrgId,@brandBarcode,@quantity,@flowDate)";
+
+
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
