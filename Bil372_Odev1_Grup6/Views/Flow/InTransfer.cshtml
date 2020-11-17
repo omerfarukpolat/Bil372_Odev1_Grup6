@@ -19,8 +19,8 @@
                         @foreach (var item in Model)
 
                         {
-                            if (Session["userID"].ToString().Equals(@item.ORG_ID.ToString()))
-                            {
+                              //if (Session["userID"].ToString().Equals(@item.ORG_ID.ToString()))
+                            //{
                                 <tr>
                                     <td>@item.ORG_ID</td>
                                     <td>@item.BRAND_BARCODE</td>
@@ -29,7 +29,7 @@
                                     <td>@item.INNN</td>
                                     <td>@item.OUTTTT</td>
                                 </tr>
-                            }
+                            //}
                         }
                     </tbody>
                 </table>
