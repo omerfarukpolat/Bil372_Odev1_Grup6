@@ -13,7 +13,7 @@ namespace Bil372_Odev1_Grup6.Controllers
     {
         DatabaseController db = new DatabaseController("1");
 
-        // GET: Flow/inTransfer
+        // GET: Flow/InTransfer
 
         public ActionResult InTransfer()
         {
@@ -21,7 +21,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View(model);
         }
 
-        // POST: Flow/inTransfer
+        // POST: Flow/InTransfer
         [HttpPost]
         public ActionResult InTransfer(string sourceid, string bbarcode , string quantity)
         {
@@ -37,7 +37,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View();
         }
 
-        // GET: Flow/outTransfer
+        // GET: Flow/OutTransfer
 
         public ActionResult OutTransfer()
         {
@@ -45,7 +45,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View(model);
         }
 
-        // POST: Flow/outTransfer
+        // POST: Flow/OutTransfer
         [HttpPost]
         public ActionResult OutTransfer(string sourceid, string bbarcode , string targetid, string quantity)
         {
