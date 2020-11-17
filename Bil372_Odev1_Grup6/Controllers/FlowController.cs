@@ -34,6 +34,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                     db.updateBrandOrgs(brandorg.LOT_ID, brandorg.ORG_ID, bbarcode, (float)brandorg.UNIT, (float)brandorg.BASEPRICE, (float)(brandorg.INNN - float.Parse(quantity, CultureInfo.InvariantCulture)), (float)(brandorg.OUTTTT + float.Parse(quantity, CultureInfo.InvariantCulture)));
                 }
             }
+            brandorgs = db.getBrandOrgs();
             return View(brandorgs);
         }
 
@@ -62,6 +63,7 @@ namespace Bil372_Odev1_Grup6.Controllers
 
                 }
             }
+            brandorgs = db.getBrandOrgs();
             return View(brandorgs);
         }
 
