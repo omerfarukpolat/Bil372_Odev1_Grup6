@@ -25,20 +25,19 @@ namespace Bil372_Odev1_Grup6.Controllers
             {
             List<PRODUCT> p = db.getProduct();
 
-            foreach(var productt in p)
+            foreach(var product in p)
             {
-                if (productt.M_CODE.Equals(pcode)) //İki ürün aynı code sahip olamaz...
-                    return RedirectToAction("Index", "Exception");
-                else
-                {
+                if (product.M_CODE.Equals(pcode)) return RedirectToAction("Index","Exception");
+            }
+           
 
-                    if (p.Count == 0) //İlk defa ürün ekleniyorsa parentı Null olur...
+                    if (p.Count == 0)
                     {
                         db.insertProduct(pcode, pname, pshortname, "NULL", false, pcategory, true);
                     }
                     else
                     {
-                        Boolean check = false;
+                        bool check = false;
                         foreach (var product in p)
                         {
 
@@ -56,8 +55,8 @@ namespace Bil372_Odev1_Grup6.Controllers
                         }
                     }
                    
-                }
-            }
+                
+            
 
             return View();
  
@@ -85,23 +84,16 @@ namespace Bil372_Odev1_Grup6.Controllers
             bool isAbstract = false;
 
 
-            foreach(var productt in products)
+            foreach (var productt in products)
             {
-                if(productt.M_SYSCODE != Int32.Parse(scode) && productt.M_CODE.Equals(pcode)) //Güncelleme yapılırken başka bir ürünün kodu girilirse hata verir...
-                {
+                if (productt.M_SYSCODE != Int32.Parse(scode) && productt.M_CODE.Equals(pcode)) //Güncelleme yapılırken başka bir ürünün kodu girilirse hata verir...
                     return RedirectToAction("Index", "Exception");
-                }
-                else
-                {
+            }
                     foreach (var product in products)
                     {
                         if (Int32.Parse(scode) == product.M_SYSCODE)
-                        {
                             isAbstract = product.M_ABSTRACT;
-                        }
                     }
-                }
-            }
                db.updateProduct(Int32.Parse(scode), pcode, pname, pshortname, pparentcode , isAbstract, pcategory, true);
                 return View();
 
