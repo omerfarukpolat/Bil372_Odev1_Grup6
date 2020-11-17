@@ -23,7 +23,6 @@ namespace Bil372_Odev1_Grup6.Controllers
         public ActionResult Create(string orgid,string bcode,string unit,string edate,string bprice,string inn,string outt)
         {
             List<ORGANISATIONS> organisations = db.getOrganisations();
-            List<PRODUCT_BRANDS> productbrands = db.getProductBrands();
             bool check = false;
 
             foreach(var organisation in organisations)

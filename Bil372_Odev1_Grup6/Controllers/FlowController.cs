@@ -27,13 +27,20 @@ namespace Bil372_Odev1_Grup6.Controllers
         {
             db.insertINFlow(Int32.Parse(sourceid), bbarcode, float.Parse(quantity, CultureInfo.InvariantCulture), DateTime.Now);
             List<BRAND_ORGS> brandorgs = db.getBrandOrgs();
-            foreach(var brandorg in brandorgs)
+            foreach (var brandorg in brandorgs)
+            {
+                if (brandorg.ORG_ID == Int32.Parse(sourceid) && Int32.Parse(quantity) > brandorg.INNN) return RedirectToAction("Index", "Exception");
+            }
+
+            foreach (var brandorg in brandorgs)
             {
                 if(brandorg.ORG_ID == Int32.Parse(sourceid))
                 {
                     db.updateBrandOrgs(brandorg.LOT_ID, brandorg.ORG_ID, bbarcode, (float)brandorg.UNIT, (float)brandorg.BASEPRICE, (float)(brandorg.INNN - float.Parse(quantity, CultureInfo.InvariantCulture)), (float)(brandorg.OUTTTT + float.Parse(quantity, CultureInfo.InvariantCulture)));
                 }
             }
+            
+
             brandorgs = db.getBrandOrgs();
             return View(brandorgs);
         }

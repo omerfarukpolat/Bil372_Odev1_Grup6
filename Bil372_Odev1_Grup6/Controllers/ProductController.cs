@@ -41,7 +41,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                         foreach (var product in p)
                         {
 
-                            if (product.M_CATEGORY.Equals(pparentcode)) //Ürün başka bir ürünün altına ekleniyorsa abstract false olur parentın abstractı true olur... 
+                            if (product.M_NAME.Equals(pparentcode)) //Ürün başka bir ürünün altına ekleniyorsa abstract false olur parentın abstractı true olur... 
                             {
                                 db.insertProduct(pcode, pname, pshortname, product.M_CODE, false, pcategory, true);
                                 db.updateProduct(product.M_SYSCODE, product.M_CODE, product.M_NAME, product.M_SHORTNAME, product.M_PARENTCODE, true, product.M_CATEGORY, true);
