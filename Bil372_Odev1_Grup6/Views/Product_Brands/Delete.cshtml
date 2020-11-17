@@ -53,11 +53,10 @@
 </html>
 
 <script>
-   function deleteFunction(id, syscode, bcode) {
-         var url = "@Url.Action("Delete", "Product_Brands")" + "?scode=" + syscode + "&bcd=" + bcode + "&value=" + id;
-          window.location = url;
-
-
+   function deleteFunction(syscode, id, bcode) {
+       var url = '@Url.Action("Delete", "Product_Brands")';
+     url += '?scode=' + syscode + '&bcd=' + bcode + '&value=' + id;
+  window.location = url;
 
 
 

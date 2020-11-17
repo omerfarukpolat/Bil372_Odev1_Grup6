@@ -18,6 +18,7 @@
                 <table class="table table-borderless table-striped table-earning">
                     <thead>
                         <tr>
+                            <th>Kod</th>
                             <th>Ad</th>
                             <th>Üst Organizasyon Kod</th>
                             <th>Adres</th>
@@ -30,14 +31,15 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>@item.ORG_NAME</td>
-                                <td>@item.PARENT_ORG</td>
-                                <td>@item.ORG_ADDRESS</td>
-                                <td>@item.ORG_CITY</td>
-                                <td>@item.ORG_DISTRICT</td>
-                                <td>@item.ORG_TYPE</td>
-                            </tr>
+                        <tr>
+                            <td>@item.ORG_ID</td>
+                            <td>@item.ORG_NAME</td>
+                            <td>@item.PARENT_ORG</td>
+                            <td>@item.ORG_ADDRESS</td>
+                            <td>@item.ORG_CITY</td>
+                            <td>@item.ORG_DISTRICT</td>
+                            <td>@item.ORG_TYPE</td>
+                        </tr>
                         }
                     </tbody>
                 </table>

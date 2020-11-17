@@ -576,10 +576,11 @@
     <Content Include="Views\Product_Features\Search1.cshtml" />
     <Content Include="Views\Product_Features\Search2.cshtml" />
     <Content Include="Views\Exception\Index.cshtml" />
+    <Content Include="Views\Flow\InTransfer.cshtml" />
+    <Content Include="Views\Flow\OutTransfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Flow\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css.map" />
