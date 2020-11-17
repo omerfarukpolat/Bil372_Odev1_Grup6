@@ -37,7 +37,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             return View();
         }
 
-        // GET: Flow/outTransfer
+        // GET: Flow/OutTransfer
 
         public ActionResult OutTransfer()
         {
