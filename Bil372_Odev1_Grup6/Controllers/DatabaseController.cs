@@ -646,7 +646,6 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
-
         public void insertINFlow(int sourceorgid, string brandBarcode, float quantity, DateTime flowDate)
         {
             int lotId;
