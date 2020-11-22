@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -646,6 +646,7 @@ namespace Bil372_Odev1_Grup6.Controllers
             cmd.CommandText = s;
             cmd.ExecuteNonQuery();
         }
+
         public void insertINFlow(int sourceorgid, string brandBarcode, float quantity, DateTime flowDate)
         {
             int lotId;
@@ -875,12 +876,13 @@ namespace Bil372_Odev1_Grup6.Controllers
                 {
                     int childSysCode = rdr.GetInt32(0);
                     string childProdcutId = rdr.GetString(1);
-                    string s3 = "DELETE FROM PRODUCT WHERE M_CODE =@childprocutId";
-                    asd.Parameters.AddWithValue("@childProdcutId", childProdcutId);
-                    asd.Parameters.AddWithValue("@childSysCode", childSysCode);
-                    asd.CommandText = s3;
-                    rdr.Close();
-                    asd.ExecuteNonQuery();
+                    string s3 = "DELETE FROM PRODUCT WHERE M_CODE =@childProdcutId";
+                    cmd.Parameters.AddWithValue("@childProdcutId", childProdcutId);
+                    cmd.Parameters.AddWithValue("@childSysCode", childSysCode);
+                    cmd.CommandText = s3;
+                    //            rdr.Close();
+                    cmd.ExecuteNonQuery();
+
                     deleteFromProduct(childSysCode, 0);
                 }
                 rdr.Close();
@@ -978,7 +980,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                     string s3 = "DELETE FROM ORGANISATIONS WHERE ORG_ID = " + childOrgid;
                     asd.Parameters.AddWithValue("@childOrgid", childOrgid);
                     asd.CommandText = s3;
-                    rdr.Close();
+              //      rdr.Close();
                     asd.ExecuteNonQuery();
                     deleteFromOrganisations(childOrgid, 0);
                 }
