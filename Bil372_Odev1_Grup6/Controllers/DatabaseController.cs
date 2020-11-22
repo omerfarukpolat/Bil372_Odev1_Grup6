@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -980,7 +980,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                     string s3 = "DELETE FROM ORGANISATIONS WHERE ORG_ID = " + childOrgid;
                     asd.Parameters.AddWithValue("@childOrgid", childOrgid);
                     asd.CommandText = s3;
-              //      rdr.Close();
+                    //      rdr.Close();
                     asd.ExecuteNonQuery();
                     deleteFromOrganisations(childOrgid, 0);
                 }
@@ -1006,11 +1006,11 @@ namespace Bil372_Odev1_Grup6.Controllers
 
             string sql = "SELECT ORG_NAME,BRAND_NAME,INNN,OUTTTT,BASEPRICE,UNIT,QUANTITY FROM " +
                 "ORGANISATIONS,PRODUCT_BRANDS,BRAND_ORGS WHERE " +
-                "ORGANISATIONS.ORG_NAME LIKE " + "'%" +orgname + "%'" + " AND "+
+                "ORGANISATIONS.ORG_NAME LIKE " + "'%" + orgname + "%'" + " AND " +
                 "ORGANISATIONS.ORG_ID = BRAND_ORGS.ORG_ID AND " +
                 "PRODUCT_BRANDS.BRAND_BARCODE = BRAND_ORGS.BRAND_BARCODE";
             using var asd = new SqlCommand(sql, con);
-        //    asd.Parameters.AddWithValue("@orgname", ("%" + orgname + "%"));
+            //    asd.Parameters.AddWithValue("@orgname", ("%" + orgname + "%"));
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
@@ -1035,7 +1035,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                 "ORGANISATIONS.ORG_ID = BRAND_ORGS.ORG_ID AND " +
                 "PRODUCT_BRANDS.BRAND_BARCODE = BRAND_ORGS.BRAND_BARCODE";
             using var asd = new SqlCommand(sql, con);
-      //      asd.Parameters.AddWithValue("@brandname", ("%" + brandname + "%"));
+            //      asd.Parameters.AddWithValue("@brandname", ("%" + brandname + "%"));
             using SqlDataReader rdr = asd.ExecuteReader();
             while (rdr.Read())
             {
@@ -1048,7 +1048,7 @@ namespace Bil372_Odev1_Grup6.Controllers
                 b.UNIT = (float)rdr.GetDouble(5);
                 b.BASEPRICE = (float)rdr.GetDouble(6);
                 brandorgs.Add(b);
-                
+
             }
             return brandorgs;
         }
@@ -1101,5 +1101,5 @@ namespace Bil372_Odev1_Grup6.Controllers
             return productNames;
         }
     }
-   
+
 }
